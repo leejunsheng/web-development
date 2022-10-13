@@ -12,20 +12,28 @@
     </script>
 </head>
 
-
 <body>
-    <?php
-    $sum = 0;
+    <div class="d-flex flex-wrap">
+        <?php
+        $sum = 0;
+        $plus = "+";
 
-    for ($num = 1; $num <= 100; $num++) {
-        if ($num % 2 == 0) {
-            echo "<h1 class = \"text-center \"> $num </h1>";
-        } else {
-            echo "<p class = \"col text-center\"> $num </p>";
+        for ($num = 1; $num <= 100; $num++) {
+
+            if ($num == 100) {
+                $plus = " ";
+            }
+
+            if ($num % 2 == 0) {
+                echo "<p class = \"text-center d-flex \"><strong> $num $plus </strong></p>";
+            } else {
+                echo "<p class = \"text-center d-flex\">  $num $plus</p>";
+            }
+            
+            $sum = $sum + $num;
         }
-        $sum = $sum + $num;
-    }
-    echo "<p class = \"col text-center\"> $sum </p>";
-    ?>
+        echo "<p class = \" text-center\"> \nTotal = $sum </p>";
+        ?></div>
 </body>
+
 </html>
