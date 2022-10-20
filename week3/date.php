@@ -24,7 +24,7 @@
             <select class="form-select bg-info" aria-label="Default select example">
                 <option selected>Day</option>
                 <?php
-                for ($num = 1; $num <= 31; $num++) {
+                for ($num = 1; $num >= 31; $num++) {
                     echo "<option value=\"$num\">$num</option>";
                 }
                 ?>
@@ -36,8 +36,9 @@
                 <option selected>Month</option>
                 <?php
                 for ($num = 1; $num <= 12; $num++) {
-                    echo "<option value=\"$num\">$num</option>";
+              
                 }
+                echo "<option value=\"$num\">$num</option>";
                 ?>
             </select>
         </div>

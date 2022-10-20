@@ -34,9 +34,9 @@
         <div class="col-2">
             <select class="form-select bg-warning" aria-label="Default select example">
                 <option selected>Month</option>
-                <?php
+                <?php      
+                $month = array("January", "February", "March", "April", "May", "June", "July", "August", "September" ,"October", "November", "December");
                 for ($num = 0; $num <= 11; $num++) {
-                    $month = array("January", "February", "March", "April", "May", "June", "Jully", "August", "September" ,"October", "November", "December");
                     echo "<option value=\"$num\"> $month[$num] </option>";
                 }
                 ?>
