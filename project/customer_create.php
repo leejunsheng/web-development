@@ -2,13 +2,23 @@
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Customer Create</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/91b33330fa.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -16,7 +26,7 @@
     <div>
         <nav class="navbar navbar-expand-lg bg-primary">
             <div class="container-fluid">
-                <a class="nav-link text-white" aria-current="page" href="http://localhost/web/project/index.php">Home</a> 
+                <a class="nav-link text-white" aria-current="page" href="http://localhost/web/project/index.php">Home</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -44,43 +54,49 @@
 
 
         if ($_POST) {
-            $name = $_POST["name"];
-            $description = $_POST['description'];
-            $price = $_POST['price'];
-            $promotion_price = $_POST['promotion_price'];
-            $manufacture_date = $_POST['manufacture_date'];
-            $expired_date = $_POST['expired_date'];
-            $date1 = date_create($manufacture_date);
-            $date2 = date_create($expired_date);
-            $diff = date_diff($date1, $date2);
-            $result = $diff->format("%R%a");
+            $user_name = $_POST["username"];
+            $pass_word = $_POST['password'];
+            $firstname = $_POST['firstname'];
+            $lastname = $_POST['lastname'];
+            $gender = $_POST['gender'];
+            $datebirth = $_POST['datebirth'];
+            $accstatus = $_POST['accstatus'];
+        
 
-            if ($name == "" || $description == "" || $price == "" ||  $promotion_price == "" ||  $manufacture_date == "" || $expired_date == "") {
+          
+
+           /* if ($name == "" || $description == "" || $price == "" ||  $promotion_price == "" ||  $manufacture_date == "" || $expired_date == "") {
                 echo "Please make sure all field are not empty.";
             } elseif ($promotion_price >= $price) {
                 echo "Please make sure promotion price is not more than normal price";
             } elseif ($result < "0") {
                 echo "Please make sure expired date is not earlier than manufacture date";
-            } else {
+            } else { */
                 // include database connection
                 include 'config/database.php';
 
                 try {
                     // insert query
-                    $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date,expired_date=:expired_date,created=:created";
+                    $query = "INSERT INTO customers SET username=:username, password=:password, firstname=:firstname, lastname=:lastname,gender=:gender,datebirth=:datebirth,registration_dt=:registration_dt,accstatus=:accstatus";
 
                     // prepare query for execution
                     $stmt = $con->prepare($query);
 
                     // bind the parameters
-                    $stmt->bindParam(':name', $name);
-                    $stmt->bindParam(':description', $description);
-                    $stmt->bindParam(':price', $price);
-                    $stmt->bindParam(':promotion_price', $promotion_price);
-                    $stmt->bindParam(':manufacture_date', $manufacture_date);
-                    $stmt->bindParam(':expired_date', $expired_date);
-                    $created = date('Y-m-d H:i:s'); // get the current date and time
-                    $stmt->bindParam(':created', $created);
+                    $stmt->bindParam(':username', $user_name);
+                    $stmt->bindParam(':password', $pass_word);
+                    $stmt->bindParam(':firstname', $firstname);
+                    $stmt->bindParam(':lastname', $lastname);
+                    $stmt->bindParam(':gender', $gender);
+                    $stmt->bindParam(':datebirth', $datebirth);
+
+                    $registration_dt = date('Y-m-d H:i:s'); // get the current date and time
+                    $stmt->bindParam(':registration_dt', $registration_dt);
+
+                    $stmt->bindParam(':accstatus', $accstatus);
+
+
+
 
                     // Execute the query
                     if ($stmt->execute()) {
@@ -95,7 +111,7 @@
                     die('ERROR: ' . $exception->getMessage());
                 }
             }
-        }
+        
 
         ?>
 
@@ -103,29 +119,44 @@
         <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' /></td>
+                    <td>Username</td>
+                    <td><input type='text' name='username' class='form-control' /></td>
 
                 </tr>
                 <tr>
-                    <td>Description</td>
-                    <td><input type='text' name='description' class='form-control' /></td>
+                    <td>Password</td>
+                    <td><input type='password' name='password' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
-                    <td><input type='text' name='price' class='form-control' /></td>
+                    <td>First name</td>
+                    <td><input type='text' name='firstname' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Promotion_price</td>
-                    <td><input type='text' name='promotion_price' class='form-control' /></td>
+                    <td>Last name</td>
+                    <td><input type='text' name='lastname' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Manufacture_date</td>
-                    <td><input type='date' name='manufacture_date' class='form-control' /></td>
+                    <td>Gender</td>
+                    <td>
+                        <input class="form-check-input" type="radio" name='gender' value="Male">
+                        <label class="form-check-label" for="gender">
+                            Male
+                        </label>
+
+                        <input class="form-check-input" type="radio" name='gender' value="Female">
+                        <label class="form-check-label" for="gender">
+                            Female
+                        </label>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Expired_date</td>
-                    <td><input type='date' name='expired_date' class='form-control' /></td>
+                    <td>Datebirth</td>
+                    <td><input type='date' name='datebirth' class='form-control' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Account Status</td>
+                    <td><input type='text' name='accstatus' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td></td>
