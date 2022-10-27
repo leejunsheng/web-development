@@ -76,6 +76,18 @@
 
             if ($promotion_price == "") {
                 $promotion_price = NULL;
+            } elseif (preg_match('/[A-Z]/', $promotion_price)) {
+                echo "Please make sure price are not contain capital A-Z";
+                $flag = 1;
+            } elseif (preg_match('/[a-z]/', $promotion_price)) {
+                echo "Please make sure price are not contain capital a-z";
+                $flag = 1;
+            }elseif ($promotion_price < 0){
+                echo "Please make sure price are not negative";
+                $flag = 1;
+            }elseif ($promotion_price > 1000){
+                echo "Please make sure price are not more than RM1000";
+                $flag = 1;
             }
 
             if($promotion_price > $price){
