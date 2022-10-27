@@ -40,29 +40,79 @@
 
         <!-- PHP insert code will be here -->
         <?php
-
-
-
-
         if ($_POST) {
-            $user_name = $_POST["username"];
+            $user_name = $_POST['username'];
             $pass_word = $_POST['password'];
+            $comfirm_pasword = $_POST['comfirm_password'];
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
             $gender = $_POST['gender'];
             $datebirth = $_POST['datebirth'];
             $accstatus = $_POST['accstatus'];
-        
 
-          
+            $today = date("Ymd");
+            $date1 = date_create($datebirth);
+            $date2 = date_create($today);
+            $diff = date_diff($date1, $date2);
+            $flag = 0;
 
-           /* if ($name == "" || $description == "" || $price == "" ||  $promotion_price == "" ||  $manufacture_date == "" || $expired_date == "") {
-                echo "Please make sure all field are not empty.";
-            } elseif ($promotion_price >= $price) {
-                echo "Please make sure promotion price is not more than normal price";
-            } elseif ($result < "0") {
-                echo "Please make sure expired date is not earlier than manufacture date";
-            } else { */
+            if ($user_name == "") {
+                echo "Please make sure username are not empty";
+                $flag = 1;
+            } elseif (strlen($user_name) < 6) {
+                echo "Please make sure uername not less than 6 character";
+                $flag = 1;
+            } elseif (preg_match('/[" "]/', $user_name)) {
+                echo "Please make sure uername did not conatain space";
+                $flag = 1;
+            }
+
+            if ($pass_word == "") {
+                echo "Please make sure password are not empty";
+                $flag = 1;
+            } elseif (strlen($pass_word) < 8) {
+                echo "Please make sure password less than 8 character";
+                $flag = 1;
+            } elseif (!preg_match('/[A-Z]/', $pass_word)) {
+                echo "Please make sure password combine capital A-Z";
+                $flag = 1;
+            } elseif (!preg_match('/[a-z]/', $pass_word)) {
+                echo "Please make sure password combine capital a-z";
+                $flag = 1;
+            } elseif (!preg_match('/[0-9]/', $pass_word)) {
+                echo "Please make sure password combine 0-9";
+                $flag = 1;
+            }
+
+            if ($comfirm_pasword != $pass_word) {
+                echo "Please make sure comfirm_password and password are same";
+                $flag = 1;
+            }
+
+            if ($firstname == "") {
+                echo "Please make sure firstname are not empty";
+                $flag = 1;
+            }
+
+            if ($lastname == "") {
+                echo "Please make sure lastname are not empty";
+                $flag = 1;
+            }
+
+            if ($datebirth == "") {
+                echo "Please make sure birth date are not empty";
+                $flag = 1;
+            } elseif ($diff->format("%R%y") <= "18") {
+                echo "User need 18 years old and above";
+                $flag = 1;
+            }
+
+            if ($accstatus == "") {
+                echo "Please make sure account status are not empty";
+                $flag = 1;
+            }
+
+            if ($flag == 0) {
                 // include database connection
                 include 'config/database.php';
 
@@ -80,14 +130,9 @@
                     $stmt->bindParam(':lastname', $lastname);
                     $stmt->bindParam(':gender', $gender);
                     $stmt->bindParam(':datebirth', $datebirth);
-
                     $registration_dt = date('Y-m-d H:i:s'); // get the current date and time
                     $stmt->bindParam(':registration_dt', $registration_dt);
-
                     $stmt->bindParam(':accstatus', $accstatus);
-
-
-
 
                     // Execute the query
                     if ($stmt->execute()) {
@@ -96,14 +141,12 @@
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
                 }
-
                 // show error
                 catch (PDOException $exception) {
                     die('ERROR: ' . $exception->getMessage());
                 }
             }
-        
-
+        }
         ?>
 
         <!-- html form here where the product information will be entered -->
@@ -117,6 +160,11 @@
                 <tr>
                     <td>Password</td>
                     <td><input type='password' name='password' class='form-control' /></td>
+                </tr>
+
+                <tr>
+                    <td>Comfirm_Password</td>
+                    <td><input type='password' name='comfirm_password' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>First name</td>
@@ -161,29 +209,27 @@
     </div>
 
     <div class="container">
-            <footer class="py-3 my-4">
-                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                    <li class="nav-item">
-                        <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
-                    </li>
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item">
+                    <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-muted" href="http://localhost/web/project/product_create.php">Create Product</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted" href="http://localhost/web/project/product_create.php">Create Product</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  text-muted" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-muted" href="http://localhost/web/project/customer_create.php">Create Customer</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  text-muted" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                    </li>
-                </ul>
-                <p class="text-center text-muted">© 2022 Company, Inc</p>
-            </footer>
-        </div>
-    <!-- end .container -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+                <li class="nav-item">
+                    <a class="nav-link  text-muted" href="http://localhost/web/project/contact_us.php">Contact Us</a>
+                </li>
+            </ul>
+            <p class="text-center text-muted">© 2022 Company, Inc</p>
+        </footer>
+    </div>
 </body>
 
 </html>

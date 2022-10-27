@@ -16,7 +16,7 @@
     <div>
         <nav class="navbar navbar-expand-lg bg-primary">
             <div class="container-fluid">
-                <a class="nav-link text-white" aria-current="page" href="http://localhost/web/project/index.php">Home</a> 
+                <a class="nav-link text-white" aria-current="page" href="http://localhost/web/project/index.php">Home</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -39,10 +39,6 @@
 
         <!-- PHP insert code will be here -->
         <?php
-
-
-
-
         if ($_POST) {
             $name = $_POST["name"];
             $description = $_POST['description'];
@@ -54,14 +50,49 @@
             $date2 = date_create($expired_date);
             $diff = date_diff($date1, $date2);
             $result = $diff->format("%R%a");
+            $flag = 0;
 
-            if ($name == "" || $description == "" || $price == "" ||  $promotion_price == "" ||  $manufacture_date == "" || $expired_date == "") {
+            if ($name == "" || $description == "" ||  $manufacture_date == "") {
                 echo "Please make sure all field are not empty.";
-            } elseif ($promotion_price >= $price) {
+                $flag =1;
+            }
+
+            if ($price == "") {
+                echo "Please make sure price are not empty";
+                $flag = 1;
+            } elseif (preg_match('/[A-Z]/', $price)) {
+                echo "Please make sure price are not contain capital A-Z";
+                $flag = 1;
+            } elseif (preg_match('/[a-z]/', $price)) {
+                echo "Please make sure price are not contain capital a-z";
+                $flag = 1;
+            }elseif ($price < 0){
+                echo "Please make sure price are not negative";
+                $flag = 1;
+            }elseif ($price > 1000){
+                echo "Please make sure price are not more than RM1000";
+                $flag = 1;
+            }
+
+            if ($promotion_price == "") {
+                $promotion_price = NULL;
+            }
+
+            if($promotion_price > $price){
                 echo "Please make sure promotion price is not more than normal price";
-            } elseif ($result < "0") {
+                $flag =1;
+            }
+
+            if ($expired_date == "") {
+                $expired_date = NULL;
+            }
+
+            if ($result < "0") {
+                $flag = 1;
                 echo "Please make sure expired date is not earlier than manufacture date";
-            } else {
+            }
+
+            if ($flag == 0) {
                 // include database connection
                 include 'config/database.php';
 
@@ -96,7 +127,6 @@
                 }
             }
         }
-
         ?>
 
         <!-- html form here where the product information will be entered -->
@@ -139,27 +169,27 @@
     </div>
 
     <div class="container">
-            <footer class="py-3 my-4">
-                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                    <li class="nav-item">
-                        <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
-                    </li>
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item">
+                    <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-muted" href="http://localhost/web/project/product_create.php">Create Product</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted" href="http://localhost/web/project/product_create.php">Create Product</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  text-muted" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-muted" href="http://localhost/web/project/customer_create.php">Create Customer</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  text-muted" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                    </li>
-                </ul>
-                <p class="text-center text-muted">© 2022 Company, Inc</p>
-            </footer>
-        </div>
+                <li class="nav-item">
+                    <a class="nav-link  text-muted" href="http://localhost/web/project/contact_us.php">Contact Us</a>
+                </li>
+            </ul>
+            <p class="text-center text-muted">© 2022 Company, Inc</p>
+        </footer>
+    </div>
     <!-- end .container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
