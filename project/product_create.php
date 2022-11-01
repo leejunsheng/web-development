@@ -8,33 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/91b33330fa.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
 </head>
 
 <body>
     <!-- container -->
     <div>
-        <nav class="navbar navbar-expand-lg bg-primary">
-            <div class="container-fluid">
-                <a class="nav-link text-white" aria-current="page" href="http://localhost/web/project/index.php">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
+    <nav class=" navbar navbar-expand-lg bg-primary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                <li class="nav-item">
+                        <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
+                    </li>
+                </ul>
             </div>
+        </div>
         </nav>
+
         <!-- html form to create product will be here -->
 
         <!-- PHP insert code will be here -->
