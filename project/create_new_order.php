@@ -62,10 +62,13 @@
             <!-- html form to create product will be here -->
             <!-- PHP insert code will be here -->
             <?php
-
             if ($_POST) {
                 $user = $_POST['user'];
-                $product_1 = $_POST['product_1'];
+                $product_id = $_POST['product_id'];
+                $quantity = $_POST['quantity'];
+                $flag = 0;
+
+                /* $product_1 = $_POST['product_1'];
                 $product_2 = $_POST['product_2'];
                 $product_3 = $_POST['product_3'];
                 $quantity_1 = $_POST['quantity_1'];
@@ -75,7 +78,7 @@
                 $price_2 = 0;
                 $price_3 = 0;
                 $total_amount = 0;
-                $flag = 0;
+               
 
                 if ($user == "Select Customer Username") {
                     echo "<div class='alert alert-danger'>You must to select customer.</div>";
@@ -139,52 +142,53 @@
                     $price_3 = 49.99;
                 }
 
-                $total_amount += (((int)$price_1 * (int)$quantity_1) + ((int)$price_2 * (int)$quantity_2) + ((int)$price_3 * (int)$quantity_3));
+                $total_amount += (((int)$price_1 * (int)$quantity_1) + ((int)$price_2 * (int)$quantity_2) + ((int)$price_3 * (int)$quantity_3));*/
 
                 if ($flag == 0) {
                     include 'config/database.php';
                     try {
                         // insert query
-                        $query = "INSERT INTO order_summary SET user=:user, total_amount=:total_amount, order_time=:order_time";
+                        $query = "INSERT INTO order_summary SET user=:user, order_time=:order_time";
                         // prepare query for execution
                         $stmt = $con->prepare($query);
                         // bind the parameters
                         $stmt->bindParam(':user', $user);
-                        $stmt->bindParam(':total_amount', $total_amount);
                         $order_time = date('Y-m-d H:i:s'); // get the current date and time
                         $stmt->bindParam(':order_time', $order_time);
 
                         // Execute the query
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Your product total price is RM$total_amount</div>";
-                        } else {
-                            echo "<div class='alert alert-danger'>Unable to save record.</div>";
-                        }
-                    }
-                    // show error
-                    catch (PDOException $exception) {
-                        die('ERROR: ' . $exception->getMessage());
-                    }
+                            echo "<div class='alert alert-success'>Your order is created.</div>";
+                            $query = "SELECT MAX(order_id) as order_id FROM order_summary";
+                            $stmt = $con->prepare($query);
+                            $stmt->execute();
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $order_id = $row['order_id'];
 
-                    try {
-                        // insert query
-                        $query = "INSERT INTO order_details SET product_1=:product_1, product_2=:product_2, product_3=:product_3, quantity_1=:quantity_1, quantity_2=:quantity_2, quantity_3=:quantity_3, price_1=:price_1, price_2=:price_2, price_3=:price_3";
-                        // prepare query for execution
-                        $stmt = $con->prepare($query);
-                        // bind the parameters
-                        $stmt->bindParam(':product_1', $product_1);
-                        $stmt->bindParam(':product_2', $product_2);
-                        $stmt->bindParam(':product_3', $product_3);
-                        $stmt->bindParam(':quantity_1', $quantity_1);
-                        $stmt->bindParam(':quantity_2', $quantity_2);
-                        $stmt->bindParam(':quantity_3', $quantity_3);
-                        $stmt->bindParam(':price_1', $price_1);
-                        $stmt->bindParam(':price_2', $price_2);
-                        $stmt->bindParam(':price_3', $price_3);
+                            for ($count = 0; $count < count($product_id); $count++) {
+                                try {
+                                    // insert query
+                                    $query = "INSERT INTO order_details SET order_id=:order_id, product_id=:product_id, quantity=:quantity";
+                                    // prepare query for execution
+                                    $stmt = $con->prepare($query);
+                                    // bind the parameters
+                                    $stmt->bindParam(':order_id', $order_id);
+                                    $stmt->bindParam(':product_id', $product_id[$count]);
+                                    $stmt->bindParam(':quantity', $quantity[$count]);
+                                    //echo $product_id[$count];
+                                    // Execute the query
+                                    if ($stmt->execute()) {
+                                        echo "<div class='alert alert-success'>Details was saved.</div>";
+                                    } else {
+                                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                                    }
+                                }
 
-                        // Execute the query
-                        if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Record was saved.</div>";
+                                // show errorproduct_id
+                                catch (PDOException $exception) {
+                                    die('ERROR: ' . $exception->getMessage());
+                                }
+                            }
                         } else {
                             echo "<div class='alert alert-danger'>Unable to save record.</div>";
                         }
@@ -206,7 +210,6 @@
                             <select class="form-select form-select-lg mb-3" name="user" aria-label=".form-select-lg example">
                                 <option>Select Customer Username</option>
                                 <?php
-
                                 // include database connection
                                 include 'config/database.php';
                                 $query = "SELECT user_id, username FROM customers ORDER BY user_id DESC";
@@ -223,7 +226,6 @@
                                         // this will make $row['firstname'] to just $firstname only
                                         extract($row);
                                         // creating new table row per record
-
                                         echo "<option value=\"$username\">$username</option>";
                                     }
                                 }
@@ -232,115 +234,76 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <td>Product 1</td>
-                        <td class="d-flex">
-                            <select class="form-select form-select-lg mb-3 col" name="product_1" aria-label=".form-select-lg example">
-                                <option>Select product</option>
-                                <?php
-                                // include database connection
-                                include 'config/database.php';
-                                $query = "SELECT id, name, price FROM products ORDER BY id DESC";
-                                $stmt = $con->prepare($query);
-                                $stmt->execute();
 
-                                $num = $stmt->rowCount();
+                    <!-- For loop product row -->
+                    <?php
 
-                                if ($num > 0) {
+                    echo "<tr class=\"pRow\">
+                    <td>Product</td>
+                    <td class=\"d-flex \">
+                        <select class=\"form-select form-select-lg mb-3 col\" name=\"product_id[]\"  aria-label=\".form-select-lg example\">
+                            <option>Please select product</option>";
+                    $query = "SELECT id, name, price FROM products ORDER BY id DESC";
+                    $stmt = $con->prepare($query);
+                    $stmt->execute();
+                    $num = $stmt->rowCount();
 
-                                    // table body will be here
-                                    // retrieve our table contents
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        // extract row
-                                        extract($row);
-                                        // creating new table row per record
-                                        echo "<option value=\"$name\">$name</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
+                    if ($num > 0) {
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($row);
+                            echo "<option value=\"$id\">$name</option>";
+                        }
+                    }
+                    echo "</select>
 
-                        </td>
-                        <td>Quantity</td>
-                        <td><input type='number' name='quantity_1' class='form-control' /></td>
-                    </tr>
-
-                    <tr>
-                        <td>Product 2</td>
-                        <td class="d-flex justify-content-between">
-                            <select class="form-select form-select-lg mb-3 col" name="product_2" aria-label=".form-select-lg example">
-                                <option>Select product</option>
-                                <?php
-                                // include database connection
-                                include 'config/database.php';
-                                $query = "SELECT id, name, price FROM products ORDER BY id DESC";
-                                $stmt = $con->prepare($query);
-                                $stmt->execute();
-
-                                $num = $stmt->rowCount();
-                                if ($num > 0) {
-
-                                    // table body will be here
-                                    // retrieve our table contents
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        // extract row
-                                        // this will make $row['firstname'] to just $firstname only
-                                        extract($row);
-                                        // creating new table row per record
-
-                                        echo "<option value=\"$name\">$name</option>";
-                                    }
-                                }
-                                ?>
+                    </td>
+                    <td>Quantity</td>
+                        <td>
+                            <select class=\"form-select form-select-lg mb-3\" name=\"quantity[]\" aria-label=\".form-select-lg example\">
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
                             </select>
                         </td>
-                        <td>Quantity</td>
-                        <td><input type='number' name='quantity_2' class='form-control' /></td>
-                    </tr>
+                </tr>";
+                    ?>
+
                     <tr>
-                        <td>Product 3</td>
-                        <td class="d-flex justify-content-between">
-                            <select class="form-select form-select-lg mb-3 col" name="product_3" aria-label=".form-select-lg example">
-                                <option>Select product</option>
-                                <?php
-                                // include database connection
-                                include 'config/database.php';
-                                $query = "SELECT id, name, price FROM products ORDER BY id DESC";
-                                $stmt = $con->prepare($query);
-                                $stmt->execute();
-
-                                $num = $stmt->rowCount();
-                                if ($num > 0) {
-
-                                    // table body will be here
-                                    // retrieve our table contents
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        // extract row
-                                        // this will make $row['firstname'] to just $firstname only
-                                        extract($row);
-                                        // creating new table row per record
-                                        echo "<option value=\"$name\">$name</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
+                        <td>
+                            <input type="button" value="Add More Product" class="add_one btn btn-secondary" />
+                            <input type="button" value="Delete" class="delete_one btn btn-danger" />
                         </td>
-                        <td>Quantity</td>
-                        <td><input type='number' name='quantity_3' class='form-control' /></td>
+                        <td></td>
                     </tr>
+
                     <td></td>
                     <td colspan="3">
                         <input type='submit' value='Save' class='btn btn-primary' />
                     </td>
                     </tr>
+
                 </table>
             </form>
-
-
         </div>
-        <!-- end .container -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
 
+        <!-- end .container -->
+        <script>
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.add_one')) {
+                    var element = document.querySelector('.pRow');
+                    var clone = element.cloneNode(true);
+                    element.after(clone);
+                }
+                if (event.target.matches('.delete_one')) {
+                    var total = document.querySelectorAll('.pRow').length;
+                    if (total > 1) {
+                        var element = document.querySelector('.pRow');
+                        element.remove(element);
+                    }
+                }
+            }, false);
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
         </script>
 </body>
 
