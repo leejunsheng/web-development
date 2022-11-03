@@ -37,6 +37,18 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
                         </li>
                     </ul>
@@ -60,7 +72,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price FROM products WHERE id = :id ";
+            $query = "SELECT id, name, description, price,promotion_price FROM products WHERE id = :id ";
             $stmt = $con->prepare($query);
 
             // Bind the parameter
@@ -76,6 +88,7 @@
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $promotion_price = $row['promotion_price'];
             // shorter way to do that is extract($row)
         }
 
@@ -100,6 +113,10 @@
             <tr>
                 <td>Price</td>
                 <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Promotion_price</td>
+                <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td></td>

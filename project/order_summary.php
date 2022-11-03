@@ -2,15 +2,15 @@
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>PDO - Order Summary - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
 </head>
 
 <body>
+
     <!-- container -->
     <div>
         <nav class=" navbar navbar-expand-lg bg-primary">
@@ -57,7 +57,7 @@
         </nav>
 
         <div class="page-header">
-            <h1>Read Products</h1>
+            <h1>Order Summary</h1>
         </div>
 
         <!-- PHP code to read records will be here -->
@@ -68,7 +68,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
+        $query = "SELECT order_id, user, total_amount, order_time FROM order_summary ORDER BY order_id ASC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -76,7 +76,7 @@
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='product_create.php' class='btn btn-primary m-b-1em'>Create New Product</a>";
+        echo "<a href='create_new_order.php' class='btn btn-primary m-b-1em'>Create New Order</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -86,11 +86,10 @@
 
             //creating our table heading
             echo "<tr>";
-            echo "<th>ID</th>";
-            echo "<th>Name</th>";
-            echo "<th>Description</th>";
-            echo "<th>Price</th>";
-            echo "<th>Action</th>";
+            echo "<th>Order ID</th>";
+            echo "<th>Username</th>";
+            echo "<th>Total Amout</th>";
+            echo "<th>Order Data</th>";
             echo "</tr>";
 
             //GET DATA FROM DATABASE
@@ -102,19 +101,19 @@
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
-                echo "<td>{$id}</td>";
-                echo "<td>{$name}</td>";
-                echo "<td>{$description}</td>";
-                echo "<td>{$price}</td>";
+                echo "<td>{$order_id}</td>";
+                echo "<td>{$user}</td>";
+                echo "<td>{$total_amount}</td>";
+                echo "<td>{$order_time}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href=order_details.php?order_id={$order_id}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='product_update.php?id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_product({$id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_product({$order_id});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -126,10 +125,9 @@
         }
         ?>
 
+
     </div> <!-- end .container -->
 
-    <!-- confirm delete record will be here -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
 </body>
 
 </html>

@@ -13,35 +13,47 @@
 <body>
     <!-- container -->
     <div>
-    <nav class=" navbar navbar-expand-lg bg-primary">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                    </li>
+        <nav class=" navbar navbar-expand-lg bg-primary">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                    </li>
-                </ul>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
         </nav>
 
         <!-- html form to create product will be here -->
@@ -63,7 +75,7 @@
 
             if ($name == "" || $description == "" ||  $manufacture_date == "") {
                 echo "Please make sure all field are not empty.";
-                $flag =1;
+                $flag = 1;
             }
 
             if ($price == "") {
@@ -75,10 +87,10 @@
             } elseif (preg_match('/[a-z]/', $price)) {
                 echo "Please make sure price are not contain capital a-z";
                 $flag = 1;
-            }elseif ($price < 0){
+            } elseif ($price < 0) {
                 echo "Please make sure price are not negative";
                 $flag = 1;
-            }elseif ($price > 1000){
+            } elseif ($price > 1000) {
                 echo "Please make sure price are not more than RM1000";
                 $flag = 1;
             }
@@ -91,17 +103,17 @@
             } elseif (preg_match('/[a-z]/', $promotion_price)) {
                 echo "Please make sure price are not contain capital a-z";
                 $flag = 1;
-            }elseif ($promotion_price < 0){
+            } elseif ($promotion_price < 0) {
                 echo "Please make sure price are not negative";
                 $flag = 1;
-            }elseif ($promotion_price > 1000){
+            } elseif ($promotion_price > 1000) {
                 echo "Please make sure price are not more than RM1000";
                 $flag = 1;
             }
 
-            if($promotion_price > $price){
+            if ($promotion_price > $price) {
                 echo "Please make sure promotion price is not more than normal price";
-                $flag =1;
+                $flag = 1;
             }
 
             if ($expired_date == "") {

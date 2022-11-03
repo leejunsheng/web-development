@@ -37,12 +37,25 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
         <div class="page-header">
             <h1>Read customers</h1>
         </div>
@@ -130,4 +143,5 @@
     <!-- confirm delete record will be here -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
 </body>
+
 </html>
