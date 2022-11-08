@@ -69,18 +69,30 @@
 
             if (mysqli_num_rows($result) == 1) {
                 $row = mysqli_fetch_assoc($result);
-                print_r($row);
-
+                //print_r($row);
                 if ($row['username'] === $username && $row['password'] === $password) {
                     if ($row['accstatus'] != "active") {
-                        echo "Please make sure account status is active";
+                        echo "<div class='alert alert-danger'>Your Account is suspended.</div>";
                     } else {
-                        echo "login success";
+                        header("Location: index.php");
                     }
-                } 
-            } else {
-                    echo "incorrect email or password!";
                 }
+            }
+
+            $checkuser = " SELECT username FROM customers WHERE username = '$username'";
+            $checkpass = " SELECT password FROM customers WHERE password = '$password'";
+
+            $result2 = mysqli_query($mysqli, $checkuser);
+            $row = mysqli_fetch_assoc($result2);
+            if (mysqli_num_rows($result2) == 0) {
+                echo "<div class='alert alert-danger'>User not found.</div>";
+            } else {
+                $result3 = mysqli_query($mysqli, $checkpass);
+                $row = mysqli_fetch_assoc($result3);
+                if (mysqli_num_rows($result3) == 0) {
+                    echo "<div class='alert alert-danger'>Incorrect Password.</div>";
+                }
+            }
         };
         ?>
 
