@@ -54,7 +54,6 @@
         </nav>
 
         <div class="container">
-
             <div class="page-header d-flex justify-content-center my-3">
                 <h1>Create Order</h1>
             </div>
@@ -83,19 +82,23 @@
                         // Execute the query
                         if ($stmt->execute()) {
                             echo "<div class='alert alert-success'>Your order is created.</div>";
+                           
+                            // Get and set order id to latest id
                             $query = "SELECT MAX(order_id) as order_id FROM order_summary";
                             $stmt = $con->prepare($query);
                             $stmt->execute();
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
                             $order_id = $row['order_id'];
-
+                           
                             for ($count = 0; $count < count($product_id); $count++) {
                                 try {
                                     // insert query
                                     $query = "INSERT INTO order_details SET order_id=:order_id, product_id=:product_id, quantity=:quantity";
                                     // prepare query for execution
                                     $stmt = $con->prepare($query);
+
                                     // bind the parameters
+                                    // insert with latest order_id
                                     $stmt->bindParam(':order_id', $order_id);
                                     $stmt->bindParam(':product_id', $product_id[$count]);
                                     $stmt->bindParam(':quantity', $quantity[$count]);
@@ -108,7 +111,7 @@
                                     }
                                 }
 
-                                // show errorproduct_id
+                                // show error product_id
                                 catch (PDOException $exception) {
                                     die('ERROR: ' . $exception->getMessage());
                                 }
@@ -166,7 +169,7 @@
                     <td>Product</td>
                     <td class=\"d-flex \">
                         <select class=\"form-select form-select-lg mb-3 col\" name=\"product_id[]\"  aria-label=\".form-select-lg example\">
-                            <option>Please select product</option>";
+                            <option>Select product</option>";
                     $query = "SELECT id, name, price FROM products ORDER BY id DESC";
                     $stmt = $con->prepare($query);
                     $stmt->execute();

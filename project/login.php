@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>Home</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,11 +10,10 @@
 </head>
 
 <body>
-
     <!-- container -->
     <div>
         <nav class=" navbar navbar-expand-lg bg-primary">
-            <div class="container-fluid">
+            <div class="">
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -56,68 +55,57 @@
             </div>
         </nav>
 
-        <div class="page-header">
-            <h1>Order Details</h1>
-        </div>
-
-        <!-- PHP read one record will be here -->
         <?php
         // include database connection
         include 'config/database.php';
+        session_start();
+        if (isset($_POST['username']) && isset($_POST['password'])) {
 
-        // delete message prompt will be here
-        // select all data
-        $query = "SELECT detail_id, order_id, product_id, quantity FROM order_details ORDER BY detail_id DESC";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
+            $username = ($_POST['username']);
+            $password = ($_POST['password']);
 
-        // this is how to get number of rows returned
-        $num = $stmt->rowCount();
+            $select = " SELECT * FROM customers WHERE username = '$username' && password = '$password' ";
+            $result = mysqli_query($mysqli, $select);
 
-        // link to create record form
-        echo "<a href='create_new_order.php' class='btn btn-primary m-b-1em my-3'>Create New Order</a>";
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_assoc($result);
+                print_r($row);
 
-        //check if more than 0 record found
-        if ($num > 0) {
-
-            // data from database will be here
-
-        } else {
-            echo "<div class='alert alert-danger'>No records found.</div>";
-        }
-
-        //new
-        echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
-
-        //creating our table heading
-        echo "<tr>";
-        echo "<th>Detail ID</th>";
-        echo "<th>Order ID</th>";
-        echo "<th>Product ID</th>";
-        echo "<th>Quantity</th>";
-        echo "</tr>";
-
-        // table body will be here
-        // retrieve our table contents
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // extract row
-            // this will make $row['firstname'] to just $firstname only
-            extract($row);
-            // creating new table row per record
-            echo "<tr>";
-            echo "<td>{$detail_id}</td>";
-            echo "<td>{$order_id}</td>";
-            echo "<td>{$product_id}</td>";
-            echo "<td>{$quantity}</td>";
-            echo "</tr>";
-        }
-
-        // end table
-        echo "</table>";
+                if ($row['username'] === $username && $row['password'] === $password) {
+                    if ($row['accstatus'] != "active") {
+                        echo "Please make sure account status is active";
+                    } else {
+                        echo "login success";
+                    }
+                } 
+            } else {
+                    echo "incorrect email or password!";
+                }
+        };
         ?>
 
-    </div> <!-- end .container -->
+        <div class="container d-flex justify-content-center mt-5">
+            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
+                <table class='table table-hover table-responsive table-bordered '>
+                    <div class="form-floating  ">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
+                        <label for="floatingInput">Username</label>
+                    </div>
+                    <div class="form-floating ">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
 
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
+                    </div>
+                    <button class="w-50 btn btn-lg btn-primary" type="submit">Sign in</button>
+                </table>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
