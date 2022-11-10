@@ -1,8 +1,13 @@
+<?php
+// include database connection
+    include 'check_user_login.php';
+    ?>
+
 <!DOCTYPE HTML>
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>PDO - Create a Product - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,48 +18,7 @@
 <body>
     <!-- container -->
     <div>
-        <nav class=" navbar navbar-expand-lg bg-primary">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <?php include 'topnav.html'; ?>
 
         <!-- html form to create product will be here -->
 
@@ -201,28 +165,6 @@
         </form>
     </div>
 
-    <div class="container">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="http://localhost/web/project/product_create.php">Create Product</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link  text-muted" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link  text-muted" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                </li>
-            </ul>
-            <p class="text-center text-muted">© 2022 Company, Inc</p>
-        </footer>
-    </div>
     <!-- end .container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

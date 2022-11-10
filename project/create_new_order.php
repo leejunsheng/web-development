@@ -1,3 +1,8 @@
+<?php
+// include database connection
+    include 'check_user_login.php';
+    ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -9,49 +14,7 @@
 
 <body>
     <div>
-        <!-- container -->
-        <nav class=" navbar navbar-expand-lg bg-primary">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<?php include 'topnav.html'; ?>
 
         <div class="container">
             <div class="page-header d-flex justify-content-center my-3">
@@ -62,6 +25,9 @@
             <!-- PHP insert code will be here -->
             <?php
             if ($_POST) {
+
+
+
                 $user = $_POST['user'];
                 $product_id = $_POST['product_id'];
                 $quantity = $_POST['quantity'];
@@ -82,14 +48,14 @@
                         // Execute the query
                         if ($stmt->execute()) {
                             echo "<div class='alert alert-success'>Your order is created.</div>";
-                           
+
                             // Get and set order id to latest id
                             $query = "SELECT MAX(order_id) as order_id FROM order_summary";
                             $stmt = $con->prepare($query);
                             $stmt->execute();
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
                             $order_id = $row['order_id'];
-                           
+
                             for ($count = 0; $count < count($product_id); $count++) {
                                 try {
                                     // insert query
@@ -178,6 +144,7 @@
                     if ($num > 0) {
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             extract($row);
+
                             echo "<option value=\"$id\">$name</option>";
                         }
                     }

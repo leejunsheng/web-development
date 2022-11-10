@@ -19,9 +19,10 @@ $db_name = "eshop";
 $username = "eshop";
 $password = "eshop2250159";
 
-$mysqli = mysqli_connect($host, $username, $password ,$db_name);
+
 
 try {
+    $mysqli = mysqli_connect($host, $username, $password ,$db_name);
     $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // show error
 }

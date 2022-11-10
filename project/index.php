@@ -1,3 +1,8 @@
+<?php
+    // To check user are login
+include 'check_user_login.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -9,51 +14,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 
+
 <body>
     <!-- container -->
     <div>
-        <nav class=" navbar navbar-expand-lg bg-primary">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <?php include 'topnav.html'; ?>
 
         <div class="pt-3 p-md-2 m-md-2 text-center bg-light">
             <div class="col-md-5 p-lg-5 mx-auto my-5">
@@ -69,6 +34,7 @@
                     <title>Placeholder</title>
                     <rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
+                
                 <h2 class="fw-normal">Heading</h2>
                 <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
                 <p><a class="btn btn-secondary" href="#">View details »</a></p>
@@ -95,36 +61,6 @@
             </div><!-- /.col-lg-4 -->
         </div>
 
-        <div class="container">
-            <footer class="py-3 my-4">
-                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                    <li class="nav-item">
-                        <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                    </li>
-                </ul>
-                <p class="text-center text-muted">© 2022 Company, Inc</p>
-            </footer>
-        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>

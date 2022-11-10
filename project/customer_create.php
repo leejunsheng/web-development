@@ -1,3 +1,8 @@
+<?php
+// include database connection
+include 'check_user_login.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -9,51 +14,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 
+
 <body>
     <!-- container -->
     <div>
-        <nav class=" navbar navbar-expand-lg bg-primary">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/index.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_create.php">Create Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/product_read.php">Read Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/customer_read.php">Read Customer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/create_new_order.php">Order Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_summary.php">Order Summary</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/order_details.php">Order Detail</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <?php include 'topnav.html'; ?>
         <!-- html form to create product will be here -->
 
         <!-- PHP insert code will be here -->
@@ -224,29 +189,6 @@
                 </tr>
             </table>
         </form>
-    </div>
-
-    <div class="container">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="http://localhost/web/project/index.php">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="http://localhost/web/project/product_create.php">Create Product</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link  text-muted" href="http://localhost/web/project/customer_create.php">Create Customer</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link  text-muted" href="http://localhost/web/project/contact_us.php">Contact Us</a>
-                </li>
-            </ul>
-            <p class="text-center text-muted">© 2022 Company, Inc</p>
-        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
