@@ -1,6 +1,6 @@
 <?php
-    // To check user are login
-    include 'check_user_login.php';
+// To check user are login
+include 'check_user_login.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -18,7 +18,7 @@
 <body>
     <!-- container -->
     <div>
-    <?php include 'topnav.html'; ?>
+        <?php include 'topnav.html'; ?>
 
         <div class="pt-3 p-md-2 m-md-2 text-center bg-light">
             <div class="col-md-5 p-lg-5 mx-auto my-5">
@@ -34,7 +34,7 @@
                     <title>Placeholder</title>
                     <rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-                
+
                 <h2 class="fw-normal">Heading</h2>
                 <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
                 <p><a class="btn btn-secondary" href="#">View details »</a></p>
@@ -62,10 +62,10 @@
         </div>
 
     </div>
-<?php
+    <?php
 
 
-?>
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
 </body>
 

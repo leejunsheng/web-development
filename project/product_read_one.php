@@ -1,7 +1,7 @@
 <?php
 // include database connection
-    include 'check_user_login.php';
-    ?>
+include 'check_user_login.php';
+?>
 
 <!DOCTYPE HTML>
 <html>
@@ -17,7 +17,7 @@
 <body>
     <!-- container -->
     <div>
-    <?php include 'topnav.html'; ?>
+        <?php include 'topnav.html'; ?>
 
         <div class="page-header">
             <h1>Read Product</h1>
@@ -25,7 +25,7 @@
 
         <!-- PHP read one record will be here -->
         <?php
-        
+
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
         $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');

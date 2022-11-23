@@ -65,7 +65,7 @@ include 'check_user_login.php';
                 // extract row
                 // this will make $row['firstname'] to just $firstname only
                 extract($row);
-                
+
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$id}</td>";

@@ -1,8 +1,8 @@
 <?php
 // include database connection
-    include 'check_user_login.php';
-    ?>
-    
+include 'check_user_login.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 

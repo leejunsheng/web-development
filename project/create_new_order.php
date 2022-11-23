@@ -1,7 +1,7 @@
 <?php
 // include database connection
-    include 'check_user_login.php';
-    ?>
+include 'check_user_login.php';
+?>
 
 <!DOCTYPE HTML>
 <html>
@@ -14,7 +14,7 @@
 
 <body>
     <div>
-<?php include 'topnav.html'; ?>
+        <?php include 'topnav.html'; ?>
 
         <div class="container">
             <div class="page-header d-flex justify-content-center my-3">
@@ -25,9 +25,6 @@
             <!-- PHP insert code will be here -->
             <?php
             if ($_POST) {
-
-
-
                 $user = $_POST['user'];
                 $product_id = $_POST['product_id'];
                 $quantity = $_POST['quantity'];

@@ -33,7 +33,7 @@ session_start();
                                 $stmt = $con->prepare($query);
                                 $stmt->execute();
                                 $num = $stmt->rowCount();
-                                $row = $stmt->fetch(PDO::FETCH_ASSOC);       
+                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                                 if ($num == 1) {
                                     if ($row['password'] == $password) {
@@ -43,7 +43,7 @@ session_start();
                                             $_SESSION["login"] = $username;
                                             $_SESSION['username'] = $username;
                                             $_SESSION['user_id'] = $user_id;
-                                         
+
                                             header("Location: index.php");
                                         }
                                     } else {

@@ -1,7 +1,7 @@
 <?php
 // include database connection
-    include 'check_user_login.php';
-    ?>
+include 'check_user_login.php';
+?>
 
 <!DOCTYPE HTML>
 <html>
@@ -18,7 +18,7 @@
 <body>
     <!-- container -->
     <div>
-    <?php include 'topnav.html'; ?>
+        <?php include 'topnav.html'; ?>
 
         <!-- html form to create product will be here -->
 
@@ -86,7 +86,7 @@
 
             if ($result < "0") {
                 $flag = 1;
-                echo "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>" ;
+                echo "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>";
             }
 
             if ($flag == 0) {

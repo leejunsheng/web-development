@@ -18,7 +18,7 @@ include 'check_user_login.php';
 <body>
     <!-- container -->
     <div>
-    <?php include 'topnav.html'; ?>
+        <?php include 'topnav.html'; ?>
         <!-- html form to create product will be here -->
 
         <!-- PHP insert code will be here -->

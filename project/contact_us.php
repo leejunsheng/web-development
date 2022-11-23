@@ -17,7 +17,6 @@
 
 <body>
 <?php include 'topnav.html'; ?>
-
         <div class=" text-center bg-light">
             <div class="col-md-5 p-lg-5 mx-auto">
                 <h1>Contact Us</h1>
