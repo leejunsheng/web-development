@@ -96,40 +96,44 @@ include 'check_user_login.php';
                 }
 
 
-
+                $password_empty = false;
                 if ($old_password == "" && $pass_word == "" && $confirm_password == "") {
-                    $flag = 0;
-                }
-
-                if ($row['password'] == $old_password) {
-                    if ($pass_word == "") {
-                        echo "<div class='alert alert-danger'>Please make sure password are not empty </div>";
-                        $flag = 1;
-                    } elseif (strlen($pass_word) < 8) {
-                        echo "<div class='alert alert-danger'>Please make sure password less than 8 character </div>";
-                        $flag = 1;
-                    } elseif (!preg_match('/[A-Z]/', $pass_word)) {
-                        echo "<div class='alert alert-danger'>Please make sure password combine capital A-Z </div>";
-                        $flag = 1;
-                    } elseif (!preg_match('/[a-z]/', $pass_word)) {
-                        echo "<div class='alert alert-danger'> Please make sure password combine capital a-z </div>";
-                        $flag = 1;
-                    } elseif (!preg_match('/[0-9]/', $pass_word)) {
-                        echo " <div class='alert alert-danger'> Please make sure password combine 0-9 </div>";
-                        $flag = 1;
-                    }
-
-                    if ($old_password == $pass_word) {
-                        echo "<div class='alert alert-danger'>Please make sure Old Password cannot same with New Password.</div>";
-                        $flag = 1;
-                    }
-                    if ($pass_word != $confirm_password) {
-                        echo "<div class='alert alert-danger'>Please make sure Confirm Password and New Password are same</div>";
-                        $flag = 1;
-                    }
+                    $password_empty = true;
                 } else {
-                    echo "<div class='alert alert-danger'>Wrong Old Password</div>";
-                    $flag = 1;
+                    if ($row['password'] == $old_password) {
+                        if ($pass_word == "") {
+                            echo "<div class='alert alert-danger'>Please make sure password are not empty </div>";
+                            $flag = 1;
+                        } elseif (strlen($pass_word) < 8) {
+                            echo "<div class='alert alert-danger'>Please make sure password less than 8 character </div>";
+                            $flag = 1;
+                        } elseif (!preg_match('/[A-Z]/', $pass_word)) {
+                            echo "<div class='alert alert-danger'>Please make sure password combine capital A-Z </div>";
+                            $flag = 1;
+                        } elseif (!preg_match('/[a-z]/', $pass_word)) {
+                            echo "<div class='alert alert-danger'> Please make sure password combine capital a-z </div>";
+                            $flag = 1;
+                        } elseif (!preg_match('/[0-9]/', $pass_word)) {
+                            echo " <div class='alert alert-danger'> Please make sure password combine 0-9 </div>";
+                            $flag = 1;
+                        }
+
+                        if ($old_password == $pass_word) {
+                            echo "<div class='alert alert-danger'>Please make sure Old Password cannot same with New Password.</div>";
+                            $flag = 1;
+                        }
+                        if ($old_password != "" && $password != "" && $confirm_password == "") {
+                            echo "<div class='alert alert-danger'>Please make sure confirm password are not empty</div>";
+                            $flag = 1;
+                        }
+                        if ($pass_word != $confirm_password) {
+                            echo "<div class='alert alert-danger'>Please make sure Confirm Password and New Password are same</div>";
+                            $flag = 1;
+                        }
+                    } else {
+                        echo "<div class='alert alert-danger'>Wrong Old Password</div>";
+                        $flag = 1;
+                    }
                 }
 
                 if ($firstname == "") {
@@ -171,7 +175,11 @@ include 'check_user_login.php';
                         $stmt = $con->prepare($query);
                         // posted values
                         $username = htmlspecialchars(strip_tags($_POST['username']));
-                        $password = htmlspecialchars(strip_tags($_POST['password']));
+                        if ( $password_empty == true) {
+                            $password = $row['password'];
+                        } else {
+                            $password = htmlspecialchars(strip_tags($_POST['password']));
+                        }
                         $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
                         $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
                         $gender = htmlspecialchars(strip_tags($_POST['gender']));
