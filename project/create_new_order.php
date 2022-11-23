@@ -37,7 +37,7 @@
                     include 'config/database.php';
                     try {
                         // insert query
-                        $query = "INSERT INTO order_summary SET user=:user, order_time=:order_time";
+                        $query = "INSERT INTO order_summary SET user=:user, order_time =:order_time";
                         // prepare query for execution
                         $stmt = $con->prepare($query);
                         // bind the parameters

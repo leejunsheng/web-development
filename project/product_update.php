@@ -7,13 +7,11 @@ include 'check_user_login.php';
 <html>
 
 <head>
-
     <title>Update Product</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -41,6 +39,7 @@ include 'check_user_login.php';
 
                 // this is the first question mark
                 $stmt->bindParam(1, $id);
+                
 
                 // execute our query
                 $stmt->execute();
@@ -65,7 +64,70 @@ include 'check_user_login.php';
 
             <?php
             // check if form was submitted
+            
             if ($_POST) {
+                $manufacture_date = $_POST['manufacture_date'];
+                $expired_date = $_POST['expired_date'];
+                $date1 = date_create($manufacture_date);
+                $date2 = date_create($expired_date);
+                $diff = date_diff($date1, $date2);
+                $result = $diff->format("%R%a");
+                $flag = 0;
+    
+                if ($name == "" || $description == "" ||  $manufacture_date == "") {
+                    echo "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
+                    $flag = 1;
+                }
+    
+                if ($price == "") {
+                    echo "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
+                    $flag = 1;
+                } elseif (preg_match('/[A-Z]/', $price)) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z. </div>";
+                    $flag = 1;
+                } elseif (preg_match('/[a-z]/', $price)) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not contain capital a-z. </div>";
+                    $flag = 1;
+                } elseif ($price < 0) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not negative. </div>";
+                    $flag = 1;
+                } elseif ($price > 1000) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
+                    $flag = 1;
+                }
+    
+                if ($promotion_price == "") {
+                    $promotion_price = NULL;
+                } elseif (preg_match('/[A-Z]/', $promotion_price)) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z.</div>";
+                    $flag = 1;
+                } elseif (preg_match('/[a-z]/', $promotion_price)) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not contain capital a-z.</div>";
+                    $flag = 1;
+                } elseif ($promotion_price < 0) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
+                    $flag = 1;
+                } elseif ($promotion_price > 1000) {
+                    echo "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
+                    $flag = 1;
+                }
+    
+                if ($promotion_price > $price) {
+                    echo "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
+                    $flag = 1;
+                }
+    
+                if ($expired_date == "") {
+                    $expired_date = NULL;
+                    echo "<div class='alert alert-danger'> Please make sure null.</div>" ;
+                }
+    
+                if ($result < "0") {
+                    $flag = 1;
+                    echo "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>" ;
+                }
+
+                if ($flag == 0) {
                 try {
                     // write update query
                     // in this case, it seemed like we have so many fields to pass and
@@ -77,9 +139,9 @@ include 'check_user_login.php';
                     $name = htmlspecialchars(strip_tags($_POST['name']));
                     $description = htmlspecialchars(strip_tags($_POST['description']));
                     $price = htmlspecialchars(strip_tags($_POST['price']));
-                    $promotion_price= htmlspecialchars(strip_tags($_POST['name']));
-                    $manufacture_date = htmlspecialchars(strip_tags($_POST['description']));
-                    $expired_date = htmlspecialchars(strip_tags($_POST['price']));
+                    $promotion_price= htmlspecialchars(strip_tags($_POST['promotion_price']));
+                    $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
+                    $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
                     $stmt->bindParam(':description', $description);
@@ -99,6 +161,7 @@ include 'check_user_login.php';
                 catch (PDOException $exception) {
                     die('ERROR: ' . $exception->getMessage());
                 }
+            }
             } 
             ?>
 

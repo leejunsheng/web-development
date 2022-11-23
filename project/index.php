@@ -1,6 +1,6 @@
 <?php
     // To check user are login
-include 'check_user_login.php';
+    include 'check_user_login.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -62,7 +62,10 @@ include 'check_user_login.php';
         </div>
 
     </div>
+<?php
 
+
+?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
 </body>
 

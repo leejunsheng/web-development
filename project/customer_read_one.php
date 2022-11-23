@@ -100,7 +100,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href='index.php' class='btn btn-danger'>Back to read customers</a>
+                    <a href='customer_read.php' class='btn btn-danger'>Back to read customers</a>
                 </td>
             </tr>
         </table>

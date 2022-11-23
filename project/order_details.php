@@ -15,71 +15,105 @@
 </head>
 
 <body>
-    <!-- container -->
-    <div>
-    <?php include 'topnav.html'; ?>
+<?php include 'topnav.html'; ?>
 
-        <div class="page-header">
-            <h1>Order Details</h1>
-        </div>
+<!-- container -->
+<div class="container">
+    <div class="page-header">
+        <h1>Read Order Details</h1>
+    </div>
 
-        <!-- PHP read one record will be here -->
-        <?php
-        // include database connection
-        include 'config/database.php';
-    
-        // delete message prompt will be here
-        // select all data
-        $query = "SELECT detail_id, order_id, product_id, quantity FROM order_details ORDER BY detail_id DESC";
+    <!-- PHP read one record will be here -->
+
+    <?php
+    // get passed parameter value, in this case, the record ID
+    // isset() is a PHP function used to verify if a value is there or not
+    if (isset($_GET['order_id']) && isset($_GET['product_id'])) {
+        $order_id = $_GET['order_id'];
+        $product_id = $_GET['product_id'];
+    } else {
+        die('ERROR: Record ID not found.');
+    }
+
+    //include database connection
+    include 'config/database.php';
+
+    // read current record's data
+    try {
+        // prepare select query
+        $query = "SELECT * FROM order_details INNER JOIN products ON order_details.product_id = products.id WHERE order_id = ? && product_id = ?";
         $stmt = $con->prepare($query);
+
+        // Bind the parameter
+        $stmt->bindParam(1, $order_id);
+        $stmt->bindParam(2, $product_id);
+
+        // execute our query
         $stmt->execute();
 
-        // this is how to get number of rows returned
-        $num = $stmt->rowCount();
+        // store retrieved row to a variable
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // link to create record form
-        echo "<a href='create_new_order.php' class='btn btn-primary m-b-1em my-3'>Create New Order</a>";
+        // values to fill up our form
+        extract($row);
 
-        //check if more than 0 record found
-        if ($num > 0) {
+        $query = "SELECT user, order_time FROM order_summary WHERE order_id =:order_id ";
+        $stmt = $con->prepare($query);
+        $stmt->bindParam(":order_id", $order_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+    }
 
-            // data from database will be here
+    // show error
+    catch (PDOException $exception) {
+        die('ERROR: ' . $exception->getMessage());
+    }
+    ?>
 
-        } else {
-            echo "<div class='alert alert-danger'>No records found.</div>";
-        }
+    <!-- HTML read one record table will be here -->
+    <!--we have our html table here where the record will be displayed-->
+    <table class='table table-hover table-responsive table-bordered'>
+        <tr>
+            <td>Order Date</td>
+            <td><?php echo htmlspecialchars($order_time, ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Order ID</td>
+            <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td><?php echo htmlspecialchars($user, ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Product Name</td>
+            <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Quantity</td>
+            <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Price per unit</td>
+            <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Total Price</td>
+            <td><?php echo $price * $quantity;  ?></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <a href='order_summary.php' class='btn btn-danger'>Back to read Order Details</a>
+            </td>
+        </tr>
+    </table>
 
-        //new
-        echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
 
-        //creating our table heading
-        echo "<tr>";
-        echo "<th>Detail ID</th>";
-        echo "<th>Order ID</th>";
-        echo "<th>Product ID</th>";
-        echo "<th>Quantity</th>";
-        echo "</tr>";
-
-        // table body will be here
-        // retrieve our table contents
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // extract row
-            // this will make $row['firstname'] to just $firstname only
-            extract($row);
-            // creating new table row per record
-            echo "<tr>";
-            echo "<td>{$detail_id}</td>";
-            echo "<td>{$order_id}</td>";
-            echo "<td>{$product_id}</td>";
-            echo "<td>{$quantity}</td>";
-            echo "</tr>";
-        }
-
-        // end table
-        echo "</table>";
-        ?>
-
-    </div> <!-- end .container -->
+</div> <!-- end .container -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+</script>
 
 </body>
 

@@ -30,15 +30,20 @@ session_start();
                                 $username = ($_POST['username']);
                                 $password = ($_POST['password']);
                                 $query = " SELECT * FROM customers WHERE username = '$username'";
-                                $result = mysqli_query($mysqli, $query);
-                                $row = mysqli_fetch_assoc($result);
+                                $stmt = $con->prepare($query);
+                                $stmt->execute();
+                                $num = $stmt->rowCount();
+                                $row = $stmt->fetch(PDO::FETCH_ASSOC);       
 
-                                if (mysqli_num_rows($result) == 1) {
+                                if ($num == 1) {
                                     if ($row['password'] == $password) {
                                         if ($row['accstatus'] != "active") {
                                             echo "<div class='alert alert-danger'>Your Account is suspended.</div>";
                                         } else {
                                             $_SESSION["login"] = $username;
+                                            $_SESSION['username'] = $username;
+                                            $_SESSION['user_id'] = $user_id;
+                                         
                                             header("Location: index.php");
                                         }
                                     } else {

@@ -38,45 +38,45 @@
             $flag = 0;
 
             if ($name == "" || $description == "" ||  $manufacture_date == "") {
-                echo "Please make sure all field are not empty.";
+                echo "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
                 $flag = 1;
             }
 
             if ($price == "") {
-                echo "Please make sure price are not empty";
+                echo "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
                 $flag = 1;
             } elseif (preg_match('/[A-Z]/', $price)) {
-                echo "Please make sure price are not contain capital A-Z";
+                echo "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z. </div>";
                 $flag = 1;
             } elseif (preg_match('/[a-z]/', $price)) {
-                echo "Please make sure price are not contain capital a-z";
+                echo "<div class='alert alert-danger'> Please make sure price are not contain capital a-z. </div>";
                 $flag = 1;
             } elseif ($price < 0) {
-                echo "Please make sure price are not negative";
+                echo "<div class='alert alert-danger'> Please make sure price are not negative. </div>";
                 $flag = 1;
             } elseif ($price > 1000) {
-                echo "Please make sure price are not more than RM1000";
+                echo "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
                 $flag = 1;
             }
 
             if ($promotion_price == "") {
                 $promotion_price = NULL;
             } elseif (preg_match('/[A-Z]/', $promotion_price)) {
-                echo "Please make sure price are not contain capital A-Z";
+                echo "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z.</div>";
                 $flag = 1;
             } elseif (preg_match('/[a-z]/', $promotion_price)) {
-                echo "Please make sure price are not contain capital a-z";
+                echo "<div class='alert alert-danger'> Please make sure price are not contain capital a-z.</div>";
                 $flag = 1;
             } elseif ($promotion_price < 0) {
-                echo "Please make sure price are not negative";
+                echo "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
                 $flag = 1;
             } elseif ($promotion_price > 1000) {
-                echo "Please make sure price are not more than RM1000";
+                echo "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
                 $flag = 1;
             }
 
             if ($promotion_price > $price) {
-                echo "Please make sure promotion price is not more than normal price";
+                echo "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
                 $flag = 1;
             }
 
@@ -86,7 +86,7 @@
 
             if ($result < "0") {
                 $flag = 1;
-                echo "Please make sure expired date is not earlier than manufacture date";
+                echo "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>" ;
             }
 
             if ($flag == 0) {

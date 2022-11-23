@@ -32,7 +32,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT user_id, username, firstname, lastname,gender, datebirth,registration_dt,accstatus FROM customers ORDER BY user_id ASC";
+        $query = "SELECT user_id, username, firstname, lastname,gender, datebirth,registration_dt,accstatus FROM customers ORDER BY user_id DESC";
 
 
         $stmt = $con->prepare($query);

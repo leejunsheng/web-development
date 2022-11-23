@@ -65,6 +65,7 @@ include 'check_user_login.php';
                 // extract row
                 // this will make $row['firstname'] to just $firstname only
                 extract($row);
+                
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$id}</td>";
@@ -72,6 +73,7 @@ include 'check_user_login.php';
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
                 echo "<td>";
+
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 

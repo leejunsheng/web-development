@@ -40,58 +40,58 @@ include 'check_user_login.php';
             $flag = 0;
 
             if ($user_name == "") {
-                echo "Please make sure username are not empty";
+                echo "<div class='alert alert-danger'>Please make sure username are not empty</div>";
                 $flag = 1;
             } elseif (strlen($user_name) < 6) {
-                echo "Please make sure uername not less than 6 character";
+                echo "<div class='alert alert-danger'>Please make sure uername not less than 6 character</div>";
                 $flag = 1;
             } elseif (preg_match('/[" "]/', $user_name)) {
-                echo "Please make sure uername did not conatain space";
+                echo "<div class='alert alert-danger'>Please make sure uername did not conatain space</div>";
                 $flag = 1;
             }
 
             if ($pass_word == "") {
-                echo "Please make sure password are not empty";
+                echo "<div class='alert alert-danger'>Please make sure password are not empty</div>";
                 $flag = 1;
             } elseif (strlen($pass_word) < 8) {
-                echo "Please make sure password less than 8 character";
+                echo "<div class='alert alert-danger'>Please make sure password less than 8 character</div>";
                 $flag = 1;
             } elseif (!preg_match('/[A-Z]/', $pass_word)) {
-                echo "Please make sure password combine capital A-Z";
+                echo "<div class='alert alert-danger'>Please make sure password combine capital A-Z</div>";
                 $flag = 1;
             } elseif (!preg_match('/[a-z]/', $pass_word)) {
-                echo "Please make sure password combine capital a-z";
+                echo "<div class='alert alert-danger'>Please make sure password combine capital a-z</div>";
                 $flag = 1;
             } elseif (!preg_match('/[0-9]/', $pass_word)) {
-                echo "Please make sure password combine 0-9";
+                echo "<div class='alert alert-danger'>Please make sure password combine 0-9</div>";
                 $flag = 1;
             }
 
             if ($comfirm_pasword != $pass_word) {
-                echo "Please make sure comfirm_password and password are same";
+                echo "<div class='alert alert-danger'>Please make sure comfirm_password and password are same</div>";
                 $flag = 1;
             }
 
             if ($firstname == "") {
-                echo "Please make sure firstname are not empty";
+                echo "<div class='alert alert-danger'>Please make sure firstname are not empty</div>";
                 $flag = 1;
             }
 
             if ($lastname == "") {
-                echo "Please make sure lastname are not empty";
+                echo "<div class='alert alert-danger'>Please make sure lastname are not empty</div>";
                 $flag = 1;
             }
 
             if ($datebirth == "") {
-                echo "Please make sure birth date are not empty";
+                echo "<div class='alert alert-danger'>Please make sure birth date are not empty</div>";
                 $flag = 1;
             } elseif ($diff->format("%R%y") <= "18") {
-                echo "User need 18 years old and above";
+                echo "<div class='alert alert-danger'>User need 18 years old and above</div>";
                 $flag = 1;
             }
 
             if ($accstatus == "") {
-                echo "Please make sure account status are not empty";
+                echo "<div class='alert alert-danger'>Please make sure account status are not empty</div>";
                 $flag = 1;
             }
 
