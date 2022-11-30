@@ -11,8 +11,8 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </head>
 
 <body>
@@ -30,7 +30,13 @@ include 'check_user_login.php';
         // include database connection
         include 'config/database.php';
 
+
         // delete message prompt will be here
+        $action = isset($_GET['action']) ? $_GET['action'] : "";
+        // if it was redirected from delete.php
+        if($action=='deleted'){
+            echo "<div class='alert alert-success'>Record was deleted.</div>";
+        }
 
         // select all data
         $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
@@ -95,8 +101,19 @@ include 'check_user_login.php';
 
     </div> <!-- end .container -->
 
-    <!-- confirm delete record will be here -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"> </script>
+        <!-- confirm delete record will be here -->
+        <script type='text/javascript'>
+        // confirm record deletion
+        function delete_product(id) {
+
+            if (confirm('Are you sure?')) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'product_delete.php?id=' + id;
+            }
+        }
+    </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </body>
 
 </html>
