@@ -18,7 +18,7 @@ include 'check_user_login.php';
 <body>
     <!-- container -->
     <div>
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <div class="page-header">
             <h1>Read customers</h1>
@@ -88,13 +88,13 @@ include 'check_user_login.php';
                 echo "<td>";
 
                 // read one record
-                echo "<a href='customer_read_one.php?user_id={$user_id}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='customer_read_one.php?user_id={$user_id}' class='btn btn-info m-r-1em mx-2 mx-2'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary m-r-1em mx-2 mx-2'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_customer({$user_id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_customer({$user_id});'  class='btn btn-danger mx-2'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

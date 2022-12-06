@@ -17,7 +17,7 @@
 <body>
     <!-- container -->
     <div>
-    <?php include 'topnav.html'; ?>
+    <?php include 'topnav.php'; ?>
     
         <div class="page-header">
             <h1>Read Customer</h1>

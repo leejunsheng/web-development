@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <title>Home</title>
+    <title>Contact Page</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +16,7 @@
 
 
 <body>
-<?php include 'topnav.html'; ?>
+<?php include 'topnav.php'; ?>
         <div class=" text-center bg-light">
             <div class="col-md-5 p-lg-5 mx-auto">
                 <h1>Contact Us</h1>
@@ -40,9 +40,9 @@
                 </div>
                 <div class="d-flex justify-content-end">
                     <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
+                        <input type='submit' value='Save' class='btn btn-primary mx-2' />
 
-                        <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='index.php' class='btn btn-danger'>Back to home</a>
                     </td>
                 </div>
             </form>

@@ -20,7 +20,7 @@ include 'check_user_login.php';
 
     <div class="container-fluid px-0">
 
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <div class="container">
             <div class="page-header">

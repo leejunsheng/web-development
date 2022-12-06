@@ -1,10 +1,26 @@
 <!DOCTYPE html>
+
+<head>
+    <style>
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <title>topnav</title>
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
 <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid d-flex justify-content-end">
         <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav text-center">
                 <li class="nav-item">
@@ -53,5 +69,7 @@
                 </li>
             </ul>
         </div>
+      
     </div>
+    <h6 class="m-2 text-end text-white"><?php echo $_SESSION["login"] ?></h6>
 </nav>

@@ -17,7 +17,7 @@ include 'check_user_login.php';
 <body>
     <!-- container -->
     <div>
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <div class="page-header">
             <h1>Read Product</h1>
@@ -36,7 +36,7 @@ include 'check_user_login.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price,promotion_price FROM products WHERE id = :id ";
+            $query = "SELECT * FROM products WHERE id = :id ";
             $stmt = $con->prepare($query);
 
             // Bind the parameter
@@ -52,6 +52,7 @@ include 'check_user_login.php';
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $image = $row['image'];
             $promotion_price = $row['promotion_price'];
             // shorter way to do that is extract($row)
         }
@@ -77,6 +78,10 @@ include 'check_user_login.php';
             <tr>
                 <td>Price</td>
                 <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Images</td>
+                <td><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></td>
             </tr>
             <tr>
                 <td>Promotion_price</td>

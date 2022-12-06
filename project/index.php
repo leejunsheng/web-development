@@ -7,21 +7,25 @@ include 'check_user_login.php';
 <html>
 
 <head>
+<style>
+tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
+
     <title>Home</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
 
 <body>
     <!-- container -->
     <div>
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <div class="container-fluid row m-0  d-flex justify-content-between align-items-center">
-            <div class="col-5">
+            <div class="col-lg-5">
                 <?php
                 include 'config/database.php';
 
@@ -40,21 +44,24 @@ include 'check_user_login.php';
                 $stmt->execute();
                 $order = $stmt->rowCount();
 
-                echo "<h1>Summary</h1>";
-                echo "<table class='table table-dark table-hover table-bordered text-center'>";
-                echo "</tr class='table-dark'>";
-                echo "<th>Total Number of Customer</th>";
+                //Summary Table
+
+                echo "<h3>Summary</h1>";
+                echo "<table class='table table-hover table-bordered text-center'>";
+                echo "<tr class='bg-danger'>";
+                echo "<th >Total Number of Customer</th>";
                 echo "<th>Total Number of Products</th>";
                 echo "<th>Total Number of Order</th>";
                 echo "</tr>";
-                echo "<td class='table-dark'>$customer</td>";
-                echo "<td class='table-dark'>$products</td>";
-                echo "<td class='table-dark'>$order</td>";
+                echo "<td class=''>$customer</td>";
+                echo "<td class=''>$products</td>";
+                echo "<td class=''>$order</td>";
                 echo "</table>";
                 ?>
             </div>
 
-            <div class="col-5">
+            <!-- Lastest order record table will be here -->
+            <div class="col-lg-5">
                 <?php
                 include 'config/database.php';
 
@@ -89,14 +96,14 @@ include 'check_user_login.php';
                 }
                 ?>
 
-                <!-- HTML read one record table will be here -->
+
                 <!--we have our html table here where the record will be displayed-->
-                <h1>Latest Order</h1>
-                <table class='table table-dark table-hover table-responsive table-bordered text-center'>
-                    <tr>
-                        <td>Order ID</td>
-                        <td>Order Date</td>
-                        <td>Username</td>
+                <h3>Latest Order</h1>
+                <table class='table table-hover table-responsive table-bordered text-center'>
+                    <tr class='bg-danger'>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Username</th>
                     </tr>
                     <tr>
                         <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
@@ -105,24 +112,29 @@ include 'check_user_login.php';
                     </tr>
                 </table>
             </div>
-            
 
-            <div class="col-5">
-            <?php
+            <div class="container ">
+                <div class="col-lg-5 ">
+                    <?php
+                    //Highest Purchased Amount Order
                     $query = "SELECT *,sum(price*quantity) AS HIGHEST FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
+
+               
+
                     $stmt = $con->prepare($query);
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     extract($row);
+                    
 
                     ?>
-                    <h1 class="text-center">Highest Purchased Amount Order</h1>
-                    <table class='table table-dark table-hover table-responsive table-bordered text-center'>
-                        <tr>
-                            <td>Order ID</td>
-                            <td>Order Date</td>
-                            <td>Username</td>
-                            <td>Highest Amount</td>
+                    <h3>Highest Purchased Amount Order</h3>
+                    <table class='table  table-hover table-responsive table-bordered text-center'>
+                        <tr class='bg-danger'>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                            <th>Username</th>
+                            <th>Highest Amount</th>
                         </tr>
                         <tr>
                             <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
@@ -133,44 +145,53 @@ include 'check_user_login.php';
                                 ?></td>
                         </tr>
                     </table>
+
                     <?php
+                    //Top 5 Selling product
                     $query = "SELECT name, sum(quantity) AS top5 FROM products INNER JOIN order_details ON order_details.product_id = products.id group by name order by sum(quantity) desc limit 5;";
                     $stmt = $con->prepare($query);
                     $stmt->execute();
                     $count = $stmt->rowCount();
                     if ($count > 0) {
-                        echo "<h1 class=\"text-center\">Top 5 Selling Product</h1>";
-                        echo "<table class='table table-dark table-hover table-responsive table-bordered text-center'>";
-                        echo "<tr><td>Product Name</td>
-                        <td>Quantity</td></tr>";
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                        extract($row);
-                        echo "<tr>";
-                        echo "<td>{$name}</td>";
-                        echo "<td>{$top5}</td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
+                        echo "<h3>Top 5 Selling Product</h1>";
+                        echo "<table class='table  table-hover table-responsive table-bordered text-center'>";
+                        echo "<tr class='bg-danger'><th>Product Name</th>
+                        <th>Quantity</th></tr>";
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($row);
+                            echo "<tr>";
+                            echo "<td>{$name}</td>";
+                            echo "<td>{$top5}</td>";
+                            echo "</tr>";
+                        }
+                        echo "</table>";
                     }
 
+                    //Products that never purchased
                     $havensellitem = "SELECT * FROM products left JOIN order_details ON order_details.product_id = products.id WHERE product_id is NULL limit 5";
                     $stmt = $con->prepare($havensellitem);
                     $stmt->execute();
                     $count = $stmt->rowCount();
                     if ($count > 0) {
-                        echo "<h1 class=\"text-center\">3 Products that never purchased</h1>";
-                        echo "<table class='table table-dark table-hover table-responsive table-bordered text-center'>";
-                        echo "<tr><td>Product Name</td>";
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                        extract($row);
-                        echo "<tr>";
-                        echo "<td>{$name}</td>";
-                        echo "</tr>";
+                        echo "<h3>3 Products that never purchased</h1>";
+                        echo "<table class='table  table-hover table-responsive table-bordered text-center'>";
+                        echo "<tr class='bg-danger'><th>Product Name</th>";
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($row);
+                            echo "<tr>";
+                            echo "<td>{$name}</td>";
+                            echo "</tr>";
+                        }
+                        echo "</table>";
                     }
-                    echo "</table>";
-                }
+
                     ?>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </body>
 
 </html>

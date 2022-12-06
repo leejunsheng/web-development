@@ -15,7 +15,7 @@ include 'check_user_login.php';
 </head>
 
 <body>
-    <?php include 'topnav.html'; ?>
+    <?php include 'topnav.php'; ?>
 
     <!-- container -->
     <div class="container">

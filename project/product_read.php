@@ -18,7 +18,7 @@ include 'check_user_login.php';
 <body>
     <!-- container -->
     <div>
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <div class="page-header">
             <h1>Read Products</h1>
@@ -39,8 +39,11 @@ include 'check_user_login.php';
         }
 
         // select all data
-        $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
+        $query = "SELECT id, name, description, price ,image FROM products ORDER BY id DESC";
         $stmt = $con->prepare($query);
+
+
+      
         $stmt->execute();
 
         // this is how to get number of rows returned
@@ -71,7 +74,6 @@ include 'check_user_login.php';
                 // extract row
                 // this will make $row['firstname'] to just $firstname only
                 extract($row);
-
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$id}</td>";
@@ -81,10 +83,10 @@ include 'check_user_login.php';
                 echo "<td>";
 
                 // read one record
-                echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em mx-2'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_product({$id});'  class='btn btn-danger'>Delete</a>";

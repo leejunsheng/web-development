@@ -18,7 +18,7 @@ include 'check_user_login.php';
 
 <body>
     <div class="container-fluid px-0">
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <!-- container -->
         <div class="container my-3">
@@ -78,10 +78,10 @@ include 'check_user_login.php';
                     echo "<td>{$user}</td>";
                     echo "<td>";
                     // read one record
-                    echo "<a href='order_summary_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em mx-2'>Read</a>";
+                    echo "<a href='order_summary_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em mx-2 mx-2'>Read</a>";
 
                     // we will use this links on next part of this post
-                    echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>";
+                    echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em mx-2 mx-2'>Edit</a>";
 
                     // we will use this links on next part of this post
                     echo "<a href='#' onclick='delete_order({$order_id});' class='btn btn-danger mx-2'>Delete</a>";

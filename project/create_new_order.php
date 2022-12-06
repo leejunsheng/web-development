@@ -14,7 +14,7 @@ include 'check_user_login.php';
 
 <body>
     <div>
-        <?php include 'topnav.html'; ?>
+        <?php include 'topnav.php'; ?>
 
         <div class="container">
             <div class="page-header d-flex justify-content-center my-3">

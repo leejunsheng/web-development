@@ -15,7 +15,7 @@ include 'check_user_login.php';
 </head>
 
 <body>
-    <?php include 'topnav.html'; ?>
+    <?php include 'topnav.php'; ?>
 
     <!-- container -->
     <div class="container">
@@ -78,7 +78,7 @@ include 'check_user_login.php';
         // show error
         ?>
 
-            <!-- HTML read one record table will be here -->
+        <!-- HTML read one record table will be here -->
         <!--we have our html table here where the record will be displayed-->
         <div class="w-50 d-flex justify-content-end">
             <a href='order_summary.php' class='btn btn-danger'>Back to read Order Summary</a>
