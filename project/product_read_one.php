@@ -81,7 +81,8 @@ include 'check_user_login.php';
             </tr>
             <tr>
                 <td>Images</td>
-                <td><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></td>
+                <td><div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25 mb-2"></div></td>
+                         
             </tr>
             <tr>
                 <td>Promotion_price</td>
@@ -90,7 +91,7 @@ include 'check_user_login.php';
             <tr>
                 <td></td>
                 <td>
-                    <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
         </table>
