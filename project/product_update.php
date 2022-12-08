@@ -164,8 +164,8 @@ include 'check_user_login.php';
                         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                             // it means photo was uploaded
                             echo "<div class='alert alert-danger'>";
-                            echo "<div>Unable to upload photo.</div>";
-                            echo "<div>Update the record to upload photo.</div>";
+                            $error_messages .= "<div>Unable to upload photo.</div>";
+                            $error_messages .= "<div>Update the record to upload photo.</div>";
                             echo "</div>";
                         }
                     }
