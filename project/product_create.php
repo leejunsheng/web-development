@@ -35,49 +35,42 @@ include 'check_user_login.php';
             $date2 = date_create($expired_date);
             $diff = date_diff($date1, $date2);
             $result = $diff->format("%R%a");
-            $flag = 0;
+
+            // new 'image' field
+            $image = !empty($_FILES["image"]["name"])
+                ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                : "";
+            $error_messages = "";
 
             if ($name == "" || $description == "" ||  $manufacture_date == "") {
-                echo "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
             }
-
             if ($price == "") {
-                echo "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
             } elseif (preg_match('/[A-Z]/', $price)) {
-                echo "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z. </div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z. </div>";
             } elseif (preg_match('/[a-z]/', $price)) {
-                echo "<div class='alert alert-danger'> Please make sure price are not contain capital a-z. </div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital a-z. </div>";
             } elseif ($price < 0) {
-                echo "<div class='alert alert-danger'> Please make sure price are not negative. </div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not negative. </div>";
             } elseif ($price > 1000) {
-                echo "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
             }
 
             if ($promotion_price == "") {
                 $promotion_price = NULL;
             } elseif (preg_match('/[A-Z]/', $promotion_price)) {
-                echo "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z.</div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z.</div>";
             } elseif (preg_match('/[a-z]/', $promotion_price)) {
-                echo "<div class='alert alert-danger'> Please make sure price are not contain capital a-z.</div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital a-z.</div>";
             } elseif ($promotion_price < 0) {
-                echo "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
             } elseif ($promotion_price > 1000) {
-                echo "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
             }
 
             if ($promotion_price > $price) {
-                echo "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
-                $flag = 1;
+                $error_messages .= "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
             }
 
             if ($expired_date == "") {
@@ -85,26 +78,72 @@ include 'check_user_login.php';
             }
 
             if ($result < "0") {
-                $flag = 1;
-                echo "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>";
+                $error_messages .= "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>";
             }
 
-            if ($flag == 0) {
+            // now, if image is not empty, try to upload the image
+            if ($image) {
+
+                // upload to file to folder
+                $target_directory = "uploads/";
+                $target_file = $target_directory . $image;
+                $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                // error message is empty
+                $error_messages = "";
+                // make sure that file is a real image
+                $check = getimagesize($_FILES["image"]["tmp_name"]);
+                if ($check === false) {
+                    // submitted file is an image
+                    $error_messages .= "<div>Submitted file is not an image.</div>";
+                }
+
+                // make sure certain file types are allowed
+                $allowed_file_types = array("jpg", "jpeg", "png", "gif");
+                if (!in_array($file_type, $allowed_file_types)) {
+                    $error_messages .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                }
+
+                // make sure file does not exist
+                if (file_exists($target_file)) {
+                    $error_messages .= "<div>Image already exists. Try to change file name.</div>";
+                }
+
+                // make sure submitted file is not too large, can't be larger than 1 MB
+                if ($_FILES['image']['size'] > (1024000)) {
+                    $error_messages .= "<div>Image must be less than 1 MB in size.</div>";
+                }
+
+                // make sure the 'uploads' folder exists
+                // if not, create it
+                if (!is_dir($target_directory)) {
+                    mkdir($target_directory, 0777, true);
+                }
+
+                // if $file_upload_error_messages is still empty
+                if (empty($error_messages)) {
+                    // it means there are no errors, so try to upload the file
+                    if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                        // it means photo was uploaded
+                        echo "<div class='alert alert-danger'>";
+                        echo "<div>Unable to upload photo.</div>";
+                        echo "<div>Update the record to upload photo.</div>";
+                        echo "</div>";
+                    }
+                }
+            }
+
+            if (!empty($error_messages)) {
+                echo "<div class='alert alert-danger'>{$error_messages}</div>";
+            } else {
                 // include database connection
                 include 'config/database.php';
-
                 try {
                     // insert query
                     $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date,expired_date=:expired_date,image=:image,created=:created";
 
                     // prepare query for execution
                     $stmt = $con->prepare($query);
-
-                    // new 'image' field
-                    $image = !empty($_FILES["image"]["name"])
-                        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
-                        : "";
-                    $image = htmlspecialchars(strip_tags($image));
 
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
@@ -120,69 +159,6 @@ include 'check_user_login.php';
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
-
-                        // now, if image is not empty, try to upload the image
-                        if ($image) {
-
-                            // upload to file to folder
-                            $target_directory = "uploads/";
-                            $target_file = $target_directory . $image;
-                            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-
-                            // error message is empty
-                            $file_upload_error_messages = "";
-                            // make sure that file is a real image
-                            $check = getimagesize($_FILES["image"]["tmp_name"]);
-                            if ($check !== false) {
-                                // submitted file is an image
-                            } else {
-                                $file_upload_error_messages .= "<div>Submitted file is not an image.</div>";
-                            }
-
-                            // make sure certain file types are allowed
-                            $allowed_file_types = array("jpg", "jpeg", "png", "gif");
-                            if (!in_array($file_type, $allowed_file_types)) {
-                                $file_upload_error_messages .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
-                            }
-
-                            // make sure file does not exist
-                            if (file_exists($target_file)) {
-                                $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
-                            }
-
-                            // make sure submitted file is not too large, can't be larger than 1 MB
-                            if ($_FILES['image']['size'] > (1024000)) {
-                                $file_upload_error_messages .= "<div>Image must be less than 1 MB in size.</div>";
-                            }
-
-                            // make sure the 'uploads' folder exists
-                            // if not, create it
-                            if (!is_dir($target_directory)) {
-                                mkdir($target_directory, 0777, true);
-                            }
-
-                            // if $file_upload_error_messages is still empty
-                            if (empty($file_upload_error_messages)) {
-                                // it means there are no errors, so try to upload the file
-                                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                                    // it means photo was uploaded
-                                } else {
-                                    echo "<div class='alert alert-danger'>";
-                                    echo "<div>Unable to upload photo.</div>";
-                                    echo "<div>Update the record to upload photo.</div>";
-                                    echo "</div>";
-                                }
-                            }
-
-                            // if $file_upload_error_messages is NOT empty
-                            else {
-                                // it means there are some errors, so show them to user
-                                echo "<div class='alert alert-danger'>";
-                                echo "<div>{$file_upload_error_messages}</div>";
-                                echo "<div>Update the record to upload photo.</div>";
-                                echo "</div>";
-                            }
-                        }
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
