@@ -38,6 +38,10 @@ include 'check_user_login.php';
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
+        if ($action == 'updated') {
+            echo "<div class='alert alert-success'>Record was updated.</div>";
+        }
+
         // select all data
         $query = "SELECT id, name, description, price ,image FROM products ORDER BY id DESC";
         $stmt = $con->prepare($query);
@@ -58,6 +62,7 @@ include 'check_user_login.php';
             echo "<tr>";
             echo "<th>ID</th>";
             echo "<th>Name</th>";
+            echo "<th>Image</th>";
             echo "<th>Description</th>";
             echo "<th>Price</th>";
             echo "<th>Action</th>";
@@ -74,6 +79,7 @@ include 'check_user_login.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
+                echo "<td><div><img src='uploads/$image ?>' class='w-25'></div> </td>";
                 echo "<td>{$description}</td>";
                 $format_price = number_format((float)$price, 2, '.', '');
                 echo "<td class='text-end'>{$format_price}</td>";

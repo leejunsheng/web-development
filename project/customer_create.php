@@ -11,7 +11,7 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
 
@@ -25,8 +25,8 @@ include 'check_user_login.php';
         <?php
         if ($_POST) {
             $user_name = $_POST['username'];
-            $pass_word = $_POST['password'];
-            $comfirm_pasword = $_POST['comfirm_password'];
+            $pass_word = md5($_POST['password']);
+            $comfirm_pasword = md5($_POST['comfirm_password']);
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
             $gender = $_POST['gender'];
@@ -37,6 +37,11 @@ include 'check_user_login.php';
             $date1 = date_create($datebirth);
             $date2 = date_create($today);
             $diff = date_diff($date1, $date2);
+
+            // new 'image' field
+            $image = !empty($_FILES["image"]["name"])
+                ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                : "";
             $flag = 0;
 
             if ($user_name == "") {
@@ -55,9 +60,6 @@ include 'check_user_login.php';
                 $flag = 1;
             } elseif (strlen($pass_word) < 8) {
                 echo "<div class='alert alert-danger'>Please make sure password less than 8 character</div>";
-                $flag = 1;
-            } elseif (!preg_match('/[A-Z]/', $pass_word)) {
-                echo "<div class='alert alert-danger'>Please make sure password combine capital A-Z</div>";
                 $flag = 1;
             } elseif (!preg_match('/[a-z]/', $pass_word)) {
                 echo "<div class='alert alert-danger'>Please make sure password combine capital a-z</div>";
@@ -95,19 +97,71 @@ include 'check_user_login.php';
                 $flag = 1;
             }
 
+            // now, if image is not empty, try to upload the image
+            if ($image) {
+
+                // upload to file to folder
+                $target_directory = "uploads/";
+                $target_file = $target_directory . $image;
+                $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                // make sure that file is a real image
+                $check = getimagesize($_FILES["image"]["tmp_name"]);
+                if ($check === false) {
+                    // submitted file is an image
+                    $error_msg .= "<div>Submitted file is not an image.</div>";
+                }
+
+                // make sure certain file types are allowed
+                $allowed_file_types = array("jpg", "jpeg", "png", "gif");
+                if (!in_array($file_type, $allowed_file_types)) {
+                    $error_msg .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                }
+
+                // make sure file does not exist
+                //if (file_exists($target_file)) {
+                //    $error_msg .= "<div>Image already exists. Try to change file name.</div>";
+                //}
+
+                // make sure submitted file is not too large, can't be larger than 1 MB
+                if ($_FILES['image']['size'] > (1024000)) {
+                    $error_msg .= "<div>Image must be less than 1 MB in size.</div>";
+                }
+
+                // make sure the 'uploads' folder exists
+                // if not, create it
+                if (!is_dir($target_directory)) {
+                    mkdir($target_directory, 0777, true);
+                }
+
+                // if $file_upload_error_messages is still empty
+                if (empty($error_msg)) {
+                    // it means there are no errors, so try to upload the file
+                    if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                        // it means photo was uploaded
+                        echo "<div class='alert alert-danger'>";
+                        $error_msg .= "<div>Unable to upload photo.</div>";
+                        $error_msg .= "<div>Update the record to upload photo.</div>";
+                        echo "</div>";
+                    }
+                }
+            }
+
+
             if ($flag == 0) {
                 // include database connection
                 include 'config/database.php';
 
                 try {
                     // insert query
-                    $query = "INSERT INTO customers SET username=:username, password=:password, firstname=:firstname, lastname=:lastname,gender=:gender,datebirth=:datebirth,registration_dt=:registration_dt,accstatus=:accstatus";
+                    $query = "INSERT INTO customers SET username=:username, image=:image, password=:password, firstname=:firstname, lastname=:lastname,gender=:gender,datebirth=:datebirth,registration_dt=:registration_dt,accstatus=:accstatus";
 
                     // prepare query for execution
                     $stmt = $con->prepare($query);
 
                     // bind the parameters
                     $stmt->bindParam(':username', $user_name);
+                    $stmt->bindParam(':image', $image);
                     $stmt->bindParam(':password', $pass_word);
                     $stmt->bindParam(':firstname', $firstname);
                     $stmt->bindParam(':lastname', $lastname);
@@ -133,12 +187,17 @@ include 'check_user_login.php';
         ?>
 
         <!-- html form here where the product information will be entered -->
-        <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
+        <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
                     <td><input type='text' name='username' class='form-control' /></td>
 
+                </tr>
+                <tr>
+                    <td>Photo</td>
+                    <div><td><input type="file" name="image" class="w-25"/></div></td>
+                  
                 </tr>
                 <tr>
                     <td>Password</td>
@@ -191,7 +250,7 @@ include 'check_user_login.php';
         </form>
     </div>
 
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </body>
 
 </html>

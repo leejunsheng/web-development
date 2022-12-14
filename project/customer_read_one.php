@@ -36,7 +36,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT user_id,username, firstname, lastname,gender, datebirth,registration_dt,accstatus FROM customers WHERE user_id = :user_id";
+            $query = "SELECT * FROM customers WHERE user_id = :user_id";
             $stmt = $con->prepare($query);
 
             // Bind the parameter
@@ -50,6 +50,7 @@
 
             // values to fill up our form
             $username = $row['username'];
+            $image = $row['image'];
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];
             $gender = $row['gender'];
@@ -71,6 +72,12 @@
             <tr>
                 <td>Username</td>
                 <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Images</td>
+                <td>
+                    <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25 mb-2"></div>
+                </td>
             </tr>
             <tr>
                 <td>First name</td>
@@ -99,7 +106,8 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href='customer_read.php' class='btn btn-danger'>Back to read customers</a>
+                    <a href='customer_read.php' class='btn btn-danger m-r-1em mx-2'>Back to read customers</a>
+                    <a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>
                 </td>
             </tr>
         </table>

@@ -37,7 +37,7 @@ include 'check_user_login.php';
             // read current record's data
             try {
                 // prepare select query
-                $query = "SELECT username, password, firstname, lastname, gender, datebirth FROM customers WHERE user_id = ? LIMIT 0,1";
+                $query = "SELECT * FROM customers WHERE user_id = ? LIMIT 0,1";
                 $stmt = $con->prepare($query);
 
                 // this is the first question mark
@@ -51,6 +51,7 @@ include 'check_user_login.php';
 
                 // values to fill up our form
                 $username = $row['username'];
+                $image = $row['image'];
                 $password = $row['password'];
                 $firstname = $row['firstname'];
                 $lastname = $row['lastname'];
@@ -67,7 +68,6 @@ include 'check_user_login.php';
             <?php
             // check if form was submitted
             if ($_POST) {
-
                 $user_name = $_POST['username'];
                 $pass_word = $_POST['password'];
                 $old_password = $_POST['old_password'];
@@ -76,13 +76,18 @@ include 'check_user_login.php';
                 $lastname = $_POST['lastname'];
                 $gender = $_POST['gender'];
                 $datebirth = $_POST['datebirth'];
-                $flag = 0;
 
                 $today = date("Ymd");
                 $date1 = date_create($datebirth);
                 $date2 = date_create($today);
                 $diff = date_diff($date1, $date2);
+
+                $image = !empty($_FILES["image"]["name"])
+                    ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                    : htmlspecialchars($image, ENT_QUOTES);
+
                 $flag = 0;
+                $error_msg = "";
 
                 if ($user_name == "") {
                     echo "<div class='alert alert-danger'>Please make sure username are not empty </div>";
@@ -106,9 +111,6 @@ include 'check_user_login.php';
                             $flag = 1;
                         } elseif (strlen($pass_word) < 8) {
                             echo "<div class='alert alert-danger'>Please make sure password less than 8 character </div>";
-                            $flag = 1;
-                        } elseif (!preg_match('/[A-Z]/', $pass_word)) {
-                            echo "<div class='alert alert-danger'>Please make sure password combine capital A-Z </div>";
                             $flag = 1;
                         } elseif (!preg_match('/[a-z]/', $pass_word)) {
                             echo "<div class='alert alert-danger'> Please make sure password combine capital a-z </div>";
@@ -164,18 +166,70 @@ include 'check_user_login.php';
                     $flag = 1;
                 }
 
+                // now, if image is not empty, try to upload the image
+                if ($_FILES["image"]["name"]) {
+                    // upload to file to folder
+                    $target_directory = "uploads/";
+                    $target_file = $target_directory . $image;
+                    $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                    // make sure that file is a real image
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if ($check === false) {
+                        // submitted file is an image
+                        $error_msg .= "<div>Submitted file is not an image.</div>";
+                    }
+
+                    // make sure certain file types are allowed
+                    $allowed_file_types = array("jpg", "jpeg", "png", "gif");
+                    if (!in_array($file_type, $allowed_file_types)) {
+                        $error_msg .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                    }
+
+                    // make sure file does not exist
+                    if (file_exists($target_file)) {
+                        $error_msg .= "<div>Image already exists. Try to change file name.</div>";
+                    }
+
+                    // make sure submitted file is not too large, can't be larger than 1 MB
+                    if ($_FILES['image']['size'] > (1024000)) {
+                        $error_msg .= "<div>Image must be less than 1 MB in size.</div>";
+                    }
+
+                    // make sure the 'uploads' folder exists
+                    // if not, create it
+                    if (!is_dir($target_directory)) {
+                        mkdir($target_directory, 0777, true);
+                    }
+
+                    // if $file_upload_error_messages is still empty
+                    if (empty($error_msg)) {
+                        // it means there are no errors, so try to upload the file
+                        if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                            // it means photo was uploaded
+                            echo "<div class='alert alert-danger'>";
+                            $error_msg .= "<div>Unable to upload photo.</div>";
+                            $error_msg .= "<div>Update the record to upload photo.</div>";
+                            echo "</div>";
+                        }
+                    }
+                } elseif (empty($image)) {
+                    $image = "profile_default.png";
+                }
+
                 if ($flag == 0) {
 
                     try {
                         // write update query
                         // in this case, it seemed like we have so many fields to pass and
                         // it is better to label them and not use question marks
-                        $query = "UPDATE customers SET username=:username, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, datebirth=:datebirth WHERE user_id = :user_id";
+                        $query = "UPDATE customers SET username=:username, image=:image, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, datebirth=:datebirth WHERE user_id = :user_id";
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
                         // posted values
                         $username = htmlspecialchars(strip_tags($_POST['username']));
-                        if ( $password_empty == true) {
+                        $image = htmlspecialchars(strip_tags($image));
+                        if ($password_empty == true) {
                             $password = $row['password'];
                         } else {
                             $password = htmlspecialchars(strip_tags($_POST['password']));
@@ -185,8 +239,10 @@ include 'check_user_login.php';
                         $gender = htmlspecialchars(strip_tags($_POST['gender']));
                         $datebirth = htmlspecialchars(strip_tags($_POST['datebirth']));
 
+
                         // bind the parameters
                         $stmt->bindParam(':username', $username);
+                        $stmt->bindParam(':image', $image);
                         $stmt->bindParam(':password', $password);
                         $stmt->bindParam(':firstname', $firstname);
                         $stmt->bindParam(':lastname', $lastname);
@@ -195,7 +251,6 @@ include 'check_user_login.php';
                         $stmt->bindParam(':user_id', $user_id);
                         // Execute the query
                         if ($stmt->execute()) {
-                            header("Location: product_read.php");
                             echo "<div class='alert alert-success'>Record was updated.</div>";
                         } else {
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
@@ -209,12 +264,50 @@ include 'check_user_login.php';
                 }
             } ?>
 
+            <?php
+            if (isset($_POST['delete'])) {
+                $image = htmlspecialchars(strip_tags($image));
+
+                $image = !empty($_FILES["image"]["name"])
+                    ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                    : "";
+                $target_directory = "uploads/";
+                $target_file = $target_directory . $image;
+                $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                unlink("uploads/" . $row['image']);
+                $query = "UPDATE customers
+                        SET image=:image WHERE user_id = :user_id";
+                // prepare query for excecution
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(':image', $image);
+                $stmt->bindParam(':user_id', $user_id);
+                // Execute the query
+                $stmt->execute();
+            }
+            ?>
+
+
             <!--we have our html form here where new record information can be updated-->
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?user_id={$user_id}"); ?>" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?user_id={$user_id}"); ?>" method="post" enctype="multipart/form-data">
                 <table class='table table-hover table-responsive table-bordered'>
                     <tr>
                         <td>Username</td>
                         <td><input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    </tr>
+                    <tr>
+                        <td>Image</td>
+                        <td>
+                            <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
+                            <div><input type="file" name="image" value="<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></div>
+                            
+
+                            <?php
+                            if ($image != "profile_default.png") {
+                                echo "<input type='submit' value='Delete' name='delete' class='btn btn-primary' />";
+                            }
+                            ?>
+                        </td>
                     </tr>
                     <tr>
                         <td>Old Password</td>

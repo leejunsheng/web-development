@@ -92,9 +92,11 @@ include 'check_user_login.php';
             <tr>
                 <td></td>
                 <td>
-                    <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='product_read.php' class='btn btn-danger  m-r-1em mx-2'>Back to read products</a>
+                    <a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>
                 </td>
             </tr>
+
         </table>
 
     </div> <!-- end .container -->

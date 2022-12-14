@@ -24,6 +24,7 @@ include 'check_user_login.php';
                 <h1>Update Product</h1>
             </div>
             <?php
+
             // get passed parameter value, in this case, the record ID
             // isset() is a PHP function used to verify if a value is there or not
             $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
@@ -72,12 +73,11 @@ include 'check_user_login.php';
                 $promotion_price = $_POST['promotion_price'];
                 $manufacture_date = $_POST['manufacture_date'];
                 $expired_date = $_POST['expired_date'];
-                $error_msg = "";
-
                 // new 'image' field
                 $image = !empty($_FILES["image"]["name"])
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
-                    : "";
+                    : htmlspecialchars($image, ENT_QUOTES);
+                $error_msg = "";
 
                 if ($name == "" || $description == "" ||  $manufacture_date == "") {
                     $error_msg .= "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
@@ -117,7 +117,7 @@ include 'check_user_login.php';
                 }
 
                 // now, if image is not empty, try to upload the image
-                if ($image) {
+                if ($_FILES["image"]["name"]) {
                     // upload to file to folder
                     $target_directory = "uploads/";
                     $target_file = $target_directory . $image;
@@ -163,12 +163,14 @@ include 'check_user_login.php';
                             echo "</div>";
                         }
                     }
+                } elseif (empty($image)) {
+                    $image = "default.png";
                 }
+
 
                 if (!empty($error_msg)) {
                     echo "<div class='alert alert-danger'>{$error_msg}</div>";
                 } else {
-                    include 'config/database.php';
                     try {
                         // write update query
                         // in this case, it seemed like we have so many fields to pass and
@@ -181,6 +183,7 @@ include 'check_user_login.php';
                         $description = htmlspecialchars(strip_tags($_POST['description']));
                         $price = htmlspecialchars(strip_tags($_POST['price']));
                         $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+                        $image = htmlspecialchars(strip_tags($image));
                         $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                         $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
 
@@ -194,8 +197,10 @@ include 'check_user_login.php';
                         $stmt->bindParam(':expired_date', $expired_date);
                         $stmt->bindParam(':id', $id);
                         // Execute the query
+
                         if ($stmt->execute()) {
-                            header("Location: product_read.php");
+                            // redirect to read records page and
+                            // tell the user record was deleted
                             echo "<div class='alert alert-success'>Record was updated.</div>";
                         } else {
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
@@ -206,6 +211,30 @@ include 'check_user_login.php';
                         die('ERROR: ' . $exception->getMessage());
                     }
                 }
+            }
+            ?>
+
+
+            <?php
+            if (isset($_POST['delete'])) {
+                $image = htmlspecialchars(strip_tags($image));
+
+                $image = !empty($_FILES["image"]["name"])
+                    ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                    : "";
+                $target_directory = "uploads/";
+                $target_file = $target_directory . $image;
+                $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                unlink("uploads/" . $row['image']);
+                $query = "UPDATE products
+                        SET image=:image WHERE id = :id";
+                // prepare query for excecution
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(':image', $image);
+                $stmt->bindParam(':id', $id);
+                // Execute the query
+                $stmt->execute();
             }
             ?>
 
@@ -221,6 +250,13 @@ include 'check_user_login.php';
                         <td>
                             <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
                             <div><input type="file" name="image" value="<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></div>
+
+                            <?php
+                            if ($image != "default.png") {
+                                echo "<input type='submit' value='Delete' name='delete' class='btn btn-primary' />";
+                            }
+                            ?>
+
                         </td>
                     </tr>
                     <tr>
@@ -243,6 +279,7 @@ include 'check_user_login.php';
                         <td>Expired Date</td>
                         <td><input type='date' name='expired_date' class='form-control' value="<?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?>" /></td>
                     </tr>
+
                     <tr>
                         <td></td>
                         <td>

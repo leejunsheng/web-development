@@ -77,7 +77,6 @@ include 'check_user_login.php';
 
             // now, if image is not empty, try to upload the image
             if ($image) {
-
                 // upload to file to folder
                 $target_directory = "uploads/";
                 $target_file = $target_directory . $image;
