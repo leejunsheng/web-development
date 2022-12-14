@@ -53,22 +53,23 @@ include 'check_user_login.php';
                 
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
-                    $plus = $price * $quantity;
+                    $sum = $price * $quantity;
                     echo "<tr>";
                     echo "<td class='col-4'>{$name}</td>";
                     $price = htmlspecialchars(number_format($price, 2, '.', ''));
                     echo "<td class='col-3 text-center'>RM {$price}</td>";
                     echo "<td class='col-2 text-center'><strong>X</strong> &nbsp&nbsp{$quantity}</td>";
-                    $plus = htmlspecialchars(number_format($plus, 2, '.', ''));
-                    echo "<td class='col-3 text-end'>RM {$plus}</td>";
+                    $sum = htmlspecialchars(number_format($sum, 2, '.', ''));
+                    echo "<td class='col-3 text-end'>RM {$sum}</td>";
                     echo "</tr>";
                 }
             }
             echo "<tr class='border border-3'>";
             echo "<td class='col-2' >Total Price</td>";
             echo "<td colspan=4 class='text-end'>";
-            $dprice = htmlspecialchars(round(number_format($total_price, 2, '.', '')));
-            echo "RM $dprice";
+            $total_price = htmlspecialchars(round($total_price));
+            $total_price = htmlspecialchars(number_format($total_price, 2, '.', ''));
+            echo "RM $total_price";
             echo "</td></tr></table>";
         } 
            // show error

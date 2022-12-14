@@ -31,54 +31,48 @@ include 'check_user_login.php';
             $promotion_price = $_POST['promotion_price'];
             $manufacture_date = $_POST['manufacture_date'];
             $expired_date = $_POST['expired_date'];
-            $date1 = date_create($manufacture_date);
-            $date2 = date_create($expired_date);
-            $diff = date_diff($date1, $date2);
-            $result = $diff->format("%R%a");
+            $error_msg = "";
 
             // new 'image' field
             $image = !empty($_FILES["image"]["name"])
                 ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                 : "";
-            $error_messages = "";
 
             if ($name == "" || $description == "" ||  $manufacture_date == "") {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
+                $error_msg .= "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
             }
             if ($price == "") {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
-            } elseif (preg_match('/[A-Z]/', $price)) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z. </div>";
-            } elseif (preg_match('/[a-z]/', $price)) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital a-z. </div>";
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
+            } elseif (!is_numeric($price)) {
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price are only accept for number. </div>";
             } elseif ($price < 0) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not negative. </div>";
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price cannot be negative. </div>";
             } elseif ($price > 1000) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
             }
 
             if ($promotion_price == "") {
                 $promotion_price = NULL;
-            } elseif (preg_match('/[A-Z]/', $promotion_price)) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital A-Z.</div>";
-            } elseif (preg_match('/[a-z]/', $promotion_price)) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not contain capital a-z.</div>";
+            } elseif (!is_numeric($promotion_price)) {
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price are only accept for number.</div>";
             } elseif ($promotion_price < 0) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
             } elseif ($promotion_price > 1000) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
-            }
-
-            if ($promotion_price > $price) {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
+                $error_msg .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
+            } elseif ($promotion_price > $price) {
+                $error_msg .= "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
             }
 
             if ($expired_date == "") {
                 $expired_date = NULL;
-            }
-
-            if ($result < "0") {
-                $error_messages .= "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>";
+            } else {
+                $date1 = date_create($manufacture_date);
+                $date2 = date_create($expired_date);
+                $diff = date_diff($date1, $date2);
+                $result = $diff->format("%R%a");
+                if ($result < "0") {
+                    $error_msg .= "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>";
+                }
             }
 
             // now, if image is not empty, try to upload the image
@@ -89,29 +83,27 @@ include 'check_user_login.php';
                 $target_file = $target_directory . $image;
                 $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
-                // error message is empty
-                $error_messages = "";
                 // make sure that file is a real image
                 $check = getimagesize($_FILES["image"]["tmp_name"]);
                 if ($check === false) {
                     // submitted file is an image
-                    $error_messages .= "<div>Submitted file is not an image.</div>";
+                    $error_msg .= "<div>Submitted file is not an image.</div>";
                 }
 
                 // make sure certain file types are allowed
                 $allowed_file_types = array("jpg", "jpeg", "png", "gif");
                 if (!in_array($file_type, $allowed_file_types)) {
-                    $error_messages .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                    $error_msg .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
                 }
 
                 // make sure file does not exist
-                if (file_exists($target_file)) {
-                    $error_messages .= "<div>Image already exists. Try to change file name.</div>";
-                }
+                //if (file_exists($target_file)) {
+                //    $error_msg .= "<div>Image already exists. Try to change file name.</div>";
+                //}
 
                 // make sure submitted file is not too large, can't be larger than 1 MB
                 if ($_FILES['image']['size'] > (1024000)) {
-                    $error_messages .= "<div>Image must be less than 1 MB in size.</div>";
+                    $error_msg .= "<div>Image must be less than 1 MB in size.</div>";
                 }
 
                 // make sure the 'uploads' folder exists
@@ -121,20 +113,20 @@ include 'check_user_login.php';
                 }
 
                 // if $file_upload_error_messages is still empty
-                if (empty($error_messages)) {
+                if (empty($error_msg)) {
                     // it means there are no errors, so try to upload the file
                     if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                         // it means photo was uploaded
                         echo "<div class='alert alert-danger'>";
-                        echo "<div>Unable to upload photo.</div>";
-                        echo "<div>Update the record to upload photo.</div>";
+                        $error_msg .= "<div>Unable to upload photo.</div>";
+                        $error_msg .= "<div>Update the record to upload photo.</div>";
                         echo "</div>";
                     }
                 }
             }
 
-            if (!empty($error_messages)) {
-                echo "<div class='alert alert-danger'>{$error_messages}</div>";
+            if (!empty($error_msg)) {
+                echo "<div class='alert alert-danger'>{$error_msg}</div>";
             } else {
                 // include database connection
                 include 'config/database.php';
@@ -182,6 +174,10 @@ include 'check_user_login.php';
 
                 </tr>
                 <tr>
+                    <td>Photo</td>
+                    <td><input type="file" name="image" /></td>
+                </tr>
+                <tr>
                     <td>Description</td>
                     <td><input type='text' name='description' class='form-control' /></td>
                 </tr>
@@ -189,12 +185,6 @@ include 'check_user_login.php';
                     <td>Price</td>
                     <td><input type='text' name='price' class='form-control' /></td>
                 </tr>
-
-                <tr>
-                    <td>Photo</td>
-                    <td><input type="file" name="image" /></td>
-                </tr>
-
                 <tr>
                     <td>Promotion_price</td>
                     <td><input type='text' name='promotion_price' class='form-control' /></td>

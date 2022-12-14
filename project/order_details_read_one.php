@@ -96,11 +96,13 @@ include 'check_user_login.php';
             </tr>
             <tr>
                 <td>Price per unit</td>
-                <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                <?php $format_price = number_format((float)$price, 2, '.', ''); ?>
+                <td><?php echo htmlspecialchars($format_price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Total Price</td>
-                <td><?php echo $price * $quantity;  ?></td>
+                <?php $format_total_price = number_format((float)$price * $quantity, 2, '.', ''); ?>
+                <td><?php echo $format_total_price;  ?></td>
             </tr>
             <tr>
                 <td></td>

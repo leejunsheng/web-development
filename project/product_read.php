@@ -11,8 +11,8 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </head>
 
 <body>
@@ -34,16 +34,13 @@ include 'check_user_login.php';
         // delete message prompt will be here
         $action = isset($_GET['action']) ? $_GET['action'] : "";
         // if it was redirected from delete.php
-        if($action=='deleted'){
+        if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
         // select all data
         $query = "SELECT id, name, description, price ,image FROM products ORDER BY id DESC";
         $stmt = $con->prepare($query);
-
-
-      
         $stmt->execute();
 
         // this is how to get number of rows returned
@@ -54,7 +51,6 @@ include 'check_user_login.php';
 
         //check if more than 0 record found
         if ($num > 0) {
-
             // data from database will be here
             echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
 
@@ -79,7 +75,8 @@ include 'check_user_login.php';
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
-                echo "<td>{$price}</td>";
+                $format_price = number_format((float)$price, 2, '.', '');
+                echo "<td class='text-end'>{$format_price}</td>";
                 echo "<td>";
 
                 // read one record
@@ -103,8 +100,8 @@ include 'check_user_login.php';
 
     </div> <!-- end .container -->
 
-        <!-- confirm delete record will be here -->
-        <script type='text/javascript'>
+    <!-- confirm delete record will be here -->
+    <script type='text/javascript'>
         // confirm record deletion
         function delete_product(id) {
 
@@ -115,7 +112,7 @@ include 'check_user_login.php';
             }
         }
     </script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </body>
 
 </html>
