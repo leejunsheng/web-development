@@ -107,7 +107,7 @@
                 <td></td>
                 <td>
                     <a href='customer_read.php' class='btn btn-danger m-r-1em mx-2'>Back to read customers</a>
-                    <a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>
+                    <?php echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary'>Edit</a>"; ?>
                 </td>
             </tr>
         </table>

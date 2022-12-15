@@ -214,11 +214,9 @@ include 'check_user_login.php';
             }
             ?>
 
-
             <?php
             if (isset($_POST['delete'])) {
                 $image = htmlspecialchars(strip_tags($image));
-
                 $image = !empty($_FILES["image"]["name"])
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                     : "";
@@ -227,15 +225,20 @@ include 'check_user_login.php';
                 $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
                 unlink("uploads/" . $row['image']);
-                $query = "UPDATE products
-                        SET image=:image WHERE id = :id";
+                $query = "UPDATE products SET image=:image WHERE id = :id";
                 // prepare query for excecution
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(':image', $image);
                 $stmt->bindParam(':id', $id);
                 // Execute the query
-                $stmt->execute();
+            if ($stmt->execute()) {
+                // redirect to read records page and
+                // tell the user record was deleted
+                echo "<div class='alert alert-success'>Image delete sucessful!</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Unable to delete image. Please try again.</div>";
             }
+        }
             ?>
 
             <!--we have our html form here where new record information can be updated-->
