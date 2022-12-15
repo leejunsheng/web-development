@@ -60,8 +60,8 @@ include 'check_user_login.php';
 
                 //creating our table heading
                 echo "<tr>";
-                echo "<th>Order Details ID</th>";
                 echo "<th>Order ID</th>";
+                echo "<th>Order Details ID</th>";
                 echo "<th>Product ID</th>";
                 echo "<th>Quantity</th>";
                 echo "<th>Action</th>";
@@ -75,8 +75,8 @@ include 'check_user_login.php';
                     extract($row);
                     // creating new table row per record
                     echo "<tr>";
-                    echo "<td>{$detail_id}</td>";
                     echo "<td>{$order_id}</td>";
+                    echo "<td>{$detail_id}</td>";
                     echo "<td>{$product_id}</td>";
                     echo "<td>{$quantity}</td>";
                     echo "<td>";

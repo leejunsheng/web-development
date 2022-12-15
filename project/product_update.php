@@ -201,7 +201,8 @@ include 'check_user_login.php';
                         if ($stmt->execute()) {
                             // redirect to read records page and
                             // tell the user record was deleted
-                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                            header("Location: product_read.php?update={$id}");
+                   
                         } else {
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                         }

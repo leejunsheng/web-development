@@ -21,7 +21,8 @@ try {
     
     
     if($count > 0){
-        echo "This product has order so cannot be delete.";
+        header('Location: product_read.php?action=faildelete');
+      
     }else{
         $query = "DELETE FROM products WHERE id = ?";
         $stmt = $con->prepare($query);

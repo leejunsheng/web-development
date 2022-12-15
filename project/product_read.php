@@ -7,6 +7,11 @@ include 'check_user_login.php';
 <html>
 
 <head>
+    <style>
+        td {
+            height: 120px;
+        }
+    </style>
     <title>PDO - Read Record - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
@@ -26,7 +31,9 @@ include 'check_user_login.php';
 
         <!-- PHP code to read records will be here -->
         <?php
-
+        if (isset($_GET['update'])) {
+            echo "<div class='alert alert-success'>Record was updated.</div>";
+        }
         // include database connection
         include 'config/database.php';
 
@@ -40,6 +47,10 @@ include 'check_user_login.php';
 
         if ($action == 'updated') {
             echo "<div class='alert alert-success'>Record was updated.</div>";
+        }
+
+        if ($action == 'faildelete') {
+            echo "<div class='alert alert-success'>The product unable to delete.</div>";
         }
 
         // select all data
@@ -79,7 +90,7 @@ include 'check_user_login.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
-                echo "<td><div><img src='uploads/$image ?>' class='w-25'></div> </td>";
+                echo "<td class='w-25'><div'><img src='uploads/$image ?>' class='w-25'></div> </td>";
                 echo "<td>{$description}</td>";
                 $format_price = number_format((float)$price, 2, '.', '');
                 echo "<td class='text-end'>{$format_price}</td>";

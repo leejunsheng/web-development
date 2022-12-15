@@ -112,7 +112,6 @@ include 'check_user_login.php';
     <script type='text/javascript'>
         // confirm record deletion
         function delete_customer(user_id) {
-
             if (confirm('Are you sure?')) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query

@@ -113,7 +113,6 @@ include 'check_user_login.php';
                                     // retrieve our table contents
                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         // extract row
-                                        // this will make $row['firstname'] to just $firstname only
                                         extract($row);
                                         // creating new table row per record
                                         echo "<option value=\"$username\">$username</option>";
@@ -141,7 +140,6 @@ include 'check_user_login.php';
                     if ($num > 0) {
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             extract($row);
-
                             echo "<option value=\"$id\">$name</option>";
                         }
                     }
@@ -194,6 +192,24 @@ include 'check_user_login.php';
                 }
             }, false);
         </script>
+
+<button type="button" onclick="checkDuplicate()">Check duplicate product</button>
+
+        <script>
+         function checkDuplicate(){
+            var newarray = [];
+            var selects= document.getElementsByTagName('select');
+            for (var i= 0; i<selects.length; i++){
+                newarray.push(select[i].value);
+            }
+            if(newerray.length !== new Set(newarray).size){
+                alert ("There are duplicate eitem in the array");
+            }else{
+                document.getElementById("myForm").submut();
+            }
+         }
+        </script>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
         </script>
 </body>

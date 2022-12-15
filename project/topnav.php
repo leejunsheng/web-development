@@ -56,7 +56,6 @@
                     </a>
                     <ul class="dropdown-menu">
                         <a class="nav-link" href="order_create.php">Create New Order</a>
-                        <a class="nav-link" href="order_details.php">Order Detail</a>
                         <a class="nav-link" href="order_summary.php">Order Summary</a>
                     </ul>
                 </div>
