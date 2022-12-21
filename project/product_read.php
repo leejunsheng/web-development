@@ -75,7 +75,7 @@ include 'check_user_login.php';
             echo "<th>Name</th>";
             echo "<th>Image</th>";
             echo "<th>Description</th>";
-            echo "<th>Price</th>";
+            echo "<th>Price (RM)</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 

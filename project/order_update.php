@@ -27,7 +27,6 @@ include 'check_user_login.php';
             // get passed parameter value, in this case, the record ID
             // isset() is a PHP function used to verify if a value is there or not
             include 'config/database.php';
-            $error_message = "";
             $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : die('ERROR: Record ID not found.');
 
             if ($_POST) {
@@ -35,17 +34,18 @@ include 'check_user_login.php';
                 $user = $_POST['user'];
                 $product_id = $_POST['product_id'];
                 $quantity = $_POST['quantity'];
+                $error_msg = "";
 
-                if ($user == "") {
-                    $error_message .= "<div class='alert alert-danger'>Please select your username!</div>";
+                if ($user == "Please select username") {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted username</div>";
                 }
 
-                if ($product_id == [""]) {
-                    $error_message .= "<div class='alert alert-danger'>Please select your product!</div>";
+                if ($product_id == ["Please select product"]) {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted product</div>";
                 }
 
-                if ($quantity == [""]) {
-                    $error_message .= "<div class='alert alert-danger'>Please enter how many product you want!</div>";
+                if ($quantity <= ["0"]) {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure quantity cannot be 0</div>";
                 }
 
                 if (!empty($error_message)) {
@@ -125,7 +125,7 @@ include 'check_user_login.php';
 
             <!--we have our html form here where new record information can be updated-->
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?order_id={$order_id}"); ?>" method="post" enctype="multipart/form-data">
-                <table class='table table-hover table-responsive table-bordered'>
+                <table id='delete_row' class='table table-hover table-responsive table-bordered'>
                     <tr>
                         <td>Username</td>
                         <td colspan="4">
@@ -178,6 +178,7 @@ include 'check_user_login.php';
                             echo "<td class='col-3'>Quantity</td>
                             <td class='col-3'>
                             <input type='number' name='quantity[]' value='$quantity' class='form-control' /></td>
+                            <td><input type='button' value='Delete' class='btn btn-danger mt-2' onclick='deleteRow(this)'></td>
                             </tr>";
                         }
                     }
@@ -189,8 +190,9 @@ include 'check_user_login.php';
                         </td>
                         <td colspan=4 class="text-end">
                             <!--<button type="button">Check duplicate product</button>-->
-                            <input type='submit' value='Save Changes' class='btn btn-primary' onclick="checkDuplicate()" />
+                            <input type='submit' value='Update' class='btn btn-primary' onclick="checkDuplicate(event)" />
                             <a href='order_summary.php' class='btn btn-danger'>Back to read order summary</a>
+
                         </td>
                     </tr>
                 </table>
@@ -199,6 +201,41 @@ include 'check_user_login.php';
         </div>
         <!-- end .container -->
     </div>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.add_one')) {
+                var element = document.querySelector('.pRow');
+                var clone = element.cloneNode(true);
+                element.after(clone);
+            }
+
+        }, false);
+    </script>
+
+    <script>
+        function deleteRow(r) {
+            var total = document.querySelectorAll('.pRow').length;
+            if (total > 1) {
+                var i = r.parentNode.parentNode.rowIndex;
+                document.getElementById("delete_row").deleteRow(i);
+            }
+        }
+    </script>
+
+    <script>
+        function checkDuplicate(event) {
+            var newarray = [];
+            var selects = document.getElementsByTagName('select');
+            for (var i = 0; i < selects.length; i++) {
+                newarray.push(selects[i].value);
+            }
+            if (newarray.length !== new Set(newarray).size) {
+                alert("There are duplicate item in the array");
+                event.preventDefault();
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>

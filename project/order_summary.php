@@ -40,7 +40,7 @@ include 'check_user_login.php';
             }
 
             // select all data
-            $query = "SELECT * FROM order_summary ORDER BY order_id DESC";
+            $query = "SELECT * , sum(price*quantity) AS total_price FROM order_details INNER JOIN order_summary ON order_summary.order_id = order_details.order_id INNER JOIN products ON products.id = order_details.product_id GROUP BY order_summary.order_id DESC";
             $stmt = $con->prepare($query);
             $stmt->execute();
 
@@ -61,6 +61,7 @@ include 'check_user_login.php';
                 echo "<tr>";
                 echo "<th>Order ID</th>";
                 echo "<th>Order Date</th>";
+                echo "<th class='text-center'>Total Price</th>";
                 echo "<th>Username</th>";
                 echo "</tr>";
 
@@ -75,6 +76,9 @@ include 'check_user_login.php';
                     echo "<tr>";
                     echo "<td>{$order_id}</td>";
                     echo "<td>{$order_time}</td>";
+                    $total_price = htmlspecialchars(round($total_price));
+                    $total_price = htmlspecialchars(number_format($total_price, 2, '.', ''));
+                    echo "<td class='text-end'>{$total_price}</td>";
                     echo "<td>{$user}</td>";
                     echo "<td>";
                     // read one record

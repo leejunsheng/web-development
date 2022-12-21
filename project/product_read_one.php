@@ -82,11 +82,12 @@ include 'check_user_login.php';
                 <td><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>Price</td>
+                <td>Price (RM)</td>
                 <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>Promotion_price</td>
+                <td>Promotion Price (RM)</td>
+                <?php $promotion_price = number_format((float)$promotion_price, 2, '.', '');?>
                 <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>

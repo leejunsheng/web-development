@@ -21,7 +21,7 @@ include 'check_user_login.php';
         <?php include 'topnav.php'; ?>
 
         <div class="page-header">
-            <h1>Read customers</h1>
+            <h1>Read Customers</h1>
         </div>
 
         <!-- PHP code to read records will be here -->
@@ -48,7 +48,7 @@ include 'check_user_login.php';
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='customer_create.php' class='btn btn-primary m-b-1em'>Create New Customer</a>";
+        echo "<a href='customer_create.php' class='btn btn-primary m-b-1em my-3'>Create New Customer</a>";
 
         //check if more than 0 record found
         if ($num > 0) {

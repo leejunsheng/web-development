@@ -143,7 +143,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                             <td><?php $amount = htmlspecialchars(round($highest));
                        
                                $amount  = htmlspecialchars(number_format($highest, 2, '.', ''));
-                                echo "RM $highest";
+                                echo "$highest";
                                 ?></td>
                         </tr>
                     </table>

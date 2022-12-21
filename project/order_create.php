@@ -30,12 +30,16 @@ include 'check_user_login.php';
                 $quantity = $_POST['quantity'];
                 $error_msg = "";
 
-                if ($user == "Select Customer Username") {
+                if ($user == "Please select username") {
                     $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted username</div>";
                 }
 
-                if ($product_id == ["Select product"]) {
+                if ($product_id == ["Please select product"]) {
                     $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted product</div>";
+                }
+
+                if ($quantity <= ["0"]) {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure quantity cannot be 0</div>";
                 }
 
                 if (!empty($error_msg)) {
@@ -104,10 +108,10 @@ include 'check_user_login.php';
 
             <!-- html form here where the product information will be entered -->
             <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
-                <table class='table table-hover table-responsive table-bordered'>
+                <table id='delete_row' class='table table-hover table-responsive table-bordered'>
                     <tr>
                         <td>Customer_username</td>
-                        <td colspan="3">
+                        <td colspan="4">
                             <select class="form-select form-select mb-3" name="user" aria-label=".form-select example">
                                 <option>Please select username</option>
                                 <?php
@@ -157,20 +161,14 @@ include 'check_user_login.php';
                     </td>
                     <td>Quantity</td>
                         <td><input type='number' name='quantity[]' value='1' class='form-control' /></td>
+                        <td><input type='button' value='Delete' class='btn btn-danger mt-2' onclick='deleteRow(this)'></td>
                 </tr>";
                     ?>
-
-                    <tr>
-                        <td>
-                            <input type="button" value="Add More Product" class="add_one btn btn-secondary" />
-                            <input type="button" value="Delete" class="delete_one btn btn-danger" />
-                        </td>
-                        <td></td>
-                    </tr>
-
-                    <td></td>
-                    <td colspan="3">
-                        <input type='submit' value='Save' class='btn btn-primary' />
+                    <td colspan="">
+                        <input type="button" value="Add More Product" class="add_one btn btn-secondary" />
+                    </td>
+                    <td colspan="4" class="text-end">
+                        <input type='submit' value='Save' class='btn btn-primary me-5' onclick="checkDuplicate(event)" />
                     </td>
                     </tr>
 
@@ -179,7 +177,9 @@ include 'check_user_login.php';
         </div>
 
         <!-- end .container -->
-        <script>
+
+        <?php /*
+         <script>
             document.addEventListener('click', function(event) {
                 if (event.target.matches('.add_one')) {
                     var element = document.querySelector('.pRow');
@@ -194,6 +194,42 @@ include 'check_user_login.php';
                     }
                 }
             }, false);
+        </script> */ ?>
+
+
+        <script>
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.add_one')) {
+                    var element = document.querySelector('.pRow');
+                    var clone = element.cloneNode(true);
+                    element.after(clone);
+                }
+
+            }, false);
+        </script>
+
+        <script>
+            function deleteRow(r) {
+                var total = document.querySelectorAll('.pRow').length;
+                if (total > 1) {
+                    var i = r.parentNode.parentNode.rowIndex;
+                    document.getElementById("delete_row").deleteRow(i);
+                }
+            }
+        </script>
+
+        <script>
+            function checkDuplicate(event) {
+                var newarray = [];
+                var selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++) {
+                    newarray.push(selects[i].value);
+                }
+                if (newarray.length !== new Set(newarray).size) {
+                    alert("There are duplicate item in the array");
+                    event.preventDefault();
+                }
+            }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
         </script>

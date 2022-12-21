@@ -57,7 +57,7 @@ include 'check_user_login.php';
                 $error_msg .= "<div class='alert alert-danger'>Please make sure uername did not conatain space</div>";
             }
 
-            if ($pass_word == "") {
+            if ($pass_word == md5("")) {
                 $error_msg .= "<div class='alert alert-danger'>Please make sure password are not empty</div>";
             } elseif (strlen($pass_word) < 8) {
                 $error_msg .= "<div class='alert alert-danger'>Please make sure password less than 8 character</div>";
@@ -85,10 +85,7 @@ include 'check_user_login.php';
                 $error_msg .= "<div class='alert alert-danger'>User need 18 years old and above</div>";
             }
 
-            if ($accstatus == "") {
-                $error_msg .= "<div class='alert alert-danger'>Please make sure account status are not empty</div>";
-            }
-
+          
             // now, if image is not empty, try to upload the image
             if ($image) {
 
@@ -196,7 +193,6 @@ include 'check_user_login.php';
                     <td>Password</td>
                     <td><input type='password' name='password' class='form-control' /></td>
                 </tr>
-
                 <tr>
                     <td>Comfirm_Password</td>
                     <td><input type='password' name='comfirm_password' class='form-control' /></td>
@@ -231,12 +227,12 @@ include 'check_user_login.php';
                 <tr>
                     <td>Account Status</td>
                     <td>
-                        <input class="form-check-input" type="radio" name='active' value="active" checked>
+                        <input class="form-check-input" type="radio" name='accstatus' value="active" checked>
                         <label class="form-check-label" for="active">
                             Active
                         </label>
 
-                        <input class="form-check-input" type="radio" name='inactive' value="inactive">
+                        <input class="form-check-input" type="radio" name='accstatus' value="inactive">
                         <label class="form-check-label" for="inactive" >
                            Inactive
                         </label>

@@ -222,7 +222,7 @@ include 'check_user_login.php';
                         if ($password_empty == true) {
                             $password = $row['password'];
                         } else {
-                            $password = htmlspecialchars(strip_tags($_POST['password']));
+                            $password = htmlspecialchars(strip_tags(md5($_POST['password'])));
                         }
                         $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
                         $lastname = htmlspecialchars(strip_tags($_POST['lastname']));

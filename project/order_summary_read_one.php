@@ -49,7 +49,14 @@ include 'check_user_login.php';
             $stmt->execute();
             $count = $stmt->rowCount();
             if ($count > 0) {
-                echo "<table class='table table-hover table-responsive table-borderless w-50 border border-3'>";
+                echo "<table class='table table-hover table-responsive table-bordered'>
+
+                <tr>
+                <th class='col-4'> Product Name</td>
+                <th class='col-3 text-end'>Price Per Unit (RM)</td>
+                <th class='col-2 text-end'>Quantity</td>
+                <th class='col-3 text-end'>Total Price (RM)</td>
+                </tr>";
                 
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
@@ -57,22 +64,22 @@ include 'check_user_login.php';
                     echo "<tr>";
                     echo "<td class='col-4'>{$name}</td>";
                     $price = htmlspecialchars(number_format($price, 2, '.', ''));
-                    echo "<td class='col-3 text-center'>RM {$price}</td>";
-                    echo "<td class='col-2 text-center'><strong>X</strong> &nbsp&nbsp{$quantity}</td>";
+                    echo "<td class='col-3 text-end'>{$price}</td>";
+                    echo "<td class='col-2 text-end'><strong>X</strong> &nbsp&nbsp{$quantity}</td>";
                     $sum = htmlspecialchars(number_format($sum, 2, '.', ''));
-                    echo "<td class='col-3 text-end'>RM {$sum}</td>";
+                    echo "<td class='col-3 text-end'>{$sum}</td>";
                     echo "</tr>";
                 }
             }
-            echo "<tr class='border border-3'>";
-            echo "<td class='col-2' >Total Price</td>";
+            echo "<tr class='border border-5'>";
+            echo "<td class='col-2' >Total Price (RM)</td>";
             echo "<td colspan=4 class='text-end'>";
             $total_price = htmlspecialchars(round($total_price));
             $total_price = htmlspecialchars(number_format($total_price, 2, '.', ''));
-            echo "RM $total_price";
+            echo " $total_price";
             echo "</td></tr></table>";
-        } 
-           // show error
+        }
+        // show error
         catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
@@ -81,8 +88,8 @@ include 'check_user_login.php';
 
         <!-- HTML read one record table will be here -->
         <!--we have our html table here where the record will be displayed-->
-        <div class="w-50 d-flex justify-content-end">
-            <a href='order_summary.php' class='btn btn-danger'>Back to read Order Summary</a>
+        <div class="w-50 ">
+            <a href='order_summary.php' class='btn btn-danger'>Back to read order summary</a>
         </div>
 
 
