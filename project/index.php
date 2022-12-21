@@ -7,9 +7,11 @@ include 'check_user_login.php';
 <html>
 
 <head>
-<style>
-tr:nth-child(even) {background-color: #f2f2f2;}
-</style>
+    <style>
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
 
     <title>Home</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
@@ -99,18 +101,18 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
                 <!--we have our html table here where the record will be displayed-->
                 <h3>Latest Order</h1>
-                <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr class='bg-danger'>
-                        <th>Order ID</th>
-                        <th>Order Date</th>
-                        <th>Username</th>
-                    </tr>
-                    <tr>
-                        <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
-                        <td><?php echo htmlspecialchars($order_time, ENT_QUOTES);  ?></td>
-                        <td><?php echo htmlspecialchars($user, ENT_QUOTES);  ?></td>
-                    </tr>
-                </table>
+                    <table class='table table-hover table-responsive table-bordered text-center'>
+                        <tr class='bg-danger'>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                            <th>Username</th>
+                        </tr>
+                        <tr>
+                            <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
+                            <td><?php echo htmlspecialchars($order_time, ENT_QUOTES);  ?></td>
+                            <td><?php echo htmlspecialchars($user, ENT_QUOTES);  ?></td>
+                        </tr>
+                    </table>
             </div>
 
             <div class="container ">
@@ -119,13 +121,13 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                     //Highest Purchased Amount Order
                     $query = "SELECT *,sum(price*quantity) AS highest FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
 
-               
+
 
                     $stmt = $con->prepare($query);
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     extract($row);
-                    
+
 
                     ?>
                     <h3>Highest Purchased Amount Order</h3>
@@ -141,8 +143,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                             <td><?php echo htmlspecialchars($order_time, ENT_QUOTES);  ?></td>
                             <td><?php echo htmlspecialchars($user, ENT_QUOTES);  ?></td>
                             <td><?php $amount = htmlspecialchars(round($highest));
-                       
-                               $amount  = htmlspecialchars(number_format($highest, 2, '.', ''));
+
+                                $amount  = htmlspecialchars(number_format($highest, 2, '.', ''));
                                 echo "$highest";
                                 ?></td>
                         </tr>

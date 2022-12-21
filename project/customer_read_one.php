@@ -1,8 +1,8 @@
 <?php
 // include database connection
-    include 'check_user_login.php';
-    ?>
-    
+include 'check_user_login.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -17,8 +17,8 @@
 <body>
     <!-- container -->
     <div>
-    <?php include 'topnav.php'; ?>
-    
+        <?php include 'topnav.php'; ?>
+
         <div class="page-header">
             <h1>Read Customer</h1>
         </div>

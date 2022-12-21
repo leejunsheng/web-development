@@ -32,6 +32,13 @@ include 'check_user_login.php';
             //include database connection
             include 'config/database.php';
 
+            // delete message prompt will be here
+            $action = isset($_GET['action']) ? $_GET['action'] : "";
+            // if it was redirected from delete.php
+            if ($action == 'deleted') {
+                echo "<div class='alert alert-success'>Record was deleted.</div>";
+            }
+
             // read current record's data
             try {
                 // prepare select query
@@ -288,7 +295,9 @@ include 'check_user_login.php';
                         <td></td>
                         <td>
                             <input type='submit' value='Save Changes' class='btn btn-primary' />
-                            <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
+                            <a href='product_read.php' class='btn btn-secondary'>Back to read products</a>
+
+                            <?php echo "<a href='product_delete.php?id={$id}' onclick='delete_product({$id});'  class='btn btn-danger'>Delete</a> "; ?>
                         </td>
                     </tr>
                 </table>
@@ -297,6 +306,18 @@ include 'check_user_login.php';
         </div>
         <!-- end .container -->
     </div>
+
+    <script type='text/javascript'>
+        // confirm record deletion
+        function delete_product(id) {
+
+            if (confirm('Are you sure?')) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'product_delete.php?id=' + id;
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>

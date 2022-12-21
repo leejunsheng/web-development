@@ -30,12 +30,11 @@ try {
         } else {
             die('Unable to delete record.');
         }
-        
-    }else{
+    } else {
         $query = "DELETE FROM order_details WHERE detail_id =:detail_id";
         $stmt = $con->prepare($query);
         $stmt->bindParam(":detail_id", $id);
-    
+
         if ($stmt->execute()) {
             // redirect to read records page and
             // tell the user record was deleted
@@ -44,9 +43,6 @@ try {
             die('Unable to delete record.');
         }
     }
-
-
-    
 } catch (PDOException $exception) {
     die('ERROR: ' . $exception->getMessage());
 }

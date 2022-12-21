@@ -57,7 +57,7 @@ include 'check_user_login.php';
                 <th class='col-2 text-end'>Quantity</td>
                 <th class='col-3 text-end'>Total Price (RM)</td>
                 </tr>";
-                
+
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
                     $sum = $price * $quantity;

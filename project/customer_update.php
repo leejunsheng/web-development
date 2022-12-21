@@ -34,6 +34,13 @@ include 'check_user_login.php';
             //include database connection
             include 'config/database.php';
 
+            $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+            // if it was redirected from delete.php
+            if ($action == 'deleted') {
+                echo "<div class='alert alert-success'>Record was deleted.</div>";
+            }
+
             // read current record's data
             try {
                 // prepare select query
@@ -307,11 +314,11 @@ include 'check_user_login.php';
                     </tr>
                     <tr>
                         <td>New Password</td>
-                        <td><input type='text' name='password' class='form-control' /></td>
+                        <td><input type='password' name='password' class='form-control' /></td>
                     </tr>
                     <tr>
                         <td>Confirm Password</td>
-                        <td><input type='text' name='confirm_password' class='form-control' /></td>
+                        <td><input type='password' name='confirm_password' class='form-control' /></td>
                     </tr>
                     <tr>
                         <td>First Name</td>
@@ -324,7 +331,7 @@ include 'check_user_login.php';
                     <tr>
                         <td>Gender</td>
                         <td><input type='text' name='gender' value="<?php echo htmlspecialchars($gender, ENT_QUOTES);  ?>" class='form-control' />
-                    </td>
+                        </td>
                     </tr>
                     <tr>
                         <td>Date Of Birth</td>
@@ -333,12 +340,13 @@ include 'check_user_login.php';
                     <tr>
                         <td>Account Status</td>
                         <td><input type='text' name='accstatus' value="<?php echo htmlspecialchars($accstatus, ENT_QUOTES);  ?>" class='form-control' />
-                    </td>
+                        </td>
                     <tr>
                         <td></td>
                         <td>
                             <input type='submit' value='Save Changes' class='btn btn-primary' />
-                            <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
+                            <a href='customer_read.php' class='btn btn-secondary'>Back to read products</a>
+                            <?php echo "<a href='customer_delete.php?user_id={$user_id}' onclick='delete_customer({$user_id});'  class='btn btn-danger mx-2'>Delete</a>"; ?>
                         </td>
                     </tr>
                 </table>
@@ -347,6 +355,18 @@ include 'check_user_login.php';
         </div>
         <!-- end .container -->
     </div>
+
+    <!-- confirm delete record will be here -->
+    <script type='text/javascript'>
+        // confirm record deletion
+        function delete_customer(user_id) {
+            if (confirm('Are you sure?')) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'customer_delete.php?user_id=' + user_id;
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>

@@ -87,7 +87,7 @@ include 'check_user_login.php';
             </tr>
             <tr>
                 <td>Promotion Price (RM)</td>
-                <?php $promotion_price = number_format((float)$promotion_price, 2, '.', '');?>
+                <?php $promotion_price = number_format((float)$promotion_price, 2, '.', ''); ?>
                 <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
@@ -97,7 +97,7 @@ include 'check_user_login.php';
                     <?php echo "<a href='product_update.php?id={$id}' class='btn btn-primary'>Edit</a>"; ?>
                 </td>
 
-                
+
             </tr>
 
         </table>

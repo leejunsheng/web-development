@@ -24,7 +24,7 @@ include 'check_user_login.php';
 
         <!-- PHP insert code will be here -->
         <?php
-          $name = $description = $price = $promotion_price = $manufacture_date = $expired_date = "";
+        $name = $description = $price = $promotion_price = $manufacture_date = $expired_date = "";
 
         if ($_POST) {
             $name = $_POST["name"];
@@ -123,6 +123,8 @@ include 'check_user_login.php';
                         $error_msg .= "<div>Update the record to upload photo.</div>";
                         echo "</div>";
                     }
+                } elseif (empty($image)) {
+                    $image = "default.png";
                 }
             }
 
@@ -176,7 +178,7 @@ include 'check_user_login.php';
                 </tr>
                 <tr>
                     <td>Photo</td>
-                    <td><input type='file' name='image'/></td>
+                    <td><input type='file' name='image' /></td>
                 </tr>
                 <tr>
                     <td>Description</td>

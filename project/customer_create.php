@@ -85,7 +85,7 @@ include 'check_user_login.php';
                 $error_msg .= "<div class='alert alert-danger'>User need 18 years old and above</div>";
             }
 
-          
+
             // now, if image is not empty, try to upload the image
             if ($image) {
 
@@ -134,6 +134,8 @@ include 'check_user_login.php';
                         echo "</div>";
                     }
                 }
+            } elseif (empty($image)) {
+                $image = "profile_default.png";
             }
 
             if (!empty($error_msg)) {
@@ -214,7 +216,7 @@ include 'check_user_login.php';
                         </label>
 
                         <input class="form-check-input" type="radio" name='gender' value="Female">
-                        <label class="form-check-label" for="gender" >
+                        <label class="form-check-label" for="gender">
                             Female
                         </label>
                     </td>
@@ -233,8 +235,8 @@ include 'check_user_login.php';
                         </label>
 
                         <input class="form-check-input" type="radio" name='accstatus' value="inactive">
-                        <label class="form-check-label" for="inactive" >
-                           Inactive
+                        <label class="form-check-label" for="inactive">
+                            Inactive
                         </label>
                     </td>
                 </tr>
