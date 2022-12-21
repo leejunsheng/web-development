@@ -77,6 +77,7 @@ include 'check_user_login.php';
                 $image = !empty($_FILES["image"]["name"])
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                     : htmlspecialchars($image, ENT_QUOTES);
+
                 $error_msg = "";
 
                 if ($name == "" || $description == "" ||  $manufacture_date == "") {
@@ -202,7 +203,6 @@ include 'check_user_login.php';
                             // redirect to read records page and
                             // tell the user record was deleted
                             header("Location: product_read.php?update={$id}");
-                   
                         } else {
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                         }
@@ -232,14 +232,14 @@ include 'check_user_login.php';
                 $stmt->bindParam(':image', $image);
                 $stmt->bindParam(':id', $id);
                 // Execute the query
-            if ($stmt->execute()) {
-                // redirect to read records page and
-                // tell the user record was deleted
-                echo "<div class='alert alert-success'>Image delete sucessful!</div>";
-            } else {
-                echo "<div class='alert alert-danger'>Unable to delete image. Please try again.</div>";
+                if ($stmt->execute()) {
+                    // redirect to read records page and
+                    // tell the user record was deleted
+                    echo "<div class='alert alert-success'>Image delete sucessful!</div>";
+                } else {
+                    echo "<div class='alert alert-danger'>Unable to delete image. Please try again.</div>";
+                }
             }
-        }
             ?>
 
             <!--we have our html form here where new record information can be updated-->

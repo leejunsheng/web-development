@@ -88,15 +88,11 @@ include 'check_user_login.php';
                     echo "</td>";
                     echo "</tr>";
                 }
-
                 // end table
                 echo "</table>";
             } else {
                 echo "<div class='alert alert-danger'>No records found.</div>";
             }
-
-
-
             ?>
 
         </div> <!-- end .container -->

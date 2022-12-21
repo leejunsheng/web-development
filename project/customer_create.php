@@ -22,7 +22,11 @@ include 'check_user_login.php';
         <!-- html form to create product will be here -->
 
         <!-- PHP insert code will be here -->
+
+
         <?php
+        $user_name = $image = $firstname = $lastname =  $gender = $datebirth = $accstatus = "";
+
         if ($_POST) {
             $user_name = $_POST['username'];
             $pass_word = md5($_POST['password']);
@@ -42,59 +46,47 @@ include 'check_user_login.php';
             $image = !empty($_FILES["image"]["name"])
                 ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                 : "";
-            $flag = 0;
+
+            $error_msg = "";
 
             if ($user_name == "") {
-                echo "<div class='alert alert-danger'>Please make sure username are not empty</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure username are not empty</div>";
             } elseif (strlen($user_name) < 6) {
-                echo "<div class='alert alert-danger'>Please make sure uername not less than 6 character</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure uername not less than 6 character</div>";
             } elseif (preg_match('/[" "]/', $user_name)) {
-                echo "<div class='alert alert-danger'>Please make sure uername did not conatain space</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure uername did not conatain space</div>";
             }
 
             if ($pass_word == "") {
-                echo "<div class='alert alert-danger'>Please make sure password are not empty</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure password are not empty</div>";
             } elseif (strlen($pass_word) < 8) {
-                echo "<div class='alert alert-danger'>Please make sure password less than 8 character</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure password less than 8 character</div>";
             } elseif (!preg_match('/[a-z]/', $pass_word)) {
-                echo "<div class='alert alert-danger'>Please make sure password combine capital a-z</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure password combine capital a-z</div>";
             } elseif (!preg_match('/[0-9]/', $pass_word)) {
-                echo "<div class='alert alert-danger'>Please make sure password combine 0-9</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure password combine 0-9</div>";
             }
 
             if ($comfirm_pasword != $pass_word) {
-                echo "<div class='alert alert-danger'>Please make sure comfirm_password and password are same</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure comfirm_password and password are same</div>";
             }
 
             if ($firstname == "") {
                 echo "<div class='alert alert-danger'>Please make sure firstname are not empty</div>";
-                $flag = 1;
             }
 
             if ($lastname == "") {
-                echo "<div class='alert alert-danger'>Please make sure lastname are not empty</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure lastname are not empty</div>";
             }
 
             if ($datebirth == "") {
-                echo "<div class='alert alert-danger'>Please make sure birth date are not empty</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure birth date are not empty</div>";
             } elseif ($diff->format("%R%y") <= "18") {
-                echo "<div class='alert alert-danger'>User need 18 years old and above</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>User need 18 years old and above</div>";
             }
 
             if ($accstatus == "") {
-                echo "<div class='alert alert-danger'>Please make sure account status are not empty</div>";
-                $flag = 1;
+                $error_msg .= "<div class='alert alert-danger'>Please make sure account status are not empty</div>";
             }
 
             // now, if image is not empty, try to upload the image
@@ -119,9 +111,9 @@ include 'check_user_login.php';
                 }
 
                 // make sure file does not exist
-                //if (file_exists($target_file)) {
-                //    $error_msg .= "<div>Image already exists. Try to change file name.</div>";
-                //}
+                if (file_exists($target_file)) {
+                    $error_msg .= "<div>Image already exists. Try to change file name.</div>";
+                }
 
                 // make sure submitted file is not too large, can't be larger than 1 MB
                 if ($_FILES['image']['size'] > (1024000)) {
@@ -147,11 +139,11 @@ include 'check_user_login.php';
                 }
             }
 
-
-            if ($flag == 0) {
+            if (!empty($error_msg)) {
+                echo "<div class='alert alert-danger'>{$error_msg}</div>";
+            } else {
                 // include database connection
                 include 'config/database.php';
-
                 try {
                     // insert query
                     $query = "INSERT INTO customers SET username=:username, image=:image, password=:password, firstname=:firstname, lastname=:lastname,gender=:gender,datebirth=:datebirth,registration_dt=:registration_dt,accstatus=:accstatus";
@@ -191,13 +183,14 @@ include 'check_user_login.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='username' class='form-control' /></td>
-
+                    <td><input type='text' name='username' value='<?php echo $user_name ?>' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Photo</td>
-                    <div><td><input type="file" name="image" class="w-25"/></div></td>
-                  
+                    <td>Image</td>
+                    <div>
+                        <td><input type="file" name="image" value='<?php echo $image ?>' class="w-25" />
+                    </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>Password</td>
@@ -210,34 +203,44 @@ include 'check_user_login.php';
                 </tr>
                 <tr>
                     <td>First name</td>
-                    <td><input type='text' name='firstname' class='form-control' /></td>
+                    <td><input type='text' name='firstname' value='<?php echo $firstname ?>' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Last name</td>
-                    <td><input type='text' name='lastname' class='form-control' /></td>
+                    <td><input type='text' name='lastname' value='<?php echo $lastname ?>' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
                     <td>
-                        <input class="form-check-input" type="radio" name='gender' value="Male">
+                        <input class="form-check-input" type="radio" name='gender' value="Male" checked>
                         <label class="form-check-label" for="gender">
                             Male
                         </label>
 
                         <input class="form-check-input" type="radio" name='gender' value="Female">
-                        <label class="form-check-label" for="gender">
+                        <label class="form-check-label" for="gender" >
                             Female
                         </label>
                     </td>
                 </tr>
                 <tr>
                     <td>Datebirth</td>
-                    <td><input type='date' name='datebirth' class='form-control' />
+                    <td><input type='date' name='datebirth' value='<?php echo $datebirth ?>' class='form-control' />
                     </td>
                 </tr>
                 <tr>
                     <td>Account Status</td>
-                    <td><input type='text' name='accstatus' class='form-control' /></td>
+                    <td>
+                        <input class="form-check-input" type="radio" name='active' value="active" checked>
+                        <label class="form-check-label" for="active">
+                            Active
+                        </label>
+
+                        <input class="form-check-input" type="radio" name='inactive' value="inactive">
+                        <label class="form-check-label" for="inactive" >
+                           Inactive
+                        </label>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>

@@ -28,9 +28,20 @@ include 'check_user_login.php';
                 $user = $_POST['user'];
                 $product_id = $_POST['product_id'];
                 $quantity = $_POST['quantity'];
-                $flag = 0;
+                $error_msg = "";
 
-                if ($flag == 0) {
+                if ($user == "Select Customer Username") {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted username</div>";
+                }
+
+                if ($product_id == ["Select product"]) {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted product</div>";
+                }
+
+                if (!empty($error_msg)) {
+                    echo "<div class='alert alert-danger'>{$error_msg}</div>";
+                } else {
+                    // include database connection
                     include 'config/database.php';
                     try {
                         // insert query
@@ -97,8 +108,8 @@ include 'check_user_login.php';
                     <tr>
                         <td>Customer_username</td>
                         <td colspan="3">
-                            <select class="form-select form-select-lg mb-3" name="user" aria-label=".form-select-lg example">
-                                <option>Select Customer Username</option>
+                            <select class="form-select form-select mb-3" name="user" aria-label=".form-select example">
+                                <option>Please select username</option>
                                 <?php
                                 // include database connection
                                 include 'config/database.php';
@@ -123,15 +134,13 @@ include 'check_user_login.php';
                         </td>
                     </tr>
 
-
                     <!-- For loop product row -->
                     <?php
-
                     echo "<tr class=\"pRow\">
                     <td>Product</td>
                     <td class=\"d-flex \">
-                        <select class=\"form-select form-select-lg mb-3 col\" name=\"product_id[]\"  aria-label=\".form-select-lg example\">
-                            <option>Select product</option>";
+                        <select class=\"form-select form-select mb-3 col\" name=\"product_id[]\"  aria-label=\".form-select example\">
+                            <option>Please select product</option>";
                     $query = "SELECT id, name, price FROM products ORDER BY id DESC";
                     $stmt = $con->prepare($query);
                     $stmt->execute();
@@ -147,13 +156,7 @@ include 'check_user_login.php';
 
                     </td>
                     <td>Quantity</td>
-                        <td>
-                            <select class=\"form-select form-select-lg mb-3\" name=\"quantity[]\" aria-label=\".form-select-lg example\">
-                            <option value=1>1</option>
-                            <option value=2>2</option>
-                            <option value=3>3</option>
-                            </select>
-                        </td>
+                        <td><input type='number' name='quantity[]' value='1' class='form-control' /></td>
                 </tr>";
                     ?>
 
@@ -192,24 +195,6 @@ include 'check_user_login.php';
                 }
             }, false);
         </script>
-
-<button type="button" onclick="checkDuplicate()">Check duplicate product</button>
-
-        <script>
-         function checkDuplicate(){
-            var newarray = [];
-            var selects= document.getElementsByTagName('select');
-            for (var i= 0; i<selects.length; i++){
-                newarray.push(select[i].value);
-            }
-            if(newerray.length !== new Set(newarray).size){
-                alert ("There are duplicate eitem in the array");
-            }else{
-                document.getElementById("myForm").submut();
-            }
-         }
-        </script>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
         </script>
 </body>

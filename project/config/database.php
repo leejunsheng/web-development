@@ -16,14 +16,14 @@
 // used to connect to the database
 $host = "localhost";
 $db_name = "eshop";
-$username = "eshop";
+$user_name = "eshop";
 $pass_word = "eshop2250159";
 
-
+    
 
 try {
-    $conn = mysqli_connect($host, $username, $pass_word ,$db_name);
-    $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $pass_word);
+   
+    $con = new PDO("mysql:host={$host};dbname={$db_name}", $user_name, $pass_word);
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // show error
 }
 

@@ -57,6 +57,7 @@ include 'check_user_login.php';
                 $lastname = $row['lastname'];
                 $gender = $row['gender'];
                 $datebirth = $row['datebirth'];
+                $accstatus = $row['accstatus'];
             }
 
             // show error
@@ -86,18 +87,14 @@ include 'check_user_login.php';
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                     : htmlspecialchars($image, ENT_QUOTES);
 
-                $flag = 0;
                 $error_msg = "";
 
                 if ($user_name == "") {
-                    echo "<div class='alert alert-danger'>Please make sure username are not empty </div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure username are not empty </div>";
                 } elseif (strlen($user_name) < 6) {
-                    echo "<div class='alert alert-danger'>Please make sure uername not less than 6 character </div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure uername not less than 6 character </div>";
                 } elseif (preg_match('/[" "]/', $user_name)) {
-                    echo "<div class='alert alert-danger'> Please make sure uername did not conatain space </div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'> Please make sure uername did not conatain space </div>";
                 }
 
 
@@ -107,63 +104,53 @@ include 'check_user_login.php';
                 } else {
                     if ($row['password'] == $old_password) {
                         if ($pass_word == "") {
-                            echo "<div class='alert alert-danger'>Please make sure password are not empty </div>";
-                            $flag = 1;
+                            $error_msg .= "<div class='alert alert-danger'>Please make sure password are not empty </div>";
                         } elseif (strlen($pass_word) < 8) {
-                            echo "<div class='alert alert-danger'>Please make sure password less than 8 character </div>";
-                            $flag = 1;
+                            $error_msg .= "<div class='alert alert-danger'>Please make sure password less than 8 character </div>";
                         } elseif (!preg_match('/[a-z]/', $pass_word)) {
-                            echo "<div class='alert alert-danger'> Please make sure password combine capital a-z </div>";
-                            $flag = 1;
+                            $error_msg .= "<div class='alert alert-danger'> Please make sure password combine capital a-z </div>";
                         } elseif (!preg_match('/[0-9]/', $pass_word)) {
-                            echo " <div class='alert alert-danger'> Please make sure password combine 0-9 </div>";
-                            $flag = 1;
+                            $error_msg .= " <div class='alert alert-danger'> Please make sure password combine 0-9 </div>";
                         }
 
                         if ($old_password == $pass_word) {
-                            echo "<div class='alert alert-danger'>Please make sure Old Password cannot same with New Password.</div>";
-                            $flag = 1;
+                            $error_msg .= "<div class='alert alert-danger'>Please make sure Old Password cannot same with New Password.</div>";
                         }
                         if ($old_password != "" && $password != "" && $confirm_password == "") {
-                            echo "<div class='alert alert-danger'>Please make sure confirm password are not empty</div>";
-                            $flag = 1;
+                            $error_msg .= "<div class='alert alert-danger'>Please make sure confirm password are not empty</div>";
                         }
                         if ($pass_word != $confirm_password) {
-                            echo "<div class='alert alert-danger'>Please make sure Confirm Password and New Password are same</div>";
-                            $flag = 1;
+                            $error_msg .= "<div class='alert alert-danger'>Please make sure Confirm Password and New Password are same</div>";
                         }
                     } else {
-                        echo "<div class='alert alert-danger'>Wrong Old Password</div>";
-                        $flag = 1;
+                        $error_msg .= "<div class='alert alert-danger'>Wrong Old Password</div>";
                     }
                 }
 
                 if ($firstname == "") {
-                    echo "<div class='alert alert-danger'>Please enter your first name</div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please enter your first name</div>";
                 }
 
                 if ($lastname == "") {
-                    echo "<div class='alert alert-danger'>Please enter your last name</div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please enter your last name</div>";
                 }
 
                 if ($gender == "") {
-                    echo "<div class='alert alert-danger'>Please select your gender</div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please select your gender</div>";
                 }
 
                 if ($datebirth == "") {
-                    echo "<div class='alert alert-danger'>Please select your date of birth</div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please select your date of birth</div>";
                 }
 
                 if ($datebirth == "") {
-                    echo "<div class='alert alert-danger'>Please make sure birth date are not empty </div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure birth date are not empty </div>";
                 } elseif ($diff->format("%R%y") <= "18") {
-                    echo "<div class='alert alert-danger'> User need 18 years old and above </div>";
-                    $flag = 1;
+                    $error_msg .= "<div class='alert alert-danger'> User need 18 years old and above </div>";
+                }
+
+                if ($accstatus == "") {
+                    $error_msg .= "<div class='alert alert-danger'>Please make sure account status are not empty</div>";
                 }
 
                 // now, if image is not empty, try to upload the image
@@ -217,13 +204,16 @@ include 'check_user_login.php';
                     $image = "profile_default.png";
                 }
 
-                if ($flag == 0) {
-
+                if (!empty($error_msg)) {
+                    echo "<div class='alert alert-danger'>{$error_msg}</div>";
+                } else {
+                    // include database connection
+                    include 'config/database.php';
                     try {
                         // write update query
                         // in this case, it seemed like we have so many fields to pass and
                         // it is better to label them and not use question marks
-                        $query = "UPDATE customers SET username=:username, image=:image, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, datebirth=:datebirth WHERE user_id = :user_id";
+                        $query = "UPDATE customers SET username=:username, image=:image, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, datebirth=:datebirth, accstatus=:accstatus WHERE user_id = :user_id";
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
                         // posted values
@@ -238,6 +228,7 @@ include 'check_user_login.php';
                         $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
                         $gender = htmlspecialchars(strip_tags($_POST['gender']));
                         $datebirth = htmlspecialchars(strip_tags($_POST['datebirth']));
+                        $accstatus = htmlspecialchars(strip_tags($_POST['accstatus']));
 
 
                         // bind the parameters
@@ -249,6 +240,7 @@ include 'check_user_login.php';
                         $stmt->bindParam(':gender', $gender);
                         $stmt->bindParam(':datebirth', $datebirth);
                         $stmt->bindParam(':user_id', $user_id);
+                        $stmt->bindParam(':accstatus', $accstatus);
                         // Execute the query
                         if ($stmt->execute()) {
                             echo "<div class='alert alert-success'>Record was updated.</div>";
@@ -300,7 +292,7 @@ include 'check_user_login.php';
                         <td>
                             <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
                             <div><input type="file" name="image" value="<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></div>
-                            
+
 
                             <?php
                             if ($image != "profile_default.png") {
@@ -331,12 +323,17 @@ include 'check_user_login.php';
                     </tr>
                     <tr>
                         <td>Gender</td>
-                        <td><input type='text' name='gender' value="<?php echo htmlspecialchars($gender, ENT_QUOTES);  ?>" class='form-control' /></td>
+                        <td><input type='text' name='gender' value="<?php echo htmlspecialchars($gender, ENT_QUOTES);  ?>" class='form-control' />
+                    </td>
                     </tr>
                     <tr>
                         <td>Date Of Birth</td>
                         <td><input type='date' name='datebirth' value="<?php echo htmlspecialchars($datebirth, ENT_QUOTES);  ?>" /></td>
                     </tr>
+                    <tr>
+                        <td>Account Status</td>
+                        <td><input type='text' name='accstatus' value="<?php echo htmlspecialchars($accstatus, ENT_QUOTES);  ?>" class='form-control' />
+                    </td>
                     <tr>
                         <td></td>
                         <td>

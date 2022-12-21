@@ -117,7 +117,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                 <div class="col-lg-5 ">
                     <?php
                     //Highest Purchased Amount Order
-                    $query = "SELECT *,sum(price*quantity) AS HIGHEST FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
+                    $query = "SELECT *,sum(price*quantity) AS highest FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
 
                
 
@@ -140,8 +140,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                             <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
                             <td><?php echo htmlspecialchars($order_time, ENT_QUOTES);  ?></td>
                             <td><?php echo htmlspecialchars($user, ENT_QUOTES);  ?></td>
-                            <td><?php $amount = htmlspecialchars(round($HIGHEST), ENT_QUOTES);
-                                echo "RM $HIGHEST";
+                            <td><?php $amount = htmlspecialchars(round($highest));
+                       
+                               $amount  = htmlspecialchars(number_format($highest, 2, '.', ''));
+                                echo "RM $highest";
                                 ?></td>
                         </tr>
                     </table>
@@ -184,7 +186,6 @@ tr:nth-child(even) {background-color: #f2f2f2;}
                         }
                         echo "</table>";
                     }
-
                     ?>
                 </div>
             </div>
