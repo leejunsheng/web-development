@@ -90,7 +90,7 @@ include 'check_user_login.php';
             if ($image) {
 
                 // upload to file to folder
-                $target_directory = "uploads/";
+                $target_directory = "uploads/customer/";
                 $target_file = $target_directory . $image;
                 $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 

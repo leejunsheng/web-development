@@ -74,7 +74,7 @@ include 'check_user_login.php';
             <tr>
                 <td>Images</td>
                 <td>
-                    <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25 mb-2"></div>
+                    <div><img src="uploads/product/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25 mb-2"></div>
                 </td>
             </tr>
             <tr>

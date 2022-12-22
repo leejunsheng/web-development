@@ -127,7 +127,7 @@ include 'check_user_login.php';
                 // now, if image is not empty, try to upload the image
                 if ($_FILES["image"]["name"]) {
                     // upload to file to folder
-                    $target_directory = "uploads/";
+                    $target_directory = "uploads/product/";
                     $target_file = $target_directory . $image;
                     $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
@@ -174,7 +174,6 @@ include 'check_user_login.php';
                 } elseif (empty($image)) {
                     $image = "default.png";
                 }
-
 
                 if (!empty($error_msg)) {
                     echo "<div class='alert alert-danger'>{$error_msg}</div>";
@@ -228,11 +227,11 @@ include 'check_user_login.php';
                 $image = !empty($_FILES["image"]["name"])
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                     : "";
-                $target_directory = "uploads/";
+                $target_directory = "uploads/product//";
                 $target_file = $target_directory . $image;
                 $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
-                unlink("uploads/" . $row['image']);
+                unlink("uploads/product/" . $row['image']);
                 $query = "UPDATE products SET image=:image WHERE id = :id";
                 // prepare query for excecution
                 $stmt = $con->prepare($query);
@@ -259,7 +258,7 @@ include 'check_user_login.php';
                     <tr>
                         <td>Image</td>
                         <td>
-                            <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
+                            <div><img src="uploads/product/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
                             <div><input type="file" name="image" value="<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></div>
 
                             <?php

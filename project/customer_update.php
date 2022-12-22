@@ -163,7 +163,7 @@ include 'check_user_login.php';
                 // now, if image is not empty, try to upload the image
                 if ($_FILES["image"]["name"]) {
                     // upload to file to folder
-                    $target_directory = "uploads/";
+                    $target_directory = "uploads/customer/";
                     $target_file = $target_directory . $image;
                     $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 

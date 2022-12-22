@@ -90,7 +90,7 @@ include 'check_user_login.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
-                echo "<td class='w-25'><div'><img src='uploads/$image ?>' class='w-25'></div> </td>";
+                echo "<td class='w-25'><div'><img src='uploads/product/$image ?>' class='w-25'></div> </td>";
                 echo "<td>{$description}</td>";
                 $format_price = number_format((float)$price, 2, '.', '');
                 echo "<td class='text-end'>{$format_price}</td>";
