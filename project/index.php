@@ -136,7 +136,7 @@ include 'check_user_login.php';
                             <th>Order ID</th>
                             <th>Order Date</th>
                             <th>Username</th>
-                            <th>Highest Amount</th>
+                            <th>Highest Amount (RM)</th>
                         </tr>
                         <tr>
                             <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?></td>
@@ -157,7 +157,7 @@ include 'check_user_login.php';
                     $stmt->execute();
                     $count = $stmt->rowCount();
                     if ($count > 0) {
-                        echo "<h3>Top 5 Selling Product</h1>";
+                        echo "<h3>Top 5 Selling Products</h1>";
                         echo "<table class='table  table-hover table-responsive table-bordered text-center'>";
                         echo "<tr class='bg-danger'><th>Product Name</th>
                         <th>Quantity</th></tr>";
@@ -177,7 +177,7 @@ include 'check_user_login.php';
                     $stmt->execute();
                     $count = $stmt->rowCount();
                     if ($count > 0) {
-                        echo "<h3>3 Products that never purchased</h1>";
+                        echo "<h3>3 Products That Never Purchased</h1>";
                         echo "<table class='table  table-hover table-responsive table-bordered text-center'>";
                         echo "<tr class='bg-danger'><th>Product Name</th>";
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

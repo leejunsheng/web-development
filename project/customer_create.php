@@ -164,7 +164,7 @@ include 'check_user_login.php';
 
                     // Execute the query
                     if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header("Location: customer_read.php?action=created");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }

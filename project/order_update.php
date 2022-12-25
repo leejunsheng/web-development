@@ -30,7 +30,6 @@ include 'check_user_login.php';
             $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : die('ERROR: Record ID not found.');
 
             if ($_POST) {
-
                 $user = $_POST['user'];
                 $product_id = $_POST['product_id'];
                 $quantity = $_POST['quantity'];
@@ -51,7 +50,6 @@ include 'check_user_login.php';
                 if (!empty($error_message)) {
                     echo "<div class='alert alert-danger'>{$error_message}</div>";
                 } else {
-
                     try {
                         // insert query
                         $query = "UPDATE order_summary SET user=:user, order_time=:order_time WHERE order_id=:order_id";
@@ -63,12 +61,15 @@ include 'check_user_login.php';
                         $stmt->bindParam(':order_time', $order_time);
                         $stmt->bindParam(':order_id', $order_id);
 
-                        // Execute the query
+                        // Execute the query and delete existing order details
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Your order is updated.</div>";
+                            // echo "<div class='alert alert-success'>Your order is updated.</div>";
+
                             $query = "DELETE FROM order_details WHERE order_id=:order_id";
                             $stmt = $con->prepare($query);
                             $stmt->bindParam(':order_id', $order_id);
+
+                            // insert new order details
                             if ($stmt->execute()) {
                                 $purchased = 0;
                                 for ($count = 0; $count < count($product_id); $count++) {
@@ -81,9 +82,11 @@ include 'check_user_login.php';
                                         $stmt->bindParam(':order_id', $order_id);
                                         $stmt->bindParam(':product_id', $product_id[$count]);
                                         $stmt->bindParam(':quantity', $quantity[$count]);
-                                        //echo $product_id[$count];
+
+
                                         // Execute the query
                                         $record_number = $count + 1;
+
                                         if ($stmt->execute()) {
                                             $purchased++;
                                         } else {
@@ -95,9 +98,15 @@ include 'check_user_login.php';
                                         die('ERROR: ' . $exception->getMessage());
                                     }
                                 }
+
+                                // check if all records were inserted successfully
                                 if ($purchased == count($product_id)) {
                                     echo "header";
+                                } else {
+                                    echo "<div class='alert alert-danger'>Not all product have been purchased .</div>";
                                 }
+                            } else {
+                                echo "<div class='alert alert-danger'>Unable to delete existing order details</div>";
                             }
                         } else {
                             echo "<div class='alert alert-danger'>Unable to save record.</div>";
@@ -109,6 +118,7 @@ include 'check_user_login.php';
                     }
                 }
             }
+
             try {
                 // prepare select query
                 $query = "SELECT * FROM order_summary WHERE order_summary.order_id =:order_id";
@@ -211,19 +221,17 @@ include 'check_user_login.php';
             }
 
         }, false);
-    </script>
 
-    <script>
         function deleteRow(r) {
             var total = document.querySelectorAll('.pRow').length;
             if (total > 1) {
                 var i = r.parentNode.parentNode.rowIndex;
                 document.getElementById("delete_row").deleteRow(i);
+            } else {
+                alert("Product row must at least one");
             }
         }
-    </script>
 
-    <script>
         function checkDuplicate(event) {
             var newarray = [];
             var selects = document.getElementsByTagName('select');
@@ -236,7 +244,7 @@ include 'check_user_login.php';
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>
 

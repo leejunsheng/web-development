@@ -4,14 +4,14 @@
 
 <?php
 // used to connect to the database
-$host = "localhost";
-$db_name = "eshop";
-$dbuser_name = "eshop";
-$dbpass_word = "eshop2250159";
+$host = "sql109.epizy.com";
+$db_name = "epiz_33245137_eshop";
+$username = "epiz_33245137";
+$password = "RYGTRraeS4bN";
 
 try {
    
-    $con = new PDO("mysql:host={$host};dbname={$db_name}", $dbuser_name, $dbpass_word);
+    $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // show error
 }
 

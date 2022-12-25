@@ -7,13 +7,10 @@ include 'check_user_login.php';
 <html>
 
 <head>
-
     <title>Update Customer Profile</title>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -250,7 +247,8 @@ include 'check_user_login.php';
                         $stmt->bindParam(':accstatus', $accstatus);
                         // Execute the query
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                            //echo "<div class='alert alert-success'>Record was updated.</div>";
+                            header("Location: customer_read.php?update={$user_id}");
                         } else {
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                         }
@@ -297,7 +295,7 @@ include 'check_user_login.php';
                     <tr>
                         <td>Image</td>
                         <td>
-                            <div><img src="uploads/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
+                            <div><img src="uploads/customer/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25"></div>
                             <div><input type="file" name="image" value="<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" /></div>
 
 
@@ -330,24 +328,43 @@ include 'check_user_login.php';
                     </tr>
                     <tr>
                         <td>Gender</td>
-                        <td><input type='text' name='gender' value="<?php echo htmlspecialchars($gender, ENT_QUOTES);  ?>" class='form-control' />
+                        <td>
+                            <input class="form-check-input" type="radio" name='gender' value="Male" checked>
+                            <label class="form-check-label" for="gender">
+                                Male
+                            </label>
+
+                            <input class="form-check-input" type="radio" name='gender' value="Female">
+                            <label class="form-check-label" for="gender">
+                                Female
+                            </label>
                         </td>
                     </tr>
                     <tr>
                         <td>Date Of Birth</td>
                         <td><input type='date' name='datebirth' value="<?php echo htmlspecialchars($datebirth, ENT_QUOTES);  ?>" /></td>
                     </tr>
+
                     <tr>
                         <td>Account Status</td>
-                        <td><input type='text' name='accstatus' value="<?php echo htmlspecialchars($accstatus, ENT_QUOTES);  ?>" class='form-control' />
-                        </td>
-                    <tr>
-                        <td></td>
                         <td>
-                            <input type='submit' value='Save Changes' class='btn btn-primary' />
-                            <a href='customer_read.php' class='btn btn-secondary'>Back to read products</a>
-                            <?php echo "<a href='customer_delete.php?user_id={$user_id}' onclick='delete_customer({$user_id});'  class='btn btn-danger mx-2'>Delete</a>"; ?>
+                            <input class="form-check-input" type="radio" name='accstatus' value="active" checked>
+                            <label class="form-check-label" for="active">
+                                Active
+                            </label>
+
+                            <input class="form-check-input" type="radio" name='accstatus' value="inactive">
+                            <label class="form-check-label" for="inactive">
+                                Inactive
+                            </label>
                         </td>
+                    </tr>
+                    <td></td>
+                    <td>
+                        <input type='submit' value='Save Changes' class='btn btn-primary' />
+                        <a href='customer_read.php' class='btn btn-secondary'>Back to read products</a>
+                        <?php echo "<a href='customer_delete.php?user_id={$user_id}' onclick='delete_customer({$user_id});'  class='btn btn-danger mx-2'>Delete</a>"; ?>
+                    </td>
                     </tr>
                 </table>
             </form>
@@ -367,7 +384,7 @@ include 'check_user_login.php';
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>
 

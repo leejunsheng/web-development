@@ -12,7 +12,6 @@ include 'check_user_login.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </head>
 
 <body>
@@ -29,12 +28,25 @@ include 'check_user_login.php';
         // include database connection
         include 'config/database.php';
 
+        if (isset($_GET['update'])) {
+            echo "<div class='alert alert-success'>Record was saved.</div>";
+        }
+
+
         // delete message prompt will be here
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
         // if it was redirected from delete.php
+        if ($action == 'created') {
+            echo "<div class='alert alert-success'>Customer was create successfully.</div>";
+        }
+
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
+        }
+
+        if ($action == 'faildelete') {
+            echo "<div class='alert alert-success'>The customer is unable to delete.</div>";
         }
 
         // select all data

@@ -15,7 +15,6 @@ include 'check_user_login.php';
 </head>
 
 <body>
-
     <div class="container-fluid px-0">
         <?php include 'topnav.php'; ?>
 
@@ -108,13 +107,14 @@ include 'check_user_login.php';
                     $error_msg .= "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
                 } elseif ($promotion_price > 1000) {
                     $error_msg .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
-                } elseif ($promotion_price > $price) {
+                } elseif ($promotion_price >= $price) {
                     $error_msg .= "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
-                }
+                } 
 
                 if ($expired_date == "") {
                     $expired_date = NULL;
-                } else {
+                } 
+                else {
                     $date1 = date_create($manufacture_date);
                     $date2 = date_create($expired_date);
                     $diff = date_diff($date1, $date2);
@@ -178,6 +178,16 @@ include 'check_user_login.php';
                 if (!empty($error_msg)) {
                     echo "<div class='alert alert-danger'>{$error_msg}</div>";
                 } else {
+                    if ($expired_date == NULL) {
+                        $expired_date = NULL;
+                    } else {
+                        $expired_date = $_POST['expired_date'];
+                    }
+                    if ($promotion_price == NULL) {
+                        $promotion_price = NULL;
+                    } else {
+                        $promotion_price = $_POST['promotion_price'];
+                    }
                     try {
                         // write update query
                         // in this case, it seemed like we have so many fields to pass and
@@ -208,7 +218,7 @@ include 'check_user_login.php';
                         if ($stmt->execute()) {
                             // redirect to read records page and
                             // tell the user record was deleted
-                            header("Location: product_read.php?update={$id}");
+                            echo "<div class='alert alert-success'>Record was saved.</div>";
                         } else {
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                         }
@@ -241,7 +251,7 @@ include 'check_user_login.php';
                 if ($stmt->execute()) {
                     // redirect to read records page and
                     // tell the user record was deleted
-                    echo "<div class='alert alert-success'>Image delete sucessful!</div>";
+                    $error_msg .= "<div class='alert alert-success'>Image delete sucessful!</div>";
                 } else {
                     echo "<div class='alert alert-danger'>Unable to delete image. Please try again.</div>";
                 }
@@ -294,14 +304,13 @@ include 'check_user_login.php';
                         <td></td>
                         <td>
                             <input type='submit' value='Save Changes' class='btn btn-primary' />
-                            <a href='product_read.php' class='btn btn-secondary'>Back to read products</a>
+                            <a href='product_read.php' class='btn btn-secondary'>Back to read customers</a>
 
                             <?php echo "<a href='product_delete.php?id={$id}' onclick='delete_product({$id});'  class='btn btn-danger'>Delete</a> "; ?>
                         </td>
                     </tr>
                 </table>
             </form>
-
         </div>
         <!-- end .container -->
     </div>
@@ -317,7 +326,7 @@ include 'check_user_login.php';
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>
 

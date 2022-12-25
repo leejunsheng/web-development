@@ -22,6 +22,7 @@ include 'check_user_login.php';
             <h1>Contact Us</h1>
         </div>
     </div>
+ 
     <div class="container">
         <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
             <div class="mb-3">
@@ -42,11 +43,14 @@ include 'check_user_login.php';
                 <td>
                     <input type='submit' value='Save' class='btn btn-primary mx-2' />
 
+
+
                     <a href='index.php' class='btn btn-danger'>Back to home</a>
                 </td>
             </div>
         </form>
     </div>
+
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>

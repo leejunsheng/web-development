@@ -17,7 +17,7 @@ include 'check_user_login.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+
 </head>
 
 <body>
@@ -90,7 +90,7 @@ include 'check_user_login.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
-                echo "<td class='w-25'><div'><img src='uploads/product/$image ?>' class='w-25'></div> </td>";
+                echo "<td class='w-25'><div'><img src='uploads/product/$image?>' class='w-25'></div> </td>";
                 echo "<td>{$description}</td>";
                 $format_price = number_format((float)$price, 2, '.', '');
                 echo "<td class='text-end'>{$format_price}</td>";
@@ -114,14 +114,12 @@ include 'check_user_login.php';
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
         ?>
-
     </div> <!-- end .container -->
 
     <!-- confirm delete record will be here -->
     <script type='text/javascript'>
         // confirm record deletion
         function delete_product(id) {
-
             if (confirm('Are you sure?')) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query
