@@ -2,6 +2,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE html>
 
 <html>
@@ -17,7 +19,7 @@ include 'check_user_login.php';
 
     <div class="container-fluid px-0">
 
-        <?php include 'topnav.php'; ?>
+
 
         <div class="container">
             <div class="page-header">
@@ -290,7 +292,7 @@ include 'check_user_login.php';
                 <table class='table table-hover table-responsive table-bordered'>
                     <tr>
                         <td>Username</td>
-                        <td><input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' /></td>
+                        <td><input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' disabled /></td>
                     </tr>
                     <tr>
                         <td>Image</td>

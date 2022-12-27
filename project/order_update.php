@@ -2,6 +2,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE html>
 
 <html>
@@ -16,7 +18,7 @@ include 'check_user_login.php';
 
 <body>
     <div class="container-fluid px-0">
-        <?php include 'topnav.php'; ?>
+
 
         <div class="container">
             <div class="page-header">
@@ -187,7 +189,7 @@ include 'check_user_login.php';
                             }
                             echo "<td class='col-3'>Quantity</td>
                             <td class='col-3'>
-                            <input type='number' name='quantity[]' value='$quantity' class='form-control' /></td>
+                            <input type='number' name='quantity[]' value='$quantity' class='form-control' min='1' /></td>
                             <td><input type='button' value='Delete' class='btn btn-danger mt-2' onclick='deleteRow(this)'></td>
                             </tr>";
                         }

@@ -3,6 +3,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -15,8 +17,6 @@ include 'check_user_login.php';
 </head>
 
 <body>
-    <?php include 'topnav.php'; ?>
-
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -72,11 +72,30 @@ include 'check_user_login.php';
                 }
             }
             echo "<tr class='border border-5'>";
-            echo "<td class='col-2' >Total Price (RM)</td>";
+            echo "<td class='col-2'>SubTotal (RM)</td>";
+            echo "<td colspan=2></td>";
             echo "<td colspan=4 class='text-end'>";
-            $total_price = htmlspecialchars(round($total_price));
-            $total_price = htmlspecialchars(number_format($total_price, 2, '.', ''));
-            echo " $total_price";
+            $total_price = (number_format($total_price, 2, '.', ''));
+            echo "$total_price";
+            echo "</td></tr>";
+
+            /*
+            echo "<tr class='border border-5'>";
+            echo "<td class='col-2' >Rounded off amount (RM)</td>";
+            echo "<td colspan=2></td>";
+            echo "<td colspan = 4 class='text-end'>";
+            $rounded_total_price = round($total_price, 1);
+            $difference = $rounded_total_price - $total_price;
+            $difference = number_format($difference, 2, '.', '');
+            echo "$difference"; */
+
+            echo "<tr class='border border-5'>";
+            echo "<td class='col-2' >Total Price (RM)</td>";
+            echo "<td colspan=2></td>";
+            echo "<td colspan = 4 class='text-end'>";
+            $total_price = round($total_price, 1);
+            $total_price = number_format($total_price, 2, '.', '');
+            echo "$total_price";
             echo "</td></tr></table>";
         }
         // show error
@@ -89,6 +108,8 @@ include 'check_user_login.php';
         <!-- HTML read one record table will be here -->
         <!--we have our html table here where the record will be displayed-->
         <div class="w-50 ">
+            <?php echo " <a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em mx-2 mx-2'>Edit</a>"; ?>
+
             <a href='order_summary.php' class='btn btn-danger'>Back to read order summary</a>
         </div>
 

@@ -10,6 +10,7 @@ session_start();
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
@@ -18,47 +19,49 @@ session_start();
     <!-- container -->
     <div class="bg-danger vh-100">
         <div class="d-flex justify-content-center align-item-center">
+
             <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
                 <div class="card bg-dark text-white rounded-3 ">
                     <div class="card-body p-5 text-center">
-                        <div class="mb-md-5 mt-md-4 pb-5">
-                            <?php
-                            // include database connection
-                            include 'config/database.php';
-                            if (isset($_POST['username']) && isset($_POST['password'])) {
+                        <?php
+                        // include database connection
+                        include 'config/database.php';
+                        if (isset($_POST['username']) && isset($_POST['password'])) {
 
-                                $username = ($_POST['username']);
-                                $password = ($_POST['password']);
-                                $query = " SELECT * FROM customers WHERE username = '$username'";
-                                $stmt = $con->prepare($query);
-                                $stmt->execute();
-                                $num = $stmt->rowCount();
-                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $username = ($_POST['username']);
+                            $password = ($_POST['password']);
+                            $query = " SELECT * FROM customers WHERE username = '$username'";
+                            $stmt = $con->prepare($query);
+                            $stmt->execute();
+                            $num = $stmt->rowCount();
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                                if ($num == 1) {
-                                    if ($row['password'] == $password) {
-                                        if ($row['accstatus'] != "active") {
-                                            echo "<div class='alert alert-danger'>Your Account is suspended.</div>";
-                                        } else {
-                                            $_SESSION["login"] = $username;
-                                            $_SESSION['username'] = $username;
-                                            $_SESSION['user_id'] = $user_id;
-
-                                            header("Location: index.php");
-                                        }
+                            if ($num == 1) {
+                                if ($row['password'] == $password) {
+                                    if ($row['accstatus'] != "active") {
+                                        echo "<div class='alert alert-danger'>Your Account is suspended.</div>";
                                     } else {
-                                        echo "<div class='alert alert-danger'>Incorrect Password.</div>";
+                                        $_SESSION["login"] = $username;
+                                        $_SESSION['username'] = $username;
+                                        $_SESSION['user_id'] = $user_id;
+
+                                        header("Location: index.php");
                                     }
                                 } else {
-                                    echo "<div class='alert alert-danger'>User not found.</div>";
+                                    echo "<div class='alert alert-danger'>Incorrect Password.</div>";
                                 }
-                            };
-                            ?>
+                            } else {
+                                echo "<div class='alert alert-danger'>User not found.</div>";
+                            }
+                        };
+                        ?>
 
-                            <?php if ($_GET) {
-                                echo "<div class='alert alert-danger'>Please make sure you are login.</div>";
-                            } ?>
+                        <?php if ($_GET) {
+                            echo "<div class='alert alert-danger'>Please make sure you are login.</div>";
+                        }
+                        ?>
 
+                        <div class="mb-md-5 mt-md-4 pb-5">
                             <h2 class="fw-bold mb-2">Login</h2>
                             <p class="text-white-50 mb-5">Please enter your username and password!</p>
 

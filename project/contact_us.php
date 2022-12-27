@@ -3,6 +3,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -16,13 +18,12 @@ include 'check_user_login.php';
 
 
 <body>
-    <?php include 'topnav.php'; ?>
     <div class=" text-center bg-light">
         <div class="col-md-5 p-lg-5 mx-auto">
             <h1>Contact Us</h1>
         </div>
     </div>
- 
+
     <div class="container">
         <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
             <div class="mb-3">

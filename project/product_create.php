@@ -3,6 +3,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -18,7 +20,7 @@ include 'check_user_login.php';
 <body>
     <!-- container -->
     <div>
-        <?php include 'topnav.php'; ?>
+
 
         <!-- html form to create product will be here -->
 
@@ -123,9 +125,9 @@ include 'check_user_login.php';
                         $error_msg .= "<div>Update the record to upload photo.</div>";
                         echo "</div>";
                     }
-                } elseif (empty($image)) {
-                    $image = "default.png";
                 }
+            } elseif (empty($image)) {
+                $image = "default.png";
             }
 
             if (!empty($error_msg)) {

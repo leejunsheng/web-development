@@ -3,6 +3,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -17,7 +19,7 @@ include 'check_user_login.php';
 <body>
     <!-- container -->
     <div>
-        <?php include 'topnav.php'; ?>
+
 
         <div class="page-header">
             <h1>Read Product</h1>
@@ -48,13 +50,8 @@ include 'check_user_login.php';
             // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // values to fill up our form
-            $name = $row['name'];
-            $description = $row['description'];
-            $price = $row['price'];
-            $image = $row['image'];
-            $promotion_price = $row['promotion_price'];
             // shorter way to do that is extract($row)
+            extract($row);
         }
 
         // show error
@@ -72,7 +69,7 @@ include 'check_user_login.php';
                 <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>Images</td>
+                <td>Image</td>
                 <td>
                     <div><img src="uploads/product/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25 mb-2"></div>
                 </td>
@@ -89,6 +86,14 @@ include 'check_user_login.php';
                 <td>Promotion Price (RM)</td>
                 <?php $promotion_price = number_format((float)$promotion_price, 2, '.', ''); ?>
                 <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Manufacture Date</td>
+                <td><?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Expired Date</td>
+                <td><?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td></td>

@@ -3,6 +3,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -18,7 +20,7 @@ include 'check_user_login.php';
 
 <body>
     <div class="container-fluid px-0">
-        <?php include 'topnav.php'; ?>
+
 
         <!-- container -->
         <div class="container my-3">
@@ -75,7 +77,7 @@ include 'check_user_login.php';
                     echo "<tr>";
                     echo "<td>{$order_id}</td>";
                     echo "<td>{$order_time}</td>";
-                    $total_price = htmlspecialchars(round($total_price));
+                    $total_price = htmlspecialchars(round($total_price, 1));
                     $total_price = htmlspecialchars(number_format($total_price, 2, '.', ''));
                     echo "<td class='text-end'>{$total_price}</td>";
                     echo "<td>{$user}</td>";

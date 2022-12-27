@@ -3,6 +3,8 @@
 include 'check_user_login.php';
 ?>
 
+<?php include 'topnav.php'; ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -16,8 +18,6 @@ include 'check_user_login.php';
 
 <body>
     <div>
-        <?php include 'topnav.php'; ?>
-
         <div class="container">
             <div class="page-header d-flex justify-content-center my-3">
                 <h1>Create Order</h1>
@@ -162,7 +162,7 @@ include 'check_user_login.php';
 
                     </td>
                     <td>Quantity</td>
-                        <td><input type='number' name='quantity[]' value='1' class='form-control' /></td>
+                        <td><input type='number' name='quantity[]' value='1' min='1' class='form-control' /></td>
                         <td><input type='button' value='Delete' class='btn btn-danger mt-2' onclick='deleteRow(this)'></td>
                 </tr>";
                     ?>
@@ -216,9 +216,9 @@ include 'check_user_login.php';
                 if (total > 1) {
                     var i = r.parentNode.parentNode.rowIndex;
                     document.getElementById("delete_row").deleteRow(i);
-                }else{
-                alert("Product row must at least one");
-            }
+                } else {
+                    alert("Product row must at least one");
+                }
             }
         </script>
 

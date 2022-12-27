@@ -2,8 +2,9 @@
 include 'check_user_login.php';
 ?>
 
-<!DOCTYPE html>
+<?php include 'topnav.php'; ?>
 
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -16,8 +17,6 @@ include 'check_user_login.php';
 
 <body>
     <div class="container-fluid px-0">
-        <?php include 'topnav.php'; ?>
-
         <div class="container">
             <div class="page-header">
                 <h1>Update Product</h1>
@@ -109,12 +108,11 @@ include 'check_user_login.php';
                     $error_msg .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
                 } elseif ($promotion_price >= $price) {
                     $error_msg .= "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
-                } 
+                }
 
                 if ($expired_date == "") {
                     $expired_date = NULL;
-                } 
-                else {
+                } else {
                     $date1 = date_create($manufacture_date);
                     $date2 = date_create($expired_date);
                     $diff = date_diff($date1, $date2);
@@ -175,19 +173,20 @@ include 'check_user_login.php';
                     $image = "default.png";
                 }
 
+                if ($expired_date == NULL) {
+                    $expired_date = NULL;
+                } else {
+                    $expired_date = $_POST['expired_date'];
+                }
+                if ($promotion_price == NULL) {
+                    $promotion_price = NULL;
+                } else {
+                    $promotion_price = $_POST['promotion_price'];
+                }
                 if (!empty($error_msg)) {
                     echo "<div class='alert alert-danger'>{$error_msg}</div>";
                 } else {
-                    if ($expired_date == NULL) {
-                        $expired_date = NULL;
-                    } else {
-                        $expired_date = $_POST['expired_date'];
-                    }
-                    if ($promotion_price == NULL) {
-                        $promotion_price = NULL;
-                    } else {
-                        $promotion_price = $_POST['promotion_price'];
-                    }
+
                     try {
                         // write update query
                         // in this case, it seemed like we have so many fields to pass and
@@ -237,7 +236,7 @@ include 'check_user_login.php';
                 $image = !empty($_FILES["image"]["name"])
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                     : "";
-                $target_directory = "uploads/product//";
+                $target_directory = "uploads/product/";
                 $target_file = $target_directory . $image;
                 $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
