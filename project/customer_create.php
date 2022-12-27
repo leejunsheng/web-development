@@ -9,7 +9,7 @@ include 'check_user_login.php';
 <html>
 
 <head>
-    <title>Customer Create</title>
+    <title>Create Customer</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

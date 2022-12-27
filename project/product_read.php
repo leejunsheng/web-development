@@ -14,7 +14,7 @@ include 'check_user_login.php';
             height: 120px;
         }
     </style>
-    <title>PDO - Read Record - PHP CRUD Tutorial</title>
+    <title>Product List</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

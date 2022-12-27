@@ -9,7 +9,7 @@ include 'check_user_login.php';
 <html>
 
 <head>
-    <title>PDO - Create a Product - PHP CRUD Tutorial</title>
+    <title>Create Product</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
