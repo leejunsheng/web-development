@@ -18,7 +18,7 @@ include 'check_user_login.php';
     <div class="container-fluid px-0">
         <?php include 'topnav.php'; ?>
         <div class="container">
-            <div class="page-header">
+            <div class="page-header my-3">
                 <h1>Update Details Update</h1>
             </div>
 

@@ -1,6 +1,4 @@
-<!DOCTYPE html>
 
-<html>
 
 <?php
 // used to connect to the database
@@ -21,4 +19,3 @@ catch (PDOException $exception) {
 }
 ?>
 
-</html>

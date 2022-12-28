@@ -10,9 +10,12 @@ include 'check_user_login.php';
 
 <head>
     <title>Update Order Detail</title>
+    <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -20,7 +23,7 @@ include 'check_user_login.php';
 
 
         <div class="container">
-            <div class="page-header">
+            <div class="page-header py-3">
                 <h1>Update Order Summary</h1>
             </div>
 
@@ -102,7 +105,7 @@ include 'check_user_login.php';
 
                                 // check if all records were inserted successfully
                                 if ($purchased == count($product_id)) {
-                                    echo "header";
+                                    header("Location: order_summary.php?update");
                                 } else {
                                     echo "<div class='alert alert-danger'>Not all product have been purchased .</div>";
                                 }

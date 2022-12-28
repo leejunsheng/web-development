@@ -19,7 +19,7 @@ include 'check_user_login.php';
 
     <!-- container -->
     <div class="container">
-        <div class="page-header">
+        <div class="page-header my-3">
             <h1>Read One Order Details</h1>
         </div>
 

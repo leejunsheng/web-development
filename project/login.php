@@ -12,30 +12,33 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 
 <body>
     <!-- container -->
-    <div class="bg-danger vh-100">
-        <div class="d-flex justify-content-center align-item-center">
+    <section class="vh-100 bg-primary">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
 
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
-                <div class="card bg-dark text-white rounded-3 ">
-                    <div class="card-body p-5 text-center">
+        
                         <?php
                         // include database connection
                         include 'config/database.php';
                         if (isset($_POST['username']) && isset($_POST['password'])) {
 
                             $username = ($_POST['username']);
-                            $password = ($_POST['password']);
+                            $password = md5($_POST['password']);
                             $query = " SELECT * FROM customers WHERE username = '$username'";
                             $stmt = $con->prepare($query);
                             $stmt->execute();
                             $num = $stmt->rowCount();
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+                          
                             if ($num == 1) {
                                 if ($row['password'] == $password) {
                                     if ($row['accstatus'] != "active") {
@@ -44,7 +47,6 @@ session_start();
                                         $_SESSION["login"] = $username;
                                         $_SESSION['username'] = $username;
                                         $_SESSION['user_id'] = $user_id;
-
                                         header("Location: index.php");
                                     }
                                 } else {
@@ -74,7 +76,11 @@ session_start();
                                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
                                     <label for="floatingPassword">Password</label>
                                 </div>
-                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                <button class="btn btn-outline-primary text-white btn-lg px-5" type="submit">Login</button>
+
+                                <div class="pt-3">
+                                <a href="customer_create.php">Dont' have an account? Register Now !</a>
+                            </div>
                             </form>
 
                         </div>
@@ -83,6 +89,7 @@ session_start();
             </div>
         </div>
     </div>
+    </section>
 </body>
 
 </html>

@@ -15,22 +15,18 @@ include 'check_user_login.php';
         }
     </style>
     <title>Product List</title>
-    <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <include src="path/to/topnav.html">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <!-- container -->
     <div class="container-fluid px-0">
-
-
         <!-- container -->
         <div class="container my-3">
-
             <div class="page-header">
                 <h1>Read Products</h1>
             </div>
@@ -68,7 +64,7 @@ include 'check_user_login.php';
             $num = $stmt->rowCount();
 
             // link to create record form
-            echo "<a href='product_create.php' class='btn btn-primary m-b-1em my-3'>Create New Product</a>";
+            echo "<a href='product_create.php' class='btn btn-primary m-b-1em my-3'>   Create New Product <i class='fa-solid fa-plus mt-1'></i></a> ";
 
             //check if more than 0 record found
             if ($num > 0) {
@@ -96,20 +92,20 @@ include 'check_user_login.php';
                     echo "<tr>";
                     echo "<td>{$id}</td>";
                     echo "<td>{$name}</td>";
-                    echo "<td class='w-25'><div'><img src='uploads/product/$image?>' class='w-25'></div> </td>";
+                    echo "<td style='width:150px;'><img src='uploads/product/$image' class='img-fluid' style='height:100px;'></td>";
                     echo "<td>{$description}</td>";
                     $format_price = number_format((float)$price, 2, '.', '');
                     echo "<td class='text-end'>{$format_price}</td>";
-                    echo "<td>";
+                    echo "<td style='width:350px;'>";
 
                     // read one record
-                    echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em mx-2'>Read</a>";
+                    echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em mx-2'>Read <i class='fa-brands fa-readme'></i></a>";
 
                     // we will use this links on next part of this post
-                    echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>";
+                    echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit <i class='fa-solid fa-pen-to-square'></i></a>";
 
                     // we will use this links on next part of this post
-                    echo "<a href='product_delete.php?id={$id}' onclick='delete_product({$id});'  class='btn btn-danger'>Delete</a>";
+                    echo "<a href='product_delete.php?id={$id}' onclick='delete_product({$id});'  class='btn btn-danger mx-2'>Delete <i class='fa-solid fa-trash'></i></a>";
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -122,6 +118,7 @@ include 'check_user_login.php';
             ?>
         </div>
     </div>
+    
     <!-- end .container -->
 
     <!-- confirm delete record will be here -->

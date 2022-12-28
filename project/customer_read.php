@@ -13,18 +13,18 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <!-- container -->
-    <div class="container-fluid px-0">
-
-
+    <div class="container-fluid ">
         <!-- container -->
         <div class="container my-3">
 
-            <div class="page-header">
+            <div class="page-header ">
                 <h1>Read Customers</h1>
             </div>
 
@@ -34,7 +34,7 @@ include 'check_user_login.php';
             include 'config/database.php';
 
             if (isset($_GET['update'])) {
-                echo "<div class='alert alert-success'>Record was saved.</div>";
+                echo "<div class='alert alert-success'>Record was updated.</div>";
             }
 
 
@@ -51,11 +51,11 @@ include 'check_user_login.php';
             }
 
             if ($action == 'faildelete') {
-                echo "<div class='alert alert-success'>The customer is unable to delete.</div>";
+                echo "<div class='alert alert-success'>The customer already have an order unable to delete.</div>";
             }
 
             // select all data
-            $query = "SELECT user_id, username, firstname, lastname,gender, datebirth,registration_dt,accstatus FROM customers ORDER BY user_id DESC";
+            $query = "SELECT * FROM customers ORDER BY user_id DESC";
 
 
             $stmt = $con->prepare($query);
@@ -65,7 +65,7 @@ include 'check_user_login.php';
             $num = $stmt->rowCount();
 
             // link to create record form
-            echo "<a href='customer_create.php' class='btn btn-primary m-b-1em my-3'>Create New Customer</a>";
+            echo "<a href='customer_create.php' class='btn btn-primary m-b-1em my-3'>  Create New Customer <i class='fa-solid fa-plus mt-1'></i></a>";
 
             //check if more than 0 record found
             if ($num > 0) {
@@ -75,13 +75,17 @@ include 'check_user_login.php';
 
                 //creating our table heading
                 echo "<tr>";
-                echo "<th>User ID</th>";
-                echo "<th>First Name</th>";
-                echo "<th>Last Name</th>";
-                echo "<th>Gender</th>";
-                echo "<th>Birthday</th>";
-                echo "<th>Registration Date</th>";
-                echo "<th>Account Status</th>";
+                echo "<th class='col-1'>User ID</th>";
+                echo "<th class='col-1'>Image</th>";
+                echo "<th class='col-1'>First Name</th>";
+                echo "<th class='col-1'>Last Name</th>";
+                echo "<th class='col-1'>Gender</th>";
+             
+
+                echo "<th class='col-2'>Birthday</th>";
+                echo "<th class='col-2'>Registration Date</th>";
+                echo "<th class='col-1'>Account Status</th>";
+                echo "<th class='col-2'>Action</th>";
                 echo "</tr>";
 
                 //GET DATA FROM DATABASE
@@ -93,23 +97,32 @@ include 'check_user_login.php';
                     extract($row);
                     // creating new table row per record
                     echo "<tr>";
-                    echo "<td>{$user_id}</td>";
+                    echo "<td class=' text-center'>{$user_id}</td>";
+                    echo "<td style='width:100px;'><div'><img src='uploads/customer/$image' class='img-fluid'></div> </td>";
                     echo "<td>{$firstname}</td>";
                     echo "<td>{$lastname}</td>";
-                    echo "<td>{$gender}</td>";
+               
+
+                    if ($gender == 'Male') {
+                        echo "<td class=' text-center text-primary'>  <i class='fa-solid fa-person fs-2'></i> </td>";
+                    } else {
+                        echo "<td class=' text-center text-danger'> <i class='fa-solid fa-person-dress fs-2'></i> </td>";
+                    }
+
+                    echo "</td>";
                     echo "<td>{$datebirth}</td>";
                     echo "<td>{$registration_dt}</td>";
-                    echo "<td>{$accstatus}</td>";
-                    echo "<td>";
 
-                    // read one record
-                    echo "<a href='customer_read_one.php?user_id={$user_id}' class='btn btn-info m-r-1em mx-2 mx-2'>Read</a>";
-
-                    // we will use this links on next part of this post
-                    echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary m-r-1em mx-2 mx-2'>Edit</a>";
-
-                    // we will use this links on next part of this post
-                    echo "<a href='#' onclick='delete_customer({$user_id});'  class='btn btn-danger mx-2'>Delete</a>";
+               
+                    if ($accstatus == 'active') {
+                        echo "<td class=' text-center text-success'>  <i class='fa-solid fa-circle-check fs-2'></i></td>";
+                    } else {
+                        echo "<td class=' text-center text-danger'> <i class='fa-solid fa-circle-xmark fs-2'></i> </td>";
+                    }
+                    echo "<td style='width:200px;'>";
+                    echo "<a href='customer_read_one.php?user_id={$user_id}' class='btn btn-info m-r-1em mx-2'>Read <i class='fa-brands fa-readme'></i></a>";
+                    echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary   mx-2 my-2'>Edit <i class='fa-solid fa-pen-to-square'></i></a>";
+                    echo "<a href='#' onclick='delete_customer({$user_id});'  class='btn btn-danger  mx-2'>Delete <i class='fa-solid fa-trash'></i></a>";
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -120,7 +133,6 @@ include 'check_user_login.php';
                 echo "<div class='alert alert-danger'>No records found.</div>";
             }
             ?>
-
         </div>
     </div>
     <!-- end .container -->

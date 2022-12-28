@@ -10,9 +10,12 @@ include 'check_user_login.php';
 
 <head>
     <title>Update Customer Profile</title>
+    <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -22,7 +25,7 @@ include 'check_user_login.php';
 
 
         <div class="container">
-            <div class="page-header">
+            <div class="page-header my-3">
                 <h1>Update Customer Profile</h1>
             </div>
             <?php
@@ -75,10 +78,9 @@ include 'check_user_login.php';
             <?php
             // check if form was submitted
             if ($_POST) {
-                $user_name = $_POST['username'];
-                $pass_word = $_POST['password'];
-                $old_password = $_POST['old_password'];
-                $confirm_password = $_POST['confirm_password'];
+                $pass_word = ($_POST['password']);
+                $old_password = md5($_POST['old_password']);
+                $confirm_password = ($_POST['confirm_password']);
                 $firstname = $_POST['firstname'];
                 $lastname = $_POST['lastname'];
                 $gender = $_POST['gender'];
@@ -95,15 +97,6 @@ include 'check_user_login.php';
 
                 $error_msg = "";
 
-                if ($user_name == "") {
-                    $error_msg .= "<div class='alert alert-danger'>Please make sure username are not empty </div>";
-                } elseif (strlen($user_name) < 6) {
-                    $error_msg .= "<div class='alert alert-danger'>Please make sure uername not less than 6 character </div>";
-                } elseif (preg_match('/[" "]/', $user_name)) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure uername did not conatain space </div>";
-                }
-
-
                 $password_empty = false;
                 if ($old_password == "" && $pass_word == "" && $confirm_password == "") {
                     $password_empty = true;
@@ -112,7 +105,7 @@ include 'check_user_login.php';
                         if ($pass_word == "") {
                             $error_msg .= "<div class='alert alert-danger'>Please make sure password are not empty </div>";
                         } elseif (strlen($pass_word) < 8) {
-                            $error_msg .= "<div class='alert alert-danger'>Please make sure password less than 8 character </div>";
+                            $error_msg .= "<div class='alert alert-danger'>Please make sure password more than 8 character </div>";
                         } elseif (!preg_match('/[a-z]/', $pass_word)) {
                             $error_msg .= "<div class='alert alert-danger'> Please make sure password combine capital a-z </div>";
                         } elseif (!preg_match('/[0-9]/', $pass_word)) {
@@ -210,6 +203,31 @@ include 'check_user_login.php';
                     $image = "profile_default.png";
                 }
 
+                if (isset($_POST['delete'])) {
+                    $image = htmlspecialchars(strip_tags($image));
+
+                    $image = !empty($_FILES["image"]["name"])
+                        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                        : "";
+                    $target_directory = "uploads/customer/";
+                    $target_file = $target_directory . $image;
+                    $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                    unlink("uploads/customer/" . $row['image']);
+                    $query = "UPDATE customers
+                            SET image=:image WHERE user_id = :user_id";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+                    $stmt->bindParam(':image', $image);
+                    $stmt->bindParam(':user_id', $user_id);
+                    // Execute the query
+                    $stmt->execute();
+
+                    $error_msg .= "<div>Image delete successful, Please click update button.</div>";
+                }
+
+
+
                 if (!empty($error_msg)) {
                     echo "<div class='alert alert-danger'>{$error_msg}</div>";
                 } else {
@@ -223,12 +241,12 @@ include 'check_user_login.php';
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
                         // posted values
-                        $username = htmlspecialchars(strip_tags($_POST['username']));
+
                         $image = htmlspecialchars(strip_tags($image));
                         if ($password_empty == true) {
                             $password = $row['password'];
                         } else {
-                            $password = htmlspecialchars(strip_tags(md5($_POST['password'])));
+                            $password = htmlspecialchars(md5(strip_tags($_POST['password'])));
                         }
                         $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
                         $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
@@ -262,30 +280,6 @@ include 'check_user_login.php';
                     }
                 }
             } ?>
-
-            <?php
-            if (isset($_POST['delete'])) {
-                $image = htmlspecialchars(strip_tags($image));
-
-                $image = !empty($_FILES["image"]["name"])
-                    ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
-                    : "";
-                $target_directory = "uploads/";
-                $target_file = $target_directory . $image;
-                $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-
-                unlink("uploads/" . $row['image']);
-                $query = "UPDATE customers
-                        SET image=:image WHERE user_id = :user_id";
-                // prepare query for excecution
-                $stmt = $con->prepare($query);
-                $stmt->bindParam(':image', $image);
-                $stmt->bindParam(':user_id', $user_id);
-                // Execute the query
-                $stmt->execute();
-            }
-            ?>
-
 
             <!--we have our html form here where new record information can be updated-->
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?user_id={$user_id}"); ?>" method="post" enctype="multipart/form-data">
@@ -363,9 +357,9 @@ include 'check_user_login.php';
                     </tr>
                     <td></td>
                     <td>
-                        <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='customer_read.php' class='btn btn-secondary'>Back to read products</a>
-                        <?php echo "<a href='customer_delete.php?user_id={$user_id}' onclick='delete_customer({$user_id});'  class='btn btn-danger mx-2'>Delete</a>"; ?>
+                        <input type='submit' value='Update' class='btn btn-primary' />
+                        <a href='customer_read.php' class='btn btn-secondary'>Back to read customer</a>
+                        <?php echo "<a href='customer_delete.php?user_id={$user_id}' onclick='delete_customer({$user_id});'  class='btn btn-danger'>Delete</a>"; ?>
                     </td>
                     </tr>
                 </table>

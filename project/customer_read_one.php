@@ -13,7 +13,9 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -21,7 +23,7 @@ include 'check_user_login.php';
     <div>
 
 
-        <div class="page-header">
+        <div class="page-header my-3">
             <h1>Read Customer</h1>
         </div>
 
@@ -76,7 +78,7 @@ include 'check_user_login.php';
                 <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>Images</td>
+                <td>Profile Image</td>
                 <td>
                     <div><img src="uploads/customer/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="w-25 mb-2"></div>
                 </td>
@@ -108,8 +110,8 @@ include 'check_user_login.php';
             <tr>
                 <td></td>
                 <td>
+                <?php echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary'>Edit <i class='fa-solid fa-pen-to-square'></i></a>"; ?>
                     <a href='customer_read.php' class='btn btn-danger m-r-1em mx-2'>Back to read customers</a>
-                    <?php echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary'>Edit</a>"; ?>
                 </td>
             </tr>
         </table>

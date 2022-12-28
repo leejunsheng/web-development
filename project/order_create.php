@@ -13,7 +13,9 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -85,7 +87,7 @@ include 'check_user_login.php';
                                     //echo $product_id[$count];
                                     // Execute the query
                                     if ($stmt->execute()) {
-                                        echo "<div class='alert alert-success'>Details was saved.</div>";
+                                        header("Location: customer_read.php?action=created");
                                     } else {
                                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                                     }
@@ -162,15 +164,15 @@ include 'check_user_login.php';
 
                     </td>
                     <td>Quantity</td>
-                        <td><input type='number' name='quantity[]' value='1' min='1' class='form-control' /></td>
-                        <td><input type='button' value='Delete' class='btn btn-danger mt-2' onclick='deleteRow(this)'></td>
+                        <td class='col-2'><input type='number' name='quantity[]' value='1' min='1' class='form-control' /></td>
+                        <td class='col-1'><input type='button' value='Delete' class='btn btn-danger mt-2' onclick='deleteRow(this)'></td>
                 </tr>";
                     ?>
                     <td colspan="">
                         <input type="button" value="Add More Product" class="add_one btn btn-secondary" />
                     </td>
                     <td colspan="4" class="text-end">
-                        <input type='submit' value='Save' class='btn btn-primary me-5' onclick="checkDuplicate(event)" />
+                        <input type='submit' value='Create Order' class='btn btn-primary me-2' onclick="checkDuplicate(event)" />
                     </td>
                     </tr>
 
@@ -198,15 +200,23 @@ include 'check_user_login.php';
             }, false);
         </script> */ ?>
 
-
         <script>
-            document.addEventListener('click', function(event) {
+       document.addEventListener('click', function(event) {
                 if (event.target.matches('.add_one')) {
-                    var element = document.querySelector('.pRow');
-                    var clone = element.cloneNode(true);
-                    element.after(clone);
-                }
+                    var rows = document.getElementsByClassName('pRow');
+                    // Get the last row in the table
+                    var lastRow = rows[rows.length - 1];
+                    // Clone the last row
+                    var clone = lastRow.cloneNode(true);
+                    // Insert the clone after the last row
+                    lastRow.insertAdjacentElement('afterend', clone);
 
+                    // Loop through the rows
+                    for (var i = 0; i < rows.length; i++) {
+                        // Set the inner HTML of the first cell to the current loop iteration number
+                        rows[i].cells[0].innerHTML = i + 1;
+                    }
+                }
             }, false);
         </script>
 

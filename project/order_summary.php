@@ -13,7 +13,9 @@ include 'check_user_login.php';
     <!-- Latest compiled and minified Bootstrap CSS -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 
@@ -30,6 +32,10 @@ include 'check_user_login.php';
             <?php
             // include database connection
             include 'config/database.php';
+
+            if (isset($_GET['update'])) {
+                echo "<div class='alert alert-success'>Record was updated.</div>";
+            }
 
             // delete message prompt will be here
             $action = isset($_GET['action']) ? $_GET['action'] : "";
@@ -48,7 +54,7 @@ include 'check_user_login.php';
             $num = $stmt->rowCount();
 
             // link to create record form
-            echo "<a href='order_create.php' class='btn btn-primary m-b-1em my-3'>Create New Order</a>";
+            echo "<a href='order_create.php' class='btn btn-primary m-b-1em my-3'>  Create New Order <i class='fa-solid fa-plus mt-1'></i> </a>";
 
             //check if more than 0 record found
             if ($num > 0) {
@@ -63,6 +69,7 @@ include 'check_user_login.php';
                 echo "<th>Order Date</th>";
                 echo "<th class='text-center'>Total Price</th>";
                 echo "<th>Username</th>";
+                echo "<th>Action</th>";
                 echo "</tr>";
 
                 // table body will be here
@@ -80,15 +87,15 @@ include 'check_user_login.php';
                     $total_price = htmlspecialchars(number_format($total_price, 2, '.', ''));
                     echo "<td class='text-end'>{$total_price}</td>";
                     echo "<td>{$user}</td>";
-                    echo "<td>";
+                    echo "<td style='width:400px;'>";
                     // read one record
-                    echo "<a href='order_summary_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em mx-2 mx-2'>Read</a>";
+                    echo "<a href='order_summary_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em  mx-2'>Read <i class='fa-brands fa-readme'></i> </a>";
 
                     // we will use this links on next part of this post
-                    echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em mx-2 mx-2'>Edit</a>";
+                    echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em  mx-2'>Edit <i class='fa-solid fa-pen-to-square'></i></a>";
 
                     // we will use this links on next part of this post
-                    echo "<a href='#' onclick='delete_order({$order_id});' class='btn btn-danger mx-2'>Delete</a>";
+                    echo "<a href='#' onclick='delete_order({$order_id});' class='btn btn-danger mx-2'>Delete <i class='fa-solid fa-trash'></i></a>";
                     echo "</td>";
                     echo "</tr>";
                 }
