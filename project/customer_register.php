@@ -14,6 +14,10 @@
 
 <body>
 
+    <section class="h-100 bg-primary py-3">
+        <div class="container h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-7">
 
 
     <!-- container -->
@@ -174,20 +178,16 @@
 
     <!-- html form here where the product information will be entered -->
 
-    <section class="vh-100 bg-primary">
-        <div class="container  h-100">
-            <div class="row justify-content-center align-items-center h-100">
-                <div class="col-12 col-lg-9 col-xl-7">
-                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card shadow-2-strong h-75" style="border-radius: 15px;">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
-                            <form>
+                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
 
                                 <div class="">
                                     <div class="col-md-12 mb-4">
                                         <div class="form-outline">
                                             <input input type='text' name='username' value='<?php echo $user_name ?>' class="form-control form-control-lg" />
-                                            <label class="form-label" for="firstName">First Name</label>
+                                            <label class="form-label" for="firstName">Username</label>
                                         </div>
 
                                     </div>
@@ -219,6 +219,24 @@
                                         <div class="form-outline">
                                             <input type='text' name='lastname' value='<?php echo $lastname ?>' class="form-control form-control-lg" />
                                             <label class="form-label" for="lastName">Last Name</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type='password' name='password' class='form-control' class="form-control form-control-lg" />
+                                            <label class="form-label" for="password">Pasword</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+
+                                        <div class="form-outline">
+                                            <input type='password' name='comfirm_password' class="form-control form-control-lg" />
+                                            <label class="form-label" for="confirmpassword">Confirm Password</label>
                                         </div>
 
                                     </div>

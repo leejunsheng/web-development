@@ -63,7 +63,7 @@ include 'check_user_login.php';
 
                         // Execute the query
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Your order is created.</div>";
+                           
 
                             // Get and set order id to latest id
                             $query = "SELECT MAX(order_id) as order_id FROM order_summary";
@@ -87,7 +87,7 @@ include 'check_user_login.php';
                                     //echo $product_id[$count];
                                     // Execute the query
                                     if ($stmt->execute()) {
-                                        header("Location: customer_read.php?action=created");
+                                        header("Location: order_summary.php?action=created");
                                     } else {
                                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                                     }

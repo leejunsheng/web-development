@@ -119,7 +119,7 @@ include 'check_user_login.php';
                     } else {
                         echo "<td class=' text-center text-danger'> <i class='fa-solid fa-circle-xmark fs-2'></i> </td>";
                     }
-                    echo "<td style='width:200px;'>";
+                    echo "<td class=''>";
                     echo "<a href='customer_read_one.php?user_id={$user_id}' class='btn btn-info m-r-1em mx-2'>Read <i class='fa-brands fa-readme'></i></a>";
                     echo "<a href='customer_update.php?user_id={$user_id}' class='btn btn-primary   mx-2 my-2'>Edit <i class='fa-solid fa-pen-to-square'></i></a>";
                     echo "<a href='#' onclick='delete_customer({$user_id});'  class='btn btn-danger  mx-2'>Delete <i class='fa-solid fa-trash'></i></a>";

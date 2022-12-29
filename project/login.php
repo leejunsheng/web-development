@@ -17,14 +17,25 @@ session_start();
 
 
 <body>
+
+  <!-- PHP code to read records will be here -->
     <!-- container -->
-    <section class="vh-100 bg-primary">
+    <section class="h-100 bg-primary">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card bg-dark text-white" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
 
+          <?php
+            // include database connection
+            include 'config/database.php';
+            $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+            if ($action == 'created') {
+                echo "<div class='alert alert-success'>You was register create successfully.</div>";
+            }
+            ; ?>
         
                         <?php
                         // include database connection
