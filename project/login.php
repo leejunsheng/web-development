@@ -2,8 +2,6 @@
 session_start();
 ?>
 
-
-
 <!DOCTYPE HTML>
 <html>
 
@@ -18,7 +16,6 @@ session_start();
     <!-- PHP code to read records will be here -->
     <!-- container -->
     <section class="h-100 bg-primary">
-
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
 

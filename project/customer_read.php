@@ -3,15 +3,13 @@
 include 'check_user_login.php';
 ?>
 
-
-
 <!DOCTYPE HTML>
 <html>
 
 <head>
     <title>Customer List</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -49,7 +47,6 @@ include 'check_user_login.php';
 
             if ($action == 'faildelete') {
                 echo "<div class='alert alert-success'>The customer already have an order unable to delete.</div>";
-                
             }
 
             // select all data
@@ -78,7 +75,7 @@ include 'check_user_login.php';
                 echo "<th class='col-1'>First Name</th>";
                 echo "<th class='col-1'>Last Name</th>";
                 echo "<th class='col-1'>Gender</th>";
-             
+
 
                 echo "<th class='col-2'>Birthday</th>";
                 echo "<th class='col-2'>Registration Date</th>";
@@ -99,7 +96,7 @@ include 'check_user_login.php';
                     echo "<td style='width:100px;'><div'><img src='uploads/customer/$image' class='img-fluid'></div> </td>";
                     echo "<td>{$firstname}</td>";
                     echo "<td>{$lastname}</td>";
-               
+
 
                     if ($gender == 'Male') {
                         echo "<td class=' text-center text-primary'>  <i class='fa-solid fa-person fs-2'></i> </td>";
@@ -111,7 +108,7 @@ include 'check_user_login.php';
                     echo "<td>{$datebirth}</td>";
                     echo "<td>{$registration_dt}</td>";
 
-               
+
                     if ($accstatus == 'active') {
                         echo "<td class=' text-center text-success'>  <i class='fa-solid fa-circle-check fs-2'></i></td>";
                     } else {

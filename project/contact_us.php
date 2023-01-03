@@ -4,13 +4,12 @@ include 'check_user_login.php';
 ?>
 
 
-
 <!DOCTYPE HTML>
 <html>
 
 <head>
     <title>Contact Page</title>
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 

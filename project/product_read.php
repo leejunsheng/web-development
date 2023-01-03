@@ -9,13 +9,8 @@ include 'check_user_login.php';
 <html>
 
 <head>
-    <style>
-        td {
-            height: 120px;
-        }
-    </style>
     <title>Product List</title>
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -74,7 +69,7 @@ include 'check_user_login.php';
 
                 //creating our table heading
                 echo "<tr>";
-                echo "<th>ID</th>";
+                echo "<th>Product ID</th>";
                 echo "<th>Name</th>";
                 echo "<th>Image</th>";
                 echo "<th>Description</th>";
@@ -119,7 +114,7 @@ include 'check_user_login.php';
             ?>
         </div>
     </div>
-    
+
     <!-- end .container -->
 
     <!-- confirm delete record will be here -->

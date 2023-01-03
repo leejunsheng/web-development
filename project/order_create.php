@@ -3,7 +3,7 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -11,12 +11,15 @@ include 'check_user_login.php';
 <head>
     <title>Create New Order</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
-    <div>
-        <div class="container">
+    <?php include 'topnav.php'; ?>
+    <div class="container-fluid px-0">
+        <!-- container -->
+        <div class="container my-3">
+
             <div class="page-header d-flex justify-content-center my-3">
                 <h1>Create Order</h1>
             </div>
@@ -59,7 +62,7 @@ include 'check_user_login.php';
 
                         // Execute the query
                         if ($stmt->execute()) {
-                           
+
 
                             // Get and set order id to latest id
                             $query = "SELECT MAX(order_id) as order_id FROM order_summary";
@@ -84,7 +87,6 @@ include 'check_user_login.php';
                                     // Execute the query
                                     if ($stmt->execute()) {
                                         header("Location:order_summary_read_one.php?order_id={$order_id}");
-                                      
                                     } else {
                                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                                     }
@@ -176,10 +178,12 @@ include 'check_user_login.php';
                 </table>
             </form>
         </div>
+    </div>
 
-        <!-- end .container -->
 
-        <?php /*
+    <!-- end .container -->
+
+    <?php /*
          <script>
             document.addEventListener('click', function(event) {
                 if (event.target.matches('.add_one')) {
@@ -197,53 +201,53 @@ include 'check_user_login.php';
             }, false);
         </script> */ ?>
 
-        <script>
-       document.addEventListener('click', function(event) {
-                if (event.target.matches('.add_one')) {
-                    var rows = document.getElementsByClassName('pRow');
-                    // Get the last row in the table
-                    var lastRow = rows[rows.length - 1];
-                    // Clone the last row
-                    var clone = lastRow.cloneNode(true);
-                    // Insert the clone after the last row
-                    lastRow.insertAdjacentElement('afterend', clone);
+    <script>
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.add_one')) {
+                var rows = document.getElementsByClassName('pRow');
+                // Get the last row in the table
+                var lastRow = rows[rows.length - 1];
+                // Clone the last row
+                var clone = lastRow.cloneNode(true);
+                // Insert the clone after the last row
+                lastRow.insertAdjacentElement('afterend', clone);
 
-                    // Loop through the rows
-                    for (var i = 0; i < rows.length; i++) {
-                        // Set the inner HTML of the first cell to the current loop iteration number
-                        rows[i].cells[0].innerHTML = i + 1;
-                    }
-                }
-            }, false);
-        </script>
-
-        <script>
-            function deleteRow(r) {
-                var total = document.querySelectorAll('.pRow').length;
-                if (total > 1) {
-                    var i = r.parentNode.parentNode.rowIndex;
-                    document.getElementById("delete_row").deleteRow(i);
-                } else {
-                    alert("Product row must at least one");
+                // Loop through the rows
+                for (var i = 0; i < rows.length; i++) {
+                    // Set the inner HTML of the first cell to the current loop iteration number
+                    rows[i].cells[0].innerHTML = i + 1;
                 }
             }
-        </script>
+        }, false);
+    </script>
 
-        <script>
-            function checkDuplicate(event) {
-                var newarray = [];
-                var selects = document.getElementsByTagName('select');
-                for (var i = 0; i < selects.length; i++) {
-                    newarray.push(selects[i].value);
-                }
-                if (newarray.length !== new Set(newarray).size) {
-                    alert("There are duplicate item in the same time");
-                    event.preventDefault();
-                }
+    <script>
+        function deleteRow(r) {
+            var total = document.querySelectorAll('.pRow').length;
+            if (total > 1) {
+                var i = r.parentNode.parentNode.rowIndex;
+                document.getElementById("delete_row").deleteRow(i);
+            } else {
+                alert("Product row must at least one");
             }
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
-        </script>
+        }
+    </script>
+
+    <script>
+        function checkDuplicate(event) {
+            var newarray = [];
+            var selects = document.getElementsByTagName('select');
+            for (var i = 0; i < selects.length; i++) {
+                newarray.push(selects[i].value);
+            }
+            if (newarray.length !== new Set(newarray).size) {
+                alert("There are duplicate item in the same time");
+                event.preventDefault();
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

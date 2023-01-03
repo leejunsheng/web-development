@@ -7,7 +7,6 @@ include 'check_user_login.php';
 <!DOCTYPE html>
 <html>
 
-
 <head>
     <title>Update Product Detail</title>
 

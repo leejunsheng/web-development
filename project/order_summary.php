@@ -3,7 +3,7 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -11,11 +11,12 @@ include 'check_user_login.php';
 <head>
     <title>Order Summary List</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 
 <body>
+    <?php include 'topnav.php'; ?>
     <div class="container-fluid px-0">
 
 

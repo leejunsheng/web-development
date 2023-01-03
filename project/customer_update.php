@@ -2,8 +2,6 @@
 include 'check_user_login.php';
 ?>
 
-
-
 <!DOCTYPE html>
 
 <html>
