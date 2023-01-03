@@ -9,9 +9,7 @@ include 'check_user_login.php';
 <head>
     <title>PDO - Order Detail - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -107,7 +105,7 @@ include 'check_user_login.php';
             <tr>
                 <td></td>
                 <td>
-                    <a href='order_details.php' class='btn btn-danger'>Back to read Order Details</a>
+                    <a href='order_details.php' class='btn btn-secondary'>Back to read Order Details</a>
                 </td>
             </tr>
         </table>

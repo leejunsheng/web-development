@@ -2,7 +2,7 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE html>
 
@@ -11,19 +11,14 @@ include 'check_user_login.php';
 <head>
     <title>Update Customer Profile</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
+
+
 <body>
-
+<?php include 'topnav.php'; ?>
     <div class="container-fluid px-0">
-
-
-
         <div class="container">
             <div class="page-header my-3">
                 <h1>Update Customer Profile</h1>
@@ -98,9 +93,11 @@ include 'check_user_login.php';
                 $error_msg = "";
 
                 $password_empty = false;
-                if ($old_password == "" && $pass_word == "" && $confirm_password == "") {
+                if ($old_password == md5("") && $pass_word == "" && $confirm_password == "") {
                     $password_empty = true;
+                    echo "1";
                 } else {
+                    echo "2";
                     if ($row['password'] == $old_password) {
                         if ($pass_word == "") {
                             $error_msg .= "<div class='alert alert-danger'>Please make sure password are not empty </div>";
@@ -122,7 +119,9 @@ include 'check_user_login.php';
                             $error_msg .= "<div class='alert alert-danger'>Please make sure Confirm Password and New Password are same</div>";
                         }
                     } else {
+                        echo "3";
                         $error_msg .= "<div class='alert alert-danger'>Wrong Old Password</div>";
+                
                     }
                 }
 
@@ -200,7 +199,7 @@ include 'check_user_login.php';
                         }
                     }
                 } elseif (empty($image)) {
-                    $image = "profile_default.png";
+                    $image = "profile_default.jpg";
                 }
 
                 if (isset($_POST['delete'])) {
@@ -296,7 +295,7 @@ include 'check_user_login.php';
 
 
                             <?php
-                            if ($image != "profile_default.png") {
+                            if ($image != "profile_default.jpg") {
                                 echo "<input type='submit' value='Delete' name='delete' class='btn btn-primary' />";
                             }
                             ?>
@@ -324,18 +323,36 @@ include 'check_user_login.php';
                     </tr>
                     <tr>
                         <td>Gender</td>
+                        <?php if ($gender == 'Male') {
+                            echo "
                         <td>
-                            <input class="form-check-input" type="radio" name='gender' value="Male" checked>
-                            <label class="form-check-label" for="gender">
+                            <input class='form-check-input' type='radio' name='gender' value='Male' checked>
+                            <label class='form-check-label' for='gender'>
                                 Male
                             </label>
 
-                            <input class="form-check-input" type="radio" name='gender' value="Female">
-                            <label class="form-check-label" for="gender">
+                            <input class='form-check-input' type='radio' name='gender' value='Female'>
+                            <label class='form-check-label' for='gender'>
                                 Female
                             </label>
-                        </td>
+                        </td> ";
+                        } else {
+                            echo "
+                        <td>
+                        <input class='form-check-input' type='radio' name='gender' value='Male' >
+                        <label class='form-check-label' for='gender'>
+                            Male
+                        </label>
+
+                        <input class='form-check-input' type='radio' name='gender' value='Female' checked>
+                        <label class='form-check-label' for='gender'>
+                            Female
+                        </label>
+                    </td>
+ ";
+                        }; ?>
                     </tr>
+
                     <tr>
                         <td>Date Of Birth</td>
                         <td><input type='date' name='datebirth' value="<?php echo htmlspecialchars($datebirth, ENT_QUOTES);  ?>" /></td>

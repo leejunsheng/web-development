@@ -11,11 +11,7 @@ include 'check_user_login.php';
 <head>
     <title>Order Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -51,7 +47,7 @@ include 'check_user_login.php';
             $stmt->execute();
             $count = $stmt->rowCount();
             if ($count > 0) {
-                  echo "<h3>Order ID :$order_id </h3>";
+                  echo "<h3>Order ID :$order_id</h3>";
                 echo "<table class='table table-hover table-responsive table-bordered'>
 
                 <tr>
@@ -113,7 +109,7 @@ include 'check_user_login.php';
         <div class="w-50 ">
             <?php echo " <a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em mx-2 mx-2'>Edit <i class='fa-solid fa-pen-to-square'></i></a>"; ?>
 
-            <a href='order_summary.php' class='btn btn-danger'>Back to read order summary</a>
+            <a href='order_summary.php' class='btn btn-secondary'>Back to read order summary</a>
         </div>
 
 

@@ -3,7 +3,7 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -15,14 +15,11 @@ include 'check_user_login.php';
         }
     </style>
     <title>Product List</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
 <body>
+    <?php include 'topnav.php'; ?>
     <!-- container -->
     <div class="container-fluid px-0">
         <!-- container -->
@@ -53,6 +50,10 @@ include 'check_user_login.php';
 
             if ($action == 'faildelete') {
                 echo "<div class='alert alert-success'>The product unable to delete.</div>";
+            }
+
+            if ($action == 'created') {
+                echo "<div class='alert alert-success'>The product is created.</div>";
             }
 
             // select all data

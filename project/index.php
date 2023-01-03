@@ -3,7 +3,7 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -22,18 +22,14 @@ include 'check_user_login.php';
 
   <title>Dashboard</title>
   <!-- Latest compiled and minified Bootstrap CSS -->
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-  </head>
+  <?php include 'head.php'; ?>
+</head>
 
 
 <body>
   <!-- container -->
   <div class="container-fluid row m-0  d-flex justify-content-between align-items-center">
-
+    <?php include 'topnav.php'; ?>
     <?php
     include 'config/database.php';
 
@@ -174,7 +170,7 @@ include 'check_user_login.php';
         <div class='col-md-6'>
           <?php
           //Highest Purchased Amount Order
-          $query = "SELECT *,sum(price*quantity) AS highest FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
+          $query = "SELECT *,sum(price*quantity) AS highest FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id INNER JOIN customers ON customers.username = order_summary.user GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
           $stmt = $con->prepare($query);
           $stmt->execute();
           $row = $stmt->fetch(PDO::FETCH_ASSOC);

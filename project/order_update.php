@@ -11,11 +11,7 @@ include 'check_user_login.php';
 <head>
     <title>Update Order Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -205,7 +201,7 @@ include 'check_user_login.php';
                         <td colspan=4 class="text-end">
                             <!--<button type="button">Check duplicate product</button>-->
                             <input type='submit' value='Update' class='btn btn-primary' onclick="checkDuplicate(event)" />
-                            <a href='order_summary.php' class='btn btn-danger'>Back to read order summary</a>
+                            <a href='order_summary.php' class='btn btn-secondary'>Back to read order summary</a>
 
                         </td>
                     </tr>

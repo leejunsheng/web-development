@@ -11,11 +11,7 @@ include 'check_user_login.php';
 <head>
     <title>Product Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -101,7 +97,7 @@ include 'check_user_login.php';
                     <td></td>
                     <td>
                         <?php echo "<a href='product_update.php?id={$id}' class='btn btn-primary'>Edit <i class='fa-solid fa-pen-to-square'></i></a>"; ?>
-                        <a href='product_read.php' class='btn btn-danger  m-r-1em mx-2'>Back to read products</a>
+                        <a href='product_read.php' class='btn btn-secondary  m-r-1em mx-2'>Back to read products</a>
 
                     </td>
 

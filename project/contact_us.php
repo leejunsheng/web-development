@@ -3,22 +3,19 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE HTML>
 <html>
 
 <head>
     <title>Contact Page</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
 
 <body>
+    <?php include 'topnav.php'; ?>
     <div class="container">
         <div class="container my-5">
             <section class="mb-10">
@@ -28,20 +25,20 @@ include 'check_user_login.php';
                         <div class="card bg-info text-white" style="border-radius: 1rem;">
                             <div class="card-body p-5 text-center">
                                 <form class="" action="contact_us.php" method="post">
-                                    
-                                        <div class="col-md-12">
-                                            <div class="form-outline mb-4">
-                                                <label for="exampleFormControlInput1" class="form-label">Name</label>
-                                                <input type="text" class="form-control" name="subject" id="exampleFormControlInput1" placeholder="John Doe">
-                                            </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-outline mb-4">
+                                            <label for="exampleFormControlInput1" class="form-label">Name</label>
+                                            <input type="text" class="form-control" name="subject" id="exampleFormControlInput1" placeholder="Name">
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="form-outline mb-4">
-                                                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                                                <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                                            </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-outline mb-4">
+                                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                                            <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
                                         </div>
-                                   
+                                    </div>
+
                                     <div class="form-outline mb-4">
                                         <label for="exampleFormControlTextarea1" class="form-label">Your Message</label>
                                         <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"></textarea>
@@ -60,10 +57,10 @@ include 'check_user_login.php';
                         </div>
                     </div>
                 </div>
-                
-                </div>
-            </section>
+
         </div>
+        </section>
+    </div>
     </div>
 
 

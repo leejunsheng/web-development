@@ -2,7 +2,7 @@
 include 'check_user_login.php';
 ?>
 
-<?php include 'topnav.php'; ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -12,14 +12,11 @@ include 'check_user_login.php';
     <title>Update Product Detail</title>
 
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
+    <?php include 'topnav.php'; ?>
     <div class="container-fluid px-0">
         <div class="container">
             <div class="page-header my-3">
@@ -229,10 +226,10 @@ include 'check_user_login.php';
                         $name = htmlspecialchars(strip_tags($_POST['name']));
                         $description = htmlspecialchars(strip_tags($_POST['description']));
                         $price = htmlspecialchars(strip_tags($_POST['price']));
-                      
+
                         $image = htmlspecialchars(strip_tags($image));
                         $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
-                     
+
 
                         // bind the parameters
                         $stmt->bindParam(':name', $name);
@@ -308,7 +305,7 @@ include 'check_user_login.php';
                         <td></td>
                         <td>
                             <input type='submit' value='Update' class='btn btn-primary' />
-                            <a href='product_read.php' class='btn btn-secondary'>Back to read customers</a>
+                            <a href='product_read.php' class='btn btn-secondary'>Back to read products</a>
 
                             <?php echo "<a href='product_delete.php?id={$id}' onclick='delete_product({$id});'  class='btn btn-danger'>Delete</a> "; ?>
                         </td>

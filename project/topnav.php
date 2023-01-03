@@ -1,13 +1,6 @@
+<!DOCTYPE html>
+<html>
 
-  <style>
-        tr:nth-child(even) {
-            background-color: white;
-        }
-
-        tr:nth-child(odd) {
-            background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
-        }
-    </style>
    
 
 <nav class="navbar navbar-expand-lg bg-primary">
@@ -28,7 +21,7 @@
                         Customer
                     </a>
                     <ul class="dropdown-menu">
-                        <a class="nav-link" href="customer_register.php">Create Customer</a>
+                        <a class="nav-link" href="customer_create.php">Create Customer</a>
                         <a class="nav-link" href="customer_read.php">Customer List</a>
                     </ul>
                 </div>
@@ -69,3 +62,5 @@
         </div>
     </div>
 </nav>
+
+</html>

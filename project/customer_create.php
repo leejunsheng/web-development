@@ -5,26 +5,19 @@ if (isset($_SESSION["login"])) {
 }
 ?>
 
-
-
-
 <!DOCTYPE HTML>
 <html>
 
 <head>
     <title>Create Customer</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <?php include 'head.php'; ?>
 </head>
 
 
 <body>
 
-    <section class="h-100 bg-primary py-3">
+    <section class="h-100 py-3">
         <div class="container h-100">
             <div class="row justify-content-center align-items-center h-100">
                 <div class="col-12 col-lg-9 col-xl-7">
@@ -41,9 +34,9 @@ if (isset($_SESSION["login"])) {
                         $comfirm_pasword = md5($_POST['comfirm_password']);
                         $firstname = $_POST['firstname'];
                         $lastname = $_POST['lastname'];
-                        $gender = $_POST['gender'];
+                        $gender =  !empty($_POST['gender']) ? $_POST['gender'] : "";
                         $datebirth = $_POST['datebirth'];
-                        $accstatus = $_POST['accstatus'];
+                        $accstatus = !empty($_POST['accstatus']) ? $_POST['accstatus'] : "";
 
                         $today = date("Ymd");
                         $date1 = date_create($datebirth);
@@ -93,7 +86,13 @@ if (isset($_SESSION["login"])) {
                             $error_msg .= "<div class='alert alert-danger'>User need 18 years old and above</div>";
                         }
 
+                        if (empty($gender)) {
+                            $error_msg .= "<div>Please select your gender</div>";
+                        }
 
+                        if (empty($accstatus)) {
+                            $error_msg .= "<div>Please select your gender</div>";
+                        }
                         // now, if image is not empty, try to upload the image
                         if ($image) {
 
@@ -143,7 +142,7 @@ if (isset($_SESSION["login"])) {
                                 }
                             }
                         } elseif (empty($image)) {
-                            $image = "profile_default.png";
+                            $image = "profile_default.jpg";
                         }
 
                         if (!empty($error_msg)) {
@@ -176,12 +175,15 @@ if (isset($_SESSION["login"])) {
                                     if (isset($_SESSION["login"])) {
                                         header("Location: customer_read.php?action=created");
                                     } else {
-                                        header("Location: login.php?action=created");
+                                        header("Location: login.php?action=register");
+                                        
                                     }
-
-                                  
                                 } else {
-                                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                                    if (isset($_SESSION["login"])) {
+                                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                                    } else {
+                                        header("Location: login.php?action=fail");
+                                    }
                                 }
                             }
                             // show error
@@ -194,7 +196,7 @@ if (isset($_SESSION["login"])) {
 
                     <!-- html form here where the product information will be entered -->
 
-                    <div class="card shadow-2-strong h-75" style="border-radius: 15px;">
+                    <div class="card " style="border-radius: 15px;">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
                             <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
@@ -262,7 +264,7 @@ if (isset($_SESSION["login"])) {
                                     <div class="col-md-6 mb-4">
                                         <h6 class="mb-2 pb-1">Gender: </h6>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name='gender' value="Male" checked>
+                                            <input class="form-check-input" type="radio" name='gender' value="Male">
                                             <label class="form-check-label" for="gender">
                                                 Male
                                             </label>
@@ -279,7 +281,7 @@ if (isset($_SESSION["login"])) {
                                     <div class="col-md-6 mb-4">
                                         <h6 class="mb-2 pb-1">Account Status: </h6>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name='accstatus' value="active" checked>
+                                            <input class="form-check-input" type="radio" name='accstatus' value="active">
                                             <label class="form-check-label" for="active">
                                                 Active
                                             </label>
@@ -303,8 +305,8 @@ if (isset($_SESSION["login"])) {
                                         </div>
                                     </div>
 
-                                    <div class="col-6">
-                                        <input class="btn btn-outline-primary text-dark btn-lg px-5 btn-lg" type="submit" value="Submit" />
+                                    <div class="col-6 px-5">
+                                        <button class="btn btn-outline-dark btn-lg px-5" type="submit" value="submit">Register</button>
                                     </div>
 
                                 </div>
