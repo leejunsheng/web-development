@@ -11,7 +11,7 @@ include 'check_user_login.php';
 <head>
     <title>Order Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -48,10 +48,10 @@ include 'check_user_login.php';
             $stmt->execute();
             $count = $stmt->rowCount();
             if ($count > 0) {
-                  echo "<h3>Order ID :$order_id</h3>";
+                echo "<h3>Order ID :$order_id</h3>";
                 echo "<table class='table table-hover table-responsive table-bordered'>
 
-                <tr>
+                <tr class='bg-info'>
                 <th class='col-4'> Product Name</td>
                 <th class='col-3 text-end'>Price Per Unit (RM)</td>
                 <th class='col-2 text-end'>Quantity</td>
@@ -79,7 +79,7 @@ include 'check_user_login.php';
             echo "$total_price";
             echo "</td></tr>";
 
-            
+
             echo "<tr class='border border-5'>";
             echo "<td class='col-2' >Rounded off amount (RM)</td>";
             echo "<td colspan=2></td>";
@@ -87,10 +87,10 @@ include 'check_user_login.php';
             $rounded_total_price = round($total_price, 1);
             $difference = $rounded_total_price - $total_price;
             $difference = number_format($difference, 2, '.', '');
-            echo "$difference"; 
+            echo "$difference";
 
-            echo "<tr class='border border-5'>";
-            echo "<td class='col-2' >Total Price (RM)</td>";
+            echo "<tr class='border border-5 bg-table'>";
+            echo "<td class='col-2 '> <strong> Total Price (RM)</strong></td>";
             echo "<td colspan=2></td>";
             echo "<td colspan = 4 class='text-end'>";
             $total_price = round($total_price, 1);
@@ -112,11 +112,11 @@ include 'check_user_login.php';
 
             <a href='order_summary.php' class='btn btn-secondary'>Back to read order summary</a>
         </div>
+    </div>
 
+    <!-- end .container -->
 
-    </div> <!-- end .container -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
-    </script>
+    <?php include 'script.php'; ?>
 
 </body>
 

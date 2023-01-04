@@ -11,7 +11,7 @@ include 'check_user_login.php';
 <head>
     <title>Product Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 <body>
@@ -70,7 +70,7 @@ include 'check_user_login.php';
                 <tr>
                     <td>Image</td>
                     <td>
-                        <div><img src="uploads/product/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="img-fluid"  style="height:100px;"></div>
+                        <div><img src="uploads/product/<?php echo htmlspecialchars($image, ENT_QUOTES);  ?>" class="img-fluid" style="height:100px;"></div>
                     </td>
                 </tr>
                 <tr>
@@ -110,7 +110,7 @@ include 'check_user_login.php';
         </div>
     </div>
     <!-- end .container -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+    <?php include 'script.php'; ?>
 </body>
 
 </html>

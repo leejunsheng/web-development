@@ -46,45 +46,45 @@ include 'check_user_login.php';
               <h3 class='text-center'>Summary</h3>
           
               <div class='col-md-4 mt-2'>
-                <div class='card text-white bg-primary'>
+                <div class='d card text-white bg-primary boxshadow'>
                   <div class='card-body row d-flex'>
                     <div class='card-title col'>
-                      <p class='card-text fs-4'> $customer</p>
-                      <h6>Total Customers</h6>
+                      <p class='card-text fs-5'> $customer</p>
+                      <h6>Total <br> Customers</h6>
                     </div>
                     <div class='col d-flex flex-column pt-3'>
                       <i class='fa-solid fa-users fs-4'> </i>
-                      <a class='fs-4 text-white text-decoration-none' href='customer_read.php'> ViewList</a>
+                      <a class='fs-5 mt-1 text-white ' href='customer_read.php'> ViewList</a>
                     </div>
                   </div>
                 </div>
               </div>
           
-              <div class='col-md-4 mt-2'>
-               <div class='card text-white bg-success'>
+              <div class='col-md-4 mt-2 '>
+               <div class='d card text-white bg-success boxshadow'>
                   <div class='card-body row d-flex'>
                     <div class='card-title col'>
-                      <p class='card-text fs-4'> $products</p>
-                      <h6>Total Products</h6>
+                      <p class='card-text fs-5'> $products</p>
+                      <h6>Total <br> Products</h6>
                     </div>
                     <div class='col d-flex flex-column pt-3'>
                       <i class='fa-solid fa-box-open fs-4'> </i>
-                      <a class='fs-4 text-white text-decoration-none' href='product_read.php'> ViewList</a>
+                      <a class='fs-5 mt-1 text-white ' href='product_read.php'> ViewList</a>
                     </div>
                   </div>
                 </div>
               </div>
           
-              <div class='col-md-4 mt-2'>
-                <div class='card text-white bg-info'>
+              <div class='col-md-4 mt-2 '>
+                <div class='d card text-white bg-info boxshadow'>
                   <div class='card-body row d-flex'>
                     <div class='card-title col'>
-                      <p class='card-text fs-4'>$order</p>
-                      <h6>Total Orders </h6>
+                      <p class='card-text fs-5'>$order</p>
+                      <h6>Total <br> Orders </h6>
                     </div>
                     <div class='col d-flex flex-column pt-3'>
                       <i class='fa-solid fa-cart-flatbed fs-4'> </i>
-                      <a class='fs-4 text-white text-decoration-none' href='order_summary.php'> ViewList</a>
+                      <a class='fs-5 mt-1 text-white ' href='order_summary.php'> ViewList</a>
                     </div>
                   </div>
                 </div>
@@ -145,14 +145,14 @@ include 'check_user_login.php';
 
                 <tr>
                   <?php
-                  echo "<td> <a href='order_summary_read_one.php?order_id={$order_id} class'text-white'>{$order_id}</a></td>";
+                  echo "<td> <a href='order_summary_read_one.php?order_id={$order_id}'>{$order_id}</a></td>";
                   echo "<td>$order_time</td>";
                   echo "<td>$firstname</td>";
                   echo "<td>$lastname</td>";
 
                   $total_price = round($total_price, 1);
                   $total_price = number_format($total_price, 2, '.', '');
-                  echo "<td>RM $total_price</td>"; ?>
+                  echo "<td>$total_price</td>"; ?>
                 </tr>
               </table>
           </div>
@@ -174,7 +174,7 @@ include 'check_user_login.php';
                 <th class="col-3">Order Date</th>
                 <th class="col-2">First Name</th>
                 <th class="col-2">Last Name</th>
-                <th class="col-3">Total Price(RM)</th>
+                <th class="col-3">Total Price (RM)</th>
               </tr>
 
               <tr>
@@ -185,7 +185,7 @@ include 'check_user_login.php';
                 echo "<td>$lastname</td>";
                 $highest = round($highest, 1);
                 $highest = number_format($highest, 2, '.', '');
-                echo "<td>RM $highest</td>";; ?>
+                echo "<td>$highest</td>";; ?>
                 </td>
               </tr>
             </table>
@@ -210,7 +210,7 @@ include 'check_user_login.php';
                         <th>Ranking</th>
                         <th>Product Name</th>
                         <th>Sold Quantity</th>
-                        <th class='text-end'>Price per unit</th></tr>";
+                        <th class='text-end'>Price Per Unit (RM)</th></tr>";
 
             $ranknum = 1;
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -219,7 +219,7 @@ include 'check_user_login.php';
               echo "<td> <a href='product_read_one.php?id={$id}'>$ranknum</a></td>";
               echo "<td> {$name}</td>";
               echo "<td>{$top5}</td>";
-              echo "<td class='text-end'>RM $price</td>";
+              echo "<td class='text-end'>$price</td>";
               echo "</tr>";
               $ranknum++;
             }
@@ -238,10 +238,10 @@ include 'check_user_login.php';
             echo "<h3>Top 3 Products That Never Purchase</h3>";
             echo "<table class='table table-hover table-responsive table-bordered text-center'>";
             echo "<tr class='bg-info'>
-                                <th>Product Id</th>
+                                <th>Product ID</th>
                                 <th>Product Name</th>
                                 <th>Product Photo</th>
-                                <th class='text-end'>Price per unit</th> </tr>";
+                                <th class='text-end'>Price Per Unit (RM)</th> </tr>";
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               extract($row);
               echo "<tr>";
@@ -260,7 +260,7 @@ include 'check_user_login.php';
       </div>
     </div>
 
-  <?php include 'topnav.php'; ?>
+  <?php include 'script.php'; ?>
 
 </body>
 

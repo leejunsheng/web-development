@@ -60,7 +60,11 @@ include 'check_user_login.php';
             $num = $stmt->rowCount();
 
             // link to create record form
-            echo "<a href='customer_create.php' class='btn btn-primary m-b-1em my-3'>  Create New Customer <i class='fa-solid fa-plus mt-1'></i></a>";
+
+            echo "
+            <div class='float-right'>
+            <a href='customer_create.php' class='btn btn-primary m-b-1em my-3'>  Create New Customer <i class='fa-solid fa-plus mt-1'></i></a>
+          </div>";
 
             //check if more than 0 record found
             if ($num > 0) {
@@ -130,7 +134,9 @@ include 'check_user_login.php';
             ?>
         </div>
     </div>
+
     <!-- end .container -->
+    <?php include 'script.php'; ?>
 
     <!-- confirm delete record will be here -->
     <script type='text/javascript'>
@@ -143,7 +149,6 @@ include 'check_user_login.php';
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
 </body>
 
 </html>

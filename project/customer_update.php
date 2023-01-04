@@ -9,13 +9,13 @@ include 'check_user_login.php';
 <head>
     <title>Update Customer Profile</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 
 
 <body>
-<?php include 'topnav.php'; ?>
+    <?php include 'topnav.php'; ?>
     <div class="container-fluid px-0">
         <div class="container">
             <div class="page-header my-3">
@@ -88,139 +88,138 @@ include 'check_user_login.php';
                     ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                     : htmlspecialchars($image, ENT_QUOTES);
 
-                    $error_msg = "";
+                $error_msg = "";
 
-                    $password_empty = false;
-                    if ($old_password == md5("") && $pass_word == "" && $confirm_password == "") {
-                        $password_empty = true;
+                $password_empty = false;
+                if ($old_password == md5("") && $pass_word == "" && $confirm_password == "") {
+                    $password_empty = true;
+                } else {
+                    echo "2";
+                    if ($row['password'] == $old_password) {
+                        if ($pass_word == "") {
+                            $error_msg .= "<div>Please make sure password are not empty.</div>";
+                        } elseif (strlen($pass_word) < 8) {
+                            $error_msg .= "<div>Please make sure password more than 8 character. </div>";
+                        } elseif (!preg_match('/[a-z]/', $pass_word)) {
+                            $error_msg .= "<div> Please make sure password combine capital a-z. </div>";
+                        } elseif (!preg_match('/[0-9]/', $pass_word)) {
+                            $error_msg .= " <div> Please make sure password combine 0-9. </div>";
+                        }
+
+                        if ($old_password == $pass_word) {
+                            $error_msg .= "<div>Please make sure Old Password cannot same with New Password.</div>";
+                        }
+                        if ($old_password != "" && $password != "" && $confirm_password == "") {
+                            $error_msg .= "<div>Please make sure confirm password are not empty.</div>";
+                        }
+                        if ($pass_word != $confirm_password) {
+                            $error_msg .= "<div>Please make sure Confirm Password and New Password are same.</div>";
+                        }
                     } else {
-                        echo "2";
-                        if ($row['password'] == $old_password) {
-                            if ($pass_word == "") {
-                                $error_msg .= "<div>Please make sure password are not empty.</div>";
-                            } elseif (strlen($pass_word) < 8) {
-                                $error_msg .= "<div>Please make sure password more than 8 character. </div>";
-                            } elseif (!preg_match('/[a-z]/', $pass_word)) {
-                                $error_msg .= "<div> Please make sure password combine capital a-z. </div>";
-                            } elseif (!preg_match('/[0-9]/', $pass_word)) {
-                                $error_msg .= " <div> Please make sure password combine 0-9. </div>";
-                            }
-    
-                            if ($old_password == $pass_word) {
-                                $error_msg .= "<div>Please make sure Old Password cannot same with New Password.</div>";
-                            }
-                            if ($old_password != "" && $password != "" && $confirm_password == "") {
-                                $error_msg .= "<div>Please make sure confirm password are not empty.</div>";
-                            }
-                            if ($pass_word != $confirm_password) {
-                                $error_msg .= "<div>Please make sure Confirm Password and New Password are same.</div>";
-                            }
-                        } else {
-                            echo "3";
-                            $error_msg .= "<div>Wrong Old Password.</div>";
-                    
+                        echo "3";
+                        $error_msg .= "<div>Wrong Old Password.</div>";
+                    }
+                }
+
+                if ($firstname == "") {
+                    $error_msg .= "<div>Please enter your first name.</div>";
+                }
+
+                if ($lastname == "") {
+                    $error_msg .= "<div>Please enter your last name.</div>";
+                }
+
+                if ($gender == "") {
+                    $error_msg .= "<div>Please select your gender.</div>";
+                }
+
+                if ($datebirth == "") {
+                    $error_msg .= "<div>Please select your date of birth.</div>";
+                }
+
+                if ($datebirth == "") {
+                    $error_msg .= "<div>Please make sure birth date are not empty. </div>";
+                } elseif ($diff->format("%R%y") <= "18") {
+                    $error_msg .= "<div> User need 18 years old and above. </div>";
+                }
+
+                if ($accstatus == "") {
+                    $error_msg .= "<div>Please make sure account status are not empty.</div>";
+                }
+
+                // now, if image is not empty, try to upload the image
+                if ($_FILES["image"]["name"]) {
+                    // upload to file to folder
+                    $target_directory = "uploads/customer/";
+                    $target_file = $target_directory . $image;
+                    $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                    // make sure that file is a real image
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if ($check === false) {
+                        // submitted file is an image
+                        $error_msg .= "<div>Submitted file is not an image.</div>";
+                    }
+
+                    // make sure certain file types are allowed
+                    $allowed_file_types = array("jpg", "jpeg", "png", "gif");
+                    if (!in_array($file_type, $allowed_file_types)) {
+                        $error_msg .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                    }
+
+                    // make sure file does not exist
+                    if (file_exists($target_file)) {
+                        $error_msg .= "<div>Image already exists. Try to change file name.</div>";
+                    }
+
+                    // make sure submitted file is not too large, can't be larger than 1 MB
+                    if ($_FILES['image']['size'] > (1024000)) {
+                        $error_msg .= "<div>Image must be less than 1 MB in size.</div>";
+                    }
+
+                    // make sure the 'uploads' folder exists
+                    // if not, create it
+                    if (!is_dir($target_directory)) {
+                        mkdir($target_directory, 0777, true);
+                    }
+
+                    // if $file_upload_error_messages is still empty
+                    if (empty($error_msg)) {
+                        // it means there are no errors, so try to upload the file
+                        if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                            // it means photo was uploaded
+                            echo "<div>";
+                            $error_msg .= "<div>Unable to upload photo.</div>";
+                            $error_msg .= "<div>Update the record to upload photo.</div>";
+                            echo "</div>";
                         }
                     }
-    
-                    if ($firstname == "") {
-                        $error_msg .= "<div>Please enter your first name.</div>";
-                    }
-    
-                    if ($lastname == "") {
-                        $error_msg .= "<div>Please enter your last name.</div>";
-                    }
-    
-                    if ($gender == "") {
-                        $error_msg .= "<div>Please select your gender.</div>";
-                    }
-    
-                    if ($datebirth == "") {
-                        $error_msg .= "<div>Please select your date of birth.</div>";
-                    }
-    
-                    if ($datebirth == "") {
-                        $error_msg .= "<div>Please make sure birth date are not empty. </div>";
-                    } elseif ($diff->format("%R%y") <= "18") {
-                        $error_msg .= "<div> User need 18 years old and above. </div>";
-                    }
-    
-                    if ($accstatus == "") {
-                        $error_msg .= "<div>Please make sure account status are not empty.</div>";
-                    }
-    
-                    // now, if image is not empty, try to upload the image
-                    if ($_FILES["image"]["name"]) {
-                        // upload to file to folder
-                        $target_directory = "uploads/customer/";
-                        $target_file = $target_directory . $image;
-                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-    
-                        // make sure that file is a real image
-                        $check = getimagesize($_FILES["image"]["tmp_name"]);
-                        if ($check === false) {
-                            // submitted file is an image
-                            $error_msg .= "<div>Submitted file is not an image.</div>";
-                        }
-    
-                        // make sure certain file types are allowed
-                        $allowed_file_types = array("jpg", "jpeg", "png", "gif");
-                        if (!in_array($file_type, $allowed_file_types)) {
-                            $error_msg .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
-                        }
-    
-                        // make sure file does not exist
-                        if (file_exists($target_file)) {
-                            $error_msg .= "<div>Image already exists. Try to change file name.</div>";
-                        }
-    
-                        // make sure submitted file is not too large, can't be larger than 1 MB
-                        if ($_FILES['image']['size'] > (1024000)) {
-                            $error_msg .= "<div>Image must be less than 1 MB in size.</div>";
-                        }
-    
-                        // make sure the 'uploads' folder exists
-                        // if not, create it
-                        if (!is_dir($target_directory)) {
-                            mkdir($target_directory, 0777, true);
-                        }
-    
-                        // if $file_upload_error_messages is still empty
-                        if (empty($error_msg)) {
-                            // it means there are no errors, so try to upload the file
-                            if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                                // it means photo was uploaded
-                                echo "<div>";
-                                $error_msg .= "<div>Unable to upload photo.</div>";
-                                $error_msg .= "<div>Update the record to upload photo.</div>";
-                                echo "</div>";
-                            }
-                        }
-                    } elseif (empty($image)) {
-                        $image = "profile_default.jpg";
-                    }
-    
-                    if (isset($_POST['delete'])) {
-                        $image = htmlspecialchars(strip_tags($image));
-    
-                        $image = !empty($_FILES["image"]["name"])
-                            ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
-                            : "";
-                        $target_directory = "uploads/customer/";
-                        $target_file = $target_directory . $image;
-                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-    
-                        unlink("uploads/customer/" . $row['image']);
-                        $query = "UPDATE customers
+                } elseif (empty($image)) {
+                    $image = "profile_default.jpg";
+                }
+
+                if (isset($_POST['delete'])) {
+                    $image = htmlspecialchars(strip_tags($image));
+
+                    $image = !empty($_FILES["image"]["name"])
+                        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                        : "";
+                    $target_directory = "uploads/customer/";
+                    $target_file = $target_directory . $image;
+                    $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                    unlink("uploads/customer/" . $row['image']);
+                    $query = "UPDATE customers
                                 SET image=:image WHERE user_id = :user_id";
-                        // prepare query for excecution
-                        $stmt = $con->prepare($query);
-                        $stmt->bindParam(':image', $image);
-                        $stmt->bindParam(':user_id', $user_id);
-                        // Execute the query
-                        $stmt->execute();
-    
-                        $error_msg .= "<div>Image delete successful, Please click update button.</div>";
-                    }
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+                    $stmt->bindParam(':image', $image);
+                    $stmt->bindParam(':user_id', $user_id);
+                    // Execute the query
+                    $stmt->execute();
+
+                    $error_msg .= "<div>Image delete successful, Please click update button.</div>";
+                }
 
 
 
@@ -293,7 +292,7 @@ include 'check_user_login.php';
 
                             <?php
                             if ($image != "profile_default.jpg") {
-                                echo "<input type='submit' value='Delete' name='delete' class='btn btn-primary' />";
+                                echo "<input type='submit' value='Delete Image' name='delete' class='btn btn-danger mt-2' />";
                             }
                             ?>
                         </td>
@@ -345,8 +344,7 @@ include 'check_user_login.php';
                         <label class='form-check-label' for='gender'>
                             Female
                         </label>
-                    </td>
- ";
+                    </td>";
                         }; ?>
                     </tr>
 
@@ -383,7 +381,8 @@ include 'check_user_login.php';
         <!-- end .container -->
     </div>
 
-    
+    <?php include 'script.php'; ?>
+
     <!-- confirm delete record will be here -->
     <script type='text/javascript'>
         // confirm record deletion
@@ -395,7 +394,6 @@ include 'check_user_login.php';
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>
 

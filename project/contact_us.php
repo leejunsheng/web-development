@@ -21,7 +21,7 @@ include 'check_user_login.php';
                 <div class="row">
                     <div class="col-md-9 col-lg-7 col-xl-5 mx-auto text-center">
                         <h4 class="mb-4">Contact Us</h4>
-                        <div class="card bg-warning text-white" style="border-radius: 1rem;">
+                        <div class="card bg-info text-white" style="border-radius: 1rem;">
                             <div class="card-body p-5 text-center">
                                 <form class="" action="contact_us.php" method="post">
 
@@ -105,7 +105,8 @@ include 'check_user_login.php';
     ";
     }
     ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+
+    <?php include 'script.php'; ?>
 </body>
 
 </html>
