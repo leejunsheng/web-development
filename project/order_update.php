@@ -37,15 +37,15 @@ include 'check_user_login.php';
                 $error_msg = "";
 
                 if ($user == "Please select username") {
-                    $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted username</div>";
+                    $error_msg .= "<div>Please make sure you have seleted username.</div>";
                 }
 
                 if ($product_id == ["Please select product"]) {
-                    $error_msg .= "<div class='alert alert-danger'>Please make sure you have seleted product</div>";
+                    $error_msg .= "<div>Please make sure you have seleted product.</div>";
                 }
 
                 if ($quantity <= ["0"]) {
-                    $error_msg .= "<div class='alert alert-danger'>Please make sure quantity cannot be 0</div>";
+                    $error_msg .= "<div>Please make sure quantity cannot be 0.</div>";
                 }
 
                 if (!empty($error_message)) {

@@ -65,7 +65,7 @@ include 'check_user_login.php';
             //check if more than 0 record found
             if ($num > 0) {
                 // data from database will be here
-                echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
+                echo "<table class='table table-hover table-responsive table-bordered read-table'>"; //start table
 
                 //creating our table heading
                 echo "<tr>";

@@ -46,28 +46,28 @@ include 'check_user_login.php';
                     : "";
 
                 if ($name == "" || $description == "" ||  $manufacture_date == "") {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure all field are not empty. </div>";
+                    $error_msg .= "<div> Please make sure all field are not empty.</div>";
                 }
                 if ($price == "") {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price are not empty. </div>";
+                    $error_msg .= "<div> Please make sure price are not empty.</div>";
                 } elseif (!is_numeric($price)) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price are only accept for number. </div>";
+                    $error_msg .= "<div> Please make sure price are only accept for number.</div>";
                 } elseif ($price < 0) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price cannot be negative. </div>";
+                    $error_msg .= "<div> Please make sure price cannot be negative.</div>";
                 } elseif ($price > 1000) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000. </div>";
+                    $error_msg .= "<div> Please make sure price are not more than RM1000.</div>";
                 }
 
                 if ($promotion_price == "") {
                     $promotion_price = NULL;
                 } elseif (!is_numeric($promotion_price)) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price are only accept for number.</div>";
+                    $error_msg .= "<div> Please make sure price are only accept for number.</div>";
                 } elseif ($promotion_price < 0) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price are not negative.</div>";
+                    $error_msg .= "<div> Please make sure price are not negative.</div>";
                 } elseif ($promotion_price > 1000) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure price are not more than RM1000.</div>";
+                    $error_msg .= "<div> Please make sure price are not more than RM1000.</div>";
                 } elseif ($promotion_price > $price) {
-                    $error_msg .= "<div class='alert alert-danger'> Please make sure promotion price is not more than normal price.</div>";
+                    $error_msg .= "<div> Please make sure promotion price is not more than normal price.</div>";
                 }
 
                 if ($expired_date == "") {
@@ -78,7 +78,7 @@ include 'check_user_login.php';
                     $diff = date_diff($date1, $date2);
                     $result = $diff->format("%R%a");
                     if ($result < "0") {
-                        $error_msg .= "<div class='alert alert-danger'> Please make sure expired date is not earlier than manufacture date.</div>";
+                        $error_msg .= "<div> Please make sure expired date is not earlier than manufacture date.</div>";
                     }
                 }
 
@@ -123,7 +123,7 @@ include 'check_user_login.php';
                         // it means there are no errors, so try to upload the file
                         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                             // it means photo was uploaded
-                            echo "<div class='alert alert-danger'>";
+                            echo "<div>";
                             $error_msg .= "<div>Unable to upload photo.</div>";
                             $error_msg .= "<div>Update the record to upload photo.</div>";
                             echo "</div>";

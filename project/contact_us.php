@@ -21,7 +21,7 @@ include 'check_user_login.php';
                 <div class="row">
                     <div class="col-md-9 col-lg-7 col-xl-5 mx-auto text-center">
                         <h4 class="mb-4">Contact Us</h4>
-                        <div class="card bg-info text-white" style="border-radius: 1rem;">
+                        <div class="card bg-warning text-white" style="border-radius: 1rem;">
                             <div class="card-body p-5 text-center">
                                 <form class="" action="contact_us.php" method="post">
 

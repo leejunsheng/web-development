@@ -12,34 +12,36 @@ include 'check_user_login.php';
   <title>Dashboard</title>
   <!-- Latest compiled and minified Bootstrap CSS -->
   <?php include 'head.php'; ?>
+
 </head>
 
 
 <body>
-  <!-- container -->
+  <div>
+    <!-- container -->
     <?php include 'topnav.php'; ?>
 
-  <div class="container-fluid row m-0  d-flex justify-content-between align-items-center">
-    <?php
-    include 'config/database.php';
+    <div class="container-fluid row m-0  d-flex justify-content-between align-items-center">
+      <?php
+      include 'config/database.php';
 
-    $query = "SELECT * FROM customers";
-    $stmt = $con->prepare($query);
-    $stmt->execute();
-    $customer = $stmt->rowCount();
+      $query = "SELECT * FROM customers";
+      $stmt = $con->prepare($query);
+      $stmt->execute();
+      $customer = $stmt->rowCount();
 
-    $query = "SELECT * FROM products";
-    $stmt = $con->prepare($query);
-    $stmt->execute();
-    $products = $stmt->rowCount();
+      $query = "SELECT * FROM products";
+      $stmt = $con->prepare($query);
+      $stmt->execute();
+      $products = $stmt->rowCount();
 
-    $query = "SELECT * FROM order_summary";
-    $stmt = $con->prepare($query);
-    $stmt->execute();
-    $order = $stmt->rowCount();
+      $query = "SELECT * FROM order_summary";
+      $stmt = $con->prepare($query);
+      $stmt->execute();
+      $order = $stmt->rowCount();
 
-    //Summary Table
-    echo "
+      //Summary Table
+      echo "
             <div class='row text-center d-flex justify-content-center mt-3'>
               <h3 class='text-center'>Summary</h3>
           
@@ -91,57 +93,56 @@ include 'check_user_login.php';
             </div>
           "; ?>
 
-    <!-- Lastest order record table will be here -->
-    <div class="container-fluid mt-3">
-      <div class="row">
-        <div class='col-md-6'>
-          <?php
-          include 'config/database.php';
-          $query = "SELECT MAX(order_id) as order_id FROM order_summary";
-          $stmt = $con->prepare($query);
-          $stmt->execute();
-          $row = $stmt->fetch(PDO::FETCH_ASSOC);
-          $order_id = $row['order_id'];
-          isset($order_id);
-          // read current record's data
-          try {
-            // prepare select query
-            $query = "SELECT *, sum(price*quantity) AS total_price FROM order_details INNER JOIN order_summary ON order_summary.order_id = order_details.order_id INNER JOIN products ON products.id = order_details.product_id INNER JOIN customers ON customers.username = order_summary.user WHERE order_summary.order_id = ?";
-
+      <!-- Lastest order record table will be here -->
+      <div class="container-fluid mt-3">
+        <div class="row">
+          <div class='col-md-6'>
+            <?php
+            include 'config/database.php';
+            $query = "SELECT MAX(order_id) as order_id FROM order_summary";
             $stmt = $con->prepare($query);
-
-            // Bind the parameter
-            $stmt->bindParam(1, $order_id);
-
-            // execute our query
             $stmt->execute();
-
-            // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $order_id = $row['order_id'];
+            isset($order_id);
+            // read current record's data
+            try {
+              // prepare select query
+              $query = "SELECT *, sum(price*quantity) AS total_price FROM order_details INNER JOIN order_summary ON order_summary.order_id = order_details.order_id INNER JOIN products ON products.id = order_details.product_id INNER JOIN customers ON customers.username = order_summary.user WHERE order_summary.order_id = ?";
 
-            // values to fill up our form
-            extract($row);
-          }
+              $stmt = $con->prepare($query);
 
-          // show error
-          catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
-          }
-          ?>
+              // Bind the parameter
+              $stmt->bindParam(1, $order_id);
 
-          <!--we have our html table here where the record will be displayed-->
+              // execute our query
+              $stmt->execute();
 
-          <h3>Latest Order</h1>
-            <table class='table table-hover table-responsive table-bordered text-center'>
-              <tr class='bg-info'>
-                <th class="col-2">Order ID</th>
-                <th class="col-3">Order Date</th>
-                <th class="col-2">First Name</th>
-                <th class="col-2">Last Name</th>
-                <th class="col-3">Total Price (RM)</th>
-              </tr>
+              // store retrieved row to a variable
+              $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-              <tbody>
+              // values to fill up our form
+              extract($row);
+            }
+
+            // show error
+            catch (PDOException $exception) {
+              die('ERROR: ' . $exception->getMessage());
+            }
+            ?>
+
+            <!--we have our html table here where the record will be displayed-->
+
+            <h3>Latest Order</h1>
+              <table class='table table-hover table-responsive table-bordered text-center'>
+                <tr class='bg-info'>
+                  <th class="col-2">Order ID</th>
+                  <th class="col-3">Order Date</th>
+                  <th class="col-2">First Name</th>
+                  <th class="col-2">Last Name</th>
+                  <th class="col-3">Total Price (RM)</th>
+                </tr>
+
                 <tr>
                   <?php
                   echo "<td> <a href='order_summary_read_one.php?order_id={$order_id} class'text-white'>{$order_id}</a></td>";
@@ -153,31 +154,29 @@ include 'check_user_login.php';
                   $total_price = number_format($total_price, 2, '.', '');
                   echo "<td>RM $total_price</td>"; ?>
                 </tr>
-              </tbody>
-            </table>
-        </div>
+              </table>
+          </div>
 
-        <div class='col-md-6'>
-          <?php
-          //Highest Purchased Amount Order
-          $query = "SELECT *,sum(price*quantity) AS highest FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id INNER JOIN customers ON customers.username = order_summary.user GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
-          $stmt = $con->prepare($query);
-          $stmt->execute();
-          $row = $stmt->fetch(PDO::FETCH_ASSOC);
-          extract($row);
-          ?>
+          <div class='col-md-6'>
+            <?php
+            //Highest Purchased Amount Order
+            $query = "SELECT *,sum(price*quantity) AS highest FROM order_summary INNER JOIN order_details ON order_details.order_id = order_summary.order_id INNER JOIN products ON products.id = order_details.product_id INNER JOIN customers ON customers.username = order_summary.user GROUP BY order_summary.order_id ORDER BY HIGHEST DESC";
+            $stmt = $con->prepare($query);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+            ?>
 
-          <h3>Highest Purchased Amount Order</h3>
-          <table class='table  table-hover table-responsive table-bordered text-center'>
-            <tr class='bg-info'>
-              <th class="col-2">Order ID</th>
-              <th class="col-3">Order Date</th>
-              <th class="col-2">First Name</th>
-              <th class="col-2">Last Name</th>
-              <th class="col-3">Total Price(RM)</th>
-            </tr>
+            <h3>Highest Purchased Amount Order</h3>
+            <table class='table  table-hover table-responsive table-bordered text-center'>
+              <tr class='bg-info'>
+                <th class="col-2">Order ID</th>
+                <th class="col-3">Order Date</th>
+                <th class="col-2">First Name</th>
+                <th class="col-2">Last Name</th>
+                <th class="col-3">Total Price(RM)</th>
+              </tr>
 
-            <tbody>
               <tr>
                 <?php
                 echo "<td> <a href='order_summary_read_one.php?order_id={$order_id}'>{$order_id}</a></td>";
@@ -189,80 +188,80 @@ include 'check_user_login.php';
                 echo "<td>RM $highest</td>";; ?>
                 </td>
               </tr>
-            </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
 
 
-    <div class="container-fluid mt-3">
-      <div class="row">
-        <?php
-        echo "<div class='col-md-6'>";
-        //Top 5 Selling product
-        $query = "SELECT *, sum(quantity) AS top5 FROM products INNER JOIN order_details ON order_details.product_id = products.id GROUP BY name ORDER BY sum(quantity) desc limit 5;";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        if ($count > 0) {
-          echo "<h3>Top 5 Selling Ranking</h1>";
-          echo "<table class='table table-hover table-responsive table-bordered text-center'>";
-          echo "<tr class='bg-info'>
+      <div class="container-fluid mt-3">
+        <div class="row">
+          <?php
+          echo "<div class='col-md-6'>";
+          //Top 5 Selling product
+          $query = "SELECT *, sum(quantity) AS top5 FROM products INNER JOIN order_details ON order_details.product_id = products.id GROUP BY name ORDER BY sum(quantity) desc limit 5;";
+          $stmt = $con->prepare($query);
+          $stmt->execute();
+          $count = $stmt->rowCount();
+          if ($count > 0) {
+            echo "<h3>Top 5 Selling Ranking</h1>";
+            echo "<table class='table table-hover table-responsive table-bordered text-center'>";
+            echo "<tr class='bg-info'>
                         <th>Ranking</th>
                         <th>Product Name</th>
                         <th>Sold Quantity</th>
                         <th class='text-end'>Price per unit</th></tr>";
 
-          $ranknum = 1;
-          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            extract($row);
-            echo "<tr>";
-            echo "<td> <a href='product_read_one.php?id={$id}'>$ranknum</a></td>";
-            echo "<td> {$name}</td>";
-            echo "<td>{$top5}</td>";
-            echo "<td class='text-end'>RM $price</td>";
-            echo "</tr>";
-            $ranknum++;
+            $ranknum = 1;
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              extract($row);
+              echo "<tr>";
+              echo "<td> <a href='product_read_one.php?id={$id}'>$ranknum</a></td>";
+              echo "<td> {$name}</td>";
+              echo "<td>{$top5}</td>";
+              echo "<td class='text-end'>RM $price</td>";
+              echo "</tr>";
+              $ranknum++;
+            }
+            echo "</table>";
           }
-          echo "</table>";
-        }
-        echo "</div>";
+          echo "</div>";
 
 
-        //Products that never purchased
-        $query = "SELECT * FROM products LEFT JOIN order_details ON order_details.product_id = products.id WHERE product_id is NULL limit 3";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        if ($count > 0) {
-          echo "<div class='col-md-6'>";
-          echo "<h3>Top 3 Products That Never Purchase</h3>";
-          echo "<table class='table table-hover table-responsive table-bordered text-center'>";
-          echo "<tr class='bg-info'>
+          //Products that never purchased
+          $query = "SELECT * FROM products LEFT JOIN order_details ON order_details.product_id = products.id WHERE product_id is NULL limit 3";
+          $stmt = $con->prepare($query);
+          $stmt->execute();
+          $count = $stmt->rowCount();
+          if ($count > 0) {
+            echo "<div class='col-md-6'>";
+            echo "<h3>Top 3 Products That Never Purchase</h3>";
+            echo "<table class='table table-hover table-responsive table-bordered text-center'>";
+            echo "<tr class='bg-info'>
                                 <th>Product Id</th>
                                 <th>Product Name</th>
                                 <th>Product Photo</th>
                                 <th class='text-end'>Price per unit</th> </tr>";
-          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            extract($row);
-            echo "<tr>";
-            echo "<td><a href='product_read_one.php?id={$id}'>{$id}</a></td>";
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              extract($row);
+              echo "<tr>";
+              echo "<td><a href='product_read_one.php?id={$id}'>{$id}</a></td>";
 
-            echo "<td>{$name}</td>";
-            echo "<td style='width:150px;'><img src='uploads/product/$image' class='img-fluid' style='height:100px;'></td>";
-            echo "<td class='text-end'>RM $price</td>";
-            echo "</tr>";
+              echo "<td>{$name}</td>";
+              echo "<td style='width:150px;'><img src='uploads/product/$image' class='img-fluid' style='height:100px;'></td>";
+              echo "<td class='text-end'>RM $price</td>";
+              echo "</tr>";
+            }
+            echo "</table>";
           }
-          echo "</table>";
-        }
-        echo "</div>";
-        ?>
+          echo "</div>";
+          ?>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"> </script>
+
+  <?php include 'topnav.php'; ?>
+
 </body>
 
 </html>

@@ -58,7 +58,7 @@ include 'check_user_login.php';
 
                 // data from database will be here
                 //new
-                echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
+                echo "<table class='table table-hover table-responsive table-bordered read-table'>"; //start table
 
                 //creating our table heading
                 echo "<tr>";
