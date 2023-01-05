@@ -194,15 +194,15 @@ include 'check_user_login.php';
                         <td><input type='text' name='price' value='<?php echo $price ?>' class='form-control' /></td>
                     </tr>
                     <tr>
-                        <td>Promotion_price</td>
+                        <td>Promotion Price</td>
                         <td><input type='text' name='promotion_price' value='<?php echo $promotion_price ?>' class='form-control' /></td>
                     </tr>
                     <tr>
-                        <td>Manufacture_date</td>
+                        <td>Manufacture Date</td>
                         <td><input type='date' name='manufacture_date' value='<?php echo $manufacture_date ?>' class='form-control' /></td>
                     </tr>
                     <tr>
-                        <td>Expired_date</td>
+                        <td>Expired Date</td>
                         <td><input type='date' name='expired_date' value='<?php echo $expired_date ?>' class='form-control' /></td>
                     </tr>
                     <tr>

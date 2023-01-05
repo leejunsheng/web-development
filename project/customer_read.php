@@ -62,7 +62,7 @@ include 'check_user_login.php';
             // link to create record form
 
             echo "
-            <div class='float-right'>
+            <div>
             <a href='customer_create.php' class='btn btn-primary m-b-1em my-3'>  Create New Customer <i class='fa-solid fa-plus mt-1'></i></a>
           </div>";
 

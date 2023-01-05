@@ -37,6 +37,12 @@ include 'check_user_login.php';
                     $error_msg .= "<div>Please make sure you have seleted username.</div>";
                 }
 
+                for ($i = 0; $i < count($product_id); $i++) {
+                    if (empty($product_id[$i]) || $product_id[$i] == 'Please select product') {
+                        $error_msg .=  "<div>Please make sure you have selected for product $i.</div>";
+                    }
+                }
+
                 if ($product_id == ["Please select product"]) {
                     $error_msg .= "<div>Please make sure you have seleted product.</div>";
                 }
@@ -109,9 +115,12 @@ include 'check_user_login.php';
             }
             ?>
 
+            
+
+
             <!-- html form here where the product information will be entered -->
-            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
-                <table id='delete_row' class='table table-hover table-responsive table-bordered'>
+            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" >
+            <table id='delete_row' class='table table-hover table-responsive table-bordered  '>
                     <tr>
                         <td>Customer_username</td>
                         <td colspan="4">
@@ -179,6 +188,8 @@ include 'check_user_login.php';
             </form>
         </div>
     </div>
+        </div>
+    </div>
 
  <!-- end .container -->
 
@@ -216,7 +227,7 @@ include 'check_user_login.php';
                 // Loop through the rows
                 for (var i = 0; i < rows.length; i++) {
                     // Set the inner HTML of the first cell to the current loop iteration number
-                    rows[i].cells[0].innerHTML = i + 1;
+                    rows[i].cells[0].innerHTML = 'Product ' + (i + 1);
                 }
             }
         }, false);
