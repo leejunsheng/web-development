@@ -7,7 +7,7 @@ include 'check_user_login.php';
 
 <!DOCTYPE HTML>
 <html>
-
+ 
 <head>
     <title>Product Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->

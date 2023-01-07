@@ -9,7 +9,6 @@ include 'check_user_login.php';
 
 <head>
     <title>Update Product Detail</title>
-
     <!-- Latest compiled and minified Bootstrap CSS -->
     <?php include 'head.php'; ?>
 </head>

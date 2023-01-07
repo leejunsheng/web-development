@@ -7,7 +7,7 @@ include 'check_user_login.php';
 
 <!DOCTYPE HTML>
 <html>
-
+ 
 <head>
     <title>Product List</title>
     <?php include 'head.php'; ?>
