@@ -7,8 +7,11 @@ session_start();
 
 <head>
     <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/online-shopping.png">
     <!-- Latest compiled and minified Bootstrap CSS -->
-  <?php include 'head.php'; ?>
+    <?php include 'head.php'; ?>
 </head>
 
 
@@ -25,7 +28,7 @@ session_start();
                         <div class="card-body p-5 text-center">
                             <?php
                             $action = isset($_GET['action']) ? $_GET['action'] : "";
-                           
+
                             // if it was redirected from delete.php
                             if (isset($_GET['error']) && $_GET['error'] == 'access') {
                                 echo "<div class='alert alert-danger'>You must be logged in to access this page.</div>";
@@ -34,7 +37,7 @@ session_start();
                             if ($action == 'register') {
                                 echo "<div class='alert alert-success'>Register successfully.</div>";
                             }
-                            
+
                             if ($action == 'fail') {
                                 echo "<div class='alert alert-danger'>Register fail.</div>";
                             }
@@ -59,8 +62,6 @@ session_start();
                                             echo "<div class='alert alert-danger'>Your Account is suspended.</div>";
                                         } else {
                                             $_SESSION["login"] = $username;
-                                            $_SESSION['username'] = $username;
-                                            $_SESSION['user_id'] = $current_user_id;
                                             header("Location: index.php");
                                         }
                                     } else {
